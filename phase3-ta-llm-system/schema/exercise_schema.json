@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Course Exercise",
+  "description": "Schema for bilingual course exercise bank",
+  "type": "object",
+  "required": [
+    "id", "twin_id", "session", "session_title_fr", "session_title_en",
+    "language", "question_type", "difficulty", "topics", "prerequisites",
+    "lecture_ref", "question_text", "solution", "hints", "related_exercises"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^S\\d+_(FR|EN)_[A-Z][A-Z0-9_]*_\\d{3}$",
+      "description": "Unique exercise ID: S{session}_{lang}_{type}_{seq}"
+    },
+    "twin_id": {
+      "type": "string",
+      "pattern": "^S\\d+_(FR|EN)_[A-Z][A-Z0-9_]*_\\d{3}$",
+      "description": "ID of the bilingual twin exercise"
+    },
+    "session": {
+      "type": "string",
+      "pattern": "^S\\d+$"
+    },
+    "session_title_fr": { "type": "string" },
+    "session_title_en": { "type": "string" },
+    "language": {
+      "type": "string",
+      "enum": ["fr", "en"]
+    },
+    "question_type": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Exercise category code (e.g. MATH, CONCEPT, INTERP, CASE, TF, SOFTWARE). Courses define their own types. Types are discovered from data at runtime."
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["EASY", "MED", "HARD"]
+    },
+    "topics": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Session-specific topic tags"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Prerequisite concepts from earlier sessions (e.g. S3_MLR_model)"
+    },
+    "lecture_ref": {
+      "type": "string",
+      "description": "Reference to specific lecture section"
+    },
+    "question_text": {
+      "type": "string",
+      "description": "Full question text in markdown with LaTeX"
+    },
+    "data_table": {
+      "type": ["string", "null"],
+      "description": "Optional data table in markdown format"
+    },
+    "stata_code": {
+      "type": ["string", "null"],
+      "description": "Optional Stata code block"
+    },
+    "software_code": {
+      "type": ["string", "null"],
+      "description": "Optional generic software/code block. The transformer mirrors this into stata_code for backward compatibility."
+    },
+    "solution": {
+      "type": "object",
+      "required": ["text", "key_formula"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Solution text (max ~300 words) in markdown with LaTeX"
+        },
+        "key_formula": {
+          "type": ["string", "null"],
+          "description": "Key formula used in LaTeX"
+        },
+        "numerical_answer": {
+          "type": ["string", "null"],
+          "description": "Final numerical result if applicable"
+        },
+        "common_mistakes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "1-2 common mistakes (recommended for computation and interpretation types)"
+        }
+      }
+    },
+    "hints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 2,
+      "maxItems": 3,
+      "description": "Progressive hints: vague → specific"
+    },
+    "related_exercises": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs of related exercises"
+    }
+  }
+}

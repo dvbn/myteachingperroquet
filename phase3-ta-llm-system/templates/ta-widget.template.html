@@ -1,0 +1,2284 @@
+<!DOCTYPE html>
+<html lang="{{HTML_LANG}}">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PAGE_TITLE}}</title>
+<!--
+  ============================================================
+  {{COURSE_CODE}} ta-llm chat widget
+  Backend: {{API_URL}}
+  Quiz mode (optional): deterministic state machine (button-driven)
+  ============================================================
+-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+/* ── Reset & base ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Variables ─────────────────────────────────── */
+:root {
+  --navy: {{CSS_NAVY}};               /* Primary dark */
+  --navy-soft: {{CSS_NAVY_SOFT}};     /* Softer dark */
+  --navy-mid: {{CSS_NAVY_MID}};       /* Hero gradient middle */
+  --blue: {{CSS_BLUE}};               /* Accent */
+  --blue-light: {{CSS_BLUE_LIGHT}};   /* Light accent bg */
+  --blue-accent: {{CSS_BLUE_ACCENT}}; /* Teal accent */
+  --credit-gray: {{CSS_CREDIT_GRAY}}; /* Credit bar text */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-150: #eef0f3;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --white: #ffffff;
+  --shadow: 0 12px 48px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  background: var(--gray-100);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Page hero ────────────────────────────────── */
+.page-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--blue) 100%);
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+  color: var(--white);
+}
+.page-hero h1 {
+  font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.page-hero .hero-subtitle {
+  font-size: 1.05rem; color: rgba(255,255,255,0.75);
+  max-width: 540px; margin: 0 auto 1.2rem; line-height: 1.6;
+}
+.page-hero .hero-cta {
+  display: inline-block; padding: 10px 28px;
+  background: var(--white); color: var(--navy);
+  font-weight: 600; font-size: 0.92rem;
+  border-radius: 24px; text-decoration: none;
+  transition: background var(--transition), transform var(--transition);
+  cursor: pointer; border: none;
+}
+.page-hero .hero-cta:hover { background: var(--blue-light); transform: translateY(-1px); }
+
+/* ── Instructional content ────────────────────── */
+.page-content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+}
+.lang-block { margin-bottom: 3rem; }
+.lang-separator {
+  border: none; border-top: 2px solid var(--gray-200);
+  margin: 2.5rem 0;
+}
+.lang-label {
+  display: inline-block; font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--gray-400); background: var(--gray-100);
+  padding: 3px 12px; border-radius: 4px; margin-bottom: 1.2rem;
+}
+.page-content h2 {
+  font-size: 1.25rem; font-weight: 700; color: var(--navy);
+  margin: 1.8rem 0 0.6rem; line-height: 1.3;
+}
+.page-content h2:first-of-type { margin-top: 0.5rem; }
+.page-content p {
+  font-size: 0.92rem; line-height: 1.7; color: var(--gray-700);
+  margin-bottom: 0.8rem;
+}
+.page-content ul {
+  margin: 0.4rem 0 1rem 1.4rem; font-size: 0.92rem;
+  line-height: 1.7; color: var(--gray-700);
+}
+.page-content li { margin-bottom: 0.3rem; }
+
+/* Do / Don't example boxes */
+.examples-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin: 1rem 0 1.2rem;
+}
+@media (max-width: 600px) { .examples-grid { grid-template-columns: 1fr; } }
+.example-box {
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-size: 0.85rem; line-height: 1.6;
+}
+.example-box.do {
+  background: #eef7ee; border-left: 4px solid #2e7d32;
+}
+.example-box.dont {
+  background: #fef3f2; border-left: 4px solid #c62828;
+}
+.example-box .box-label {
+  font-weight: 700; font-size: 0.78rem; text-transform: uppercase;
+  letter-spacing: 0.06em; margin-bottom: 6px;
+}
+.example-box.do .box-label { color: #2e7d32; }
+.example-box.dont .box-label { color: #c62828; }
+.example-box code {
+  display: block; margin-top: 4px; font-size: 0.82rem;
+  color: var(--gray-600); font-style: italic;
+}
+
+/* Limitation tags */
+.limits-list {
+  display: flex; flex-wrap: wrap; gap: 8px; margin: 0.8rem 0 1.2rem;
+  list-style: none; padding: 0;
+}
+.limits-list li {
+  background: var(--gray-100); border: 1px solid var(--gray-200);
+  border-radius: 6px; padding: 6px 14px; font-size: 0.82rem;
+  color: var(--gray-600); margin: 0;
+}
+
+/* Page footer */
+.page-footer {
+  text-align: center; padding: 1.5rem 1rem 2rem;
+  font-size: 0.75rem; color: var(--gray-400);
+  border-top: 1px solid var(--gray-200);
+}
+.page-footer a { color: var(--blue); text-decoration: none; }
+.page-footer a:hover { text-decoration: underline; }
+
+/* ── Fab button ────────────────────────────────── */
+#chat-fab {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--navy); color: var(--white);
+  border: none; cursor: pointer;
+  box-shadow: var(--shadow);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform var(--transition), background var(--transition);
+}
+#chat-fab:hover { background: var(--blue); transform: scale(1.08); }
+#chat-fab svg { width: 28px; height: 28px; }
+#chat-fab.hidden { transform: scale(0); pointer-events: none; }
+
+/* ── Chat panel ────────────────────────────────── */
+#chat-panel {
+  position: fixed; bottom: 24px; right: 24px; z-index: 10000;
+  width: 420px; height: 620px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  transform: translateY(20px) scale(0.95);
+  opacity: 0; pointer-events: none;
+  transition: transform var(--transition), opacity var(--transition);
+}
+#chat-panel.open {
+  transform: translateY(0) scale(1);
+  opacity: 1; pointer-events: all;
+}
+
+/* ── Header ────────────────────────────────────── */
+.chat-header {
+  background: linear-gradient(180deg, var(--navy) 0%, var(--navy-soft) 100%);
+  color: var(--white);
+  padding: 14px 16px; display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+.chat-header-info { flex: 1; }
+.chat-header-title { font-size: 0.95rem; font-weight: 600; letter-spacing: 0.01em; }
+.chat-header-mode { font-size: 0.73rem; opacity: 0.65; margin-top: 2px; font-weight: 400; }
+.chat-header-usage {
+  font-size: 0.68rem; opacity: 0.6; margin-top: 1px; font-weight: 400;
+  transition: color 0.3s, opacity 0.3s;
+}
+.chat-header-usage.warning { color: #fbbf24; opacity: 1; }
+.chat-header-usage.critical { color: #f87171; opacity: 1; font-weight: 500; }
+
+.mode-toggle, .lang-toggle {
+  background: #fff;
+  border: 2px solid var(--blue-accent, {{CSS_BLUE_ACCENT}});
+  color: var(--blue-accent, {{CSS_BLUE_ACCENT}});
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.mode-toggle:hover, .lang-toggle:hover {
+  background: var(--blue-accent, {{CSS_BLUE_ACCENT}});
+  color: #fff;
+}
+.lang-toggle { padding: 6px 10px; font-size: 0.85em; min-width: 36px; }
+
+.new-chat-btn {
+  background: none; border: none; color: rgba(255,255,255,0.7);
+  cursor: pointer; padding: 4px; border-radius: 4px;
+  transition: color var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.new-chat-btn:hover { color: var(--white); }
+.new-chat-btn svg { width: 18px; height: 18px; }
+
+.close-btn {
+  background: none; border: none; color: rgba(255,255,255,0.7);
+  cursor: pointer; padding: 4px; border-radius: 4px;
+  transition: color var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.close-btn:hover { color: var(--white); }
+.close-btn svg { width: 20px; height: 20px; }
+
+/* ── Login screen ──────────────────────────────── */
+.login-screen {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem; gap: 16px;
+}
+.login-screen.hidden { display: none; }
+.login-icon {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--blue-light); color: var(--blue-accent);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px;
+}
+.login-icon svg { width: 28px; height: 28px; }
+.login-title { font-size: 1.05rem; font-weight: 600; color: var(--gray-800); }
+.login-subtitle { font-size: 0.84rem; color: var(--gray-600); text-align: center; line-height: 1.55; max-width: 240px; }
+.login-input {
+  width: 100%; max-width: 260px; padding: 10px 14px;
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+  font-size: 0.88rem; outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.login-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,114,206,0.12); }
+.login-btn {
+  width: 100%; max-width: 260px; padding: 11px;
+  background: var(--navy); color: var(--white);
+  border: none; border-radius: var(--radius-sm);
+  font-size: 0.88rem; font-weight: 500;
+  cursor: pointer; transition: background var(--transition), box-shadow var(--transition);
+}
+.login-btn:hover { background: var(--blue); box-shadow: 0 2px 8px rgba(0,114,206,0.25); }
+.login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.login-error {
+  font-size: 0.8rem; color: #dc2626;
+  min-height: 1.2em;
+}
+.login-attempts {
+  font-size: 0.75rem; color: var(--gray-400);
+  min-height: 1em; text-align: center;
+}
+.login-lockout {
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: var(--radius-sm); padding: 12px 16px;
+  text-align: center; width: 100%; max-width: 280px;
+}
+.login-lockout .lockout-title {
+  font-size: 0.85rem; font-weight: 600; color: #991b1b; margin-bottom: 4px;
+}
+.login-lockout .lockout-timer {
+  font-size: 1.4rem; font-weight: 700; color: #dc2626;
+  font-variant-numeric: tabular-nums;
+}
+.login-lockout .lockout-detail {
+  font-size: 0.75rem; color: #b91c1c; margin-top: 4px;
+}
+
+/* ── Chat area ─────────────────────────────────── */
+.chat-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.chat-body.hidden { display: none; }
+
+.messages {
+  flex: 1; overflow-y: auto; padding: 18px;
+  display: flex; flex-direction: column; gap: 14px;
+  scroll-behavior: smooth;
+  background: var(--white);
+}
+.messages::-webkit-scrollbar { width: 4px; }
+.messages::-webkit-scrollbar-track { background: transparent; }
+.messages::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+.messages::-webkit-scrollbar-thumb:hover { background: var(--gray-300); }
+
+/* ── Message bubbles ───────────────────────────── */
+.msg { display: flex; flex-direction: column; max-width: 85%; animation: msgIn 0.35s ease-out; }
+.msg.user { align-self: flex-end; align-items: flex-end; }
+.msg.assistant { align-self: flex-start; align-items: flex-start; }
+
+.msg-bubble {
+  padding: 15px 15px; border-radius: 16px;
+  font-size: 0.875rem; line-height: 1.6;
+  word-wrap: break-word; overflow-wrap: break-word;
+}
+.msg.user .msg-bubble {
+  background: var(--navy); color: var(--white);
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 1px 3px rgba(26,54,93,0.15);
+}
+.msg.assistant .msg-bubble {
+  background: var(--gray-150); color: var(--gray-800);
+  border-bottom-left-radius: 4px;
+  border-left: 3px solid var(--blue-accent);
+}
+
+/* Markdown inside bubbles */
+.msg-bubble p { margin: 0 0 0.55em; }
+.msg-bubble p:last-child { margin-bottom: 0; }
+.msg-bubble ul, .msg-bubble ol { margin: 0.3em 0 0.5em 1.2em; }
+.msg-bubble li { margin-bottom: 0.25em; }
+.msg-bubble code {
+  background: rgba(0,0,0,0.06); padding: 2px 6px;
+  border-radius: 4px; font-size: 0.82em;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+.msg.user .msg-bubble code { background: rgba(255,255,255,0.15); }
+.msg-bubble strong { font-weight: 600; }
+
+/* Citations */
+.msg-citations {
+  font-size: 0.7rem; color: var(--gray-400);
+  margin-top: 6px; padding-left: 6px;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  animation: fadeIn 0.5s ease 0.2s forwards;
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex; gap: 5px; padding: 12px 18px; align-self: flex-start;
+  background: var(--gray-150); border-radius: 16px; border-bottom-left-radius: 4px;
+  border-left: 3px solid var(--blue-accent);
+}
+.typing-indicator span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gray-300);
+  animation: pulse 1.4s infinite ease-in-out;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.16s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.32s; }
+
+@keyframes pulse {
+  0%, 80%, 100% { transform: scale(1); opacity: 0.4; }
+  40% { transform: scale(1.3); opacity: 1; }
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Input bar ─────────────────────────────────── */
+.chat-input-bar {
+  padding: 12px 14px; border-top: 1px solid var(--gray-200);
+  display: flex; gap: 8px; align-items: flex-end;
+  flex-shrink: 0; background: var(--gray-50);
+}
+.chat-input {
+  flex: 1; padding: 10px 16px; border: 1.5px solid var(--gray-200);
+  border-radius: 22px; font-size: 0.875rem; outline: none;
+  resize: none; max-height: 100px; min-height: 44px;
+  font-family: inherit; line-height: 1.45;
+  background: var(--white);
+  color: inherit;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.chat-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,114,206,0.12); }
+.chat-input:disabled { background: var(--gray-100); color: var(--gray-400); }
+.chat-input::placeholder { color: var(--gray-400); }
+
+.send-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--navy); color: var(--white);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--transition), transform 0.15s, box-shadow var(--transition);
+}
+.send-btn:hover:not(:disabled) { background: var(--blue); transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,114,206,0.3); }
+.send-btn:active:not(:disabled) {
+  transform: scale(0.95);
+  transition: transform 0.1s;
+}
+.send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.send-btn svg { width: 18px; height: 18px; }
+
+/* ── Fullscreen mode ───────────────────────────── */
+#chat-panel.fullscreen {
+  width: 100vw; height: 100vh;
+  bottom: 0; right: 0;
+  border-radius: 0;
+  transition: all var(--transition);
+}
+#chat-panel.fullscreen .msg { max-width: 720px; }
+#chat-panel.fullscreen .messages { padding: 24px 10%; }
+#chat-panel.fullscreen .chat-input-bar { padding: 16px 10%; }
+#chat-panel.fullscreen .quiz-action-bar { padding: 16px 10%; }
+#chat-panel.fullscreen .msg-bubble { font-size: 0.95rem; }
+#chat-panel.fullscreen .chat-header { padding: 16px 10%; }
+#chat-panel.fullscreen .login-screen { padding: 3rem; }
+@media (max-width: 900px) {
+  #chat-panel.fullscreen .messages,
+  #chat-panel.fullscreen .chat-input-bar,
+  #chat-panel.fullscreen .quiz-action-bar,
+  #chat-panel.fullscreen .chat-header { padding-left: 24px; padding-right: 24px; }
+}
+
+.fullscreen-btn {
+  background: none; border: none; color: rgba(255,255,255,0.7);
+  cursor: pointer; padding: 4px; border-radius: 4px;
+  transition: color var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.fullscreen-btn:hover { color: var(--white); }
+.fullscreen-btn svg { width: 18px; height: 18px; }
+
+/* ── Tablet breakpoint ─────────────────────────── */
+@media (max-width: 640px) {
+  .widget-container {
+    width: min(420px, 100vw - 24px);
+    height: min(600px, 100vh - 24px);
+  }
+  .messages {
+    padding: 12px;
+  }
+}
+
+/* ── Mobile responsive ─────────────────────────── */
+@media (max-width: 480px) {
+  #chat-panel {
+    width: 100vw; height: 100vh;
+    bottom: 0; right: 0;
+    border-radius: 0;
+  }
+  #chat-fab { bottom: 16px; right: 16px; }
+  .fullscreen-btn { display: none; }
+}
+
+/* ── KaTeX overrides ───────────────────────────── */
+.msg-bubble .katex { font-size: 1em; }
+.msg-bubble .katex-display { margin: 0.7em 0; overflow-x: auto; padding: 2px 0; }
+.msg-bubble .katex-display > .katex { text-align: left; }
+.msg-bubble .katex-error { color: #c00; font-size: 0.85em; font-style: italic; }
+
+/* ── Markdown tables ──────────────────────────── */
+.md-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.75em 0;
+  font-size: 1em;
+}
+.md-table th,
+.md-table td {
+  border: 1px solid var(--gray-200);
+  padding: 6px 10px;
+  text-align: left;
+}
+.md-table th {
+  background: var(--gray-100);
+  font-weight: 600;
+}
+.md-table tr:nth-child(even) td {
+  background: var(--gray-100);
+}
+
+/* ── Selection color ──────────────────────────── */
+.msg-bubble ::selection { background: rgba(0,174,199,0.2); }
+
+/* ── Credit bar (below login screen) ─────────── */
+.credit-bar {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-200);
+  text-align: center;
+  font-size: 0.68rem;
+  color: var(--credit-gray);
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+}
+.credit-bar a {
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+.credit-bar a:hover { color: var(--blue); text-decoration: underline; }
+.credit-bar .credit-institution {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.62rem;
+  color: var(--credit-gray);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ── Page-level back link ────────────────────── */
+.page-back-link {
+  position: fixed; top: 16px; left: 16px; z-index: 9998;
+  font-size: 0.8rem; color: rgba(255,255,255,0.7);
+  text-decoration: none; font-weight: 400;
+  transition: color var(--transition);
+  display: flex; align-items: center; gap: 5px;
+}
+.page-back-link:hover { color: #fff; }
+.page-back-link svg { width: 14px; height: 14px; }
+
+/* ── Feedback buttons ────────────────────────────── */
+.msg-feedback {
+  display: flex; gap: 6px; margin-top: 6px; padding-left: 2px;
+  opacity: 0; animation: fadeIn 0.4s ease 0.3s forwards;
+}
+.msg-feedback button {
+  background: none; border: 1px solid var(--gray-200);
+  border-radius: 6px; padding: 3px 8px; cursor: pointer;
+  font-size: 0.72rem; color: var(--gray-400);
+  display: flex; align-items: center; gap: 4px;
+  transition: all var(--transition);
+}
+.msg-feedback button:hover { border-color: var(--gray-300); color: var(--gray-600); background: var(--gray-50); }
+.msg-feedback button.selected-up { border-color: #2e7d32; color: #2e7d32; background: #eef7ee; }
+.msg-feedback button.selected-down { border-color: #c62828; color: #c62828; background: #fef3f2; }
+.msg-feedback button:disabled { cursor: default; opacity: 0.7; }
+.msg-feedback button svg { width: 13px; height: 13px; }
+.msg-feedback-tags {
+  display: none; flex-wrap: wrap; gap: 5px; margin-top: 6px; padding-left: 2px;
+  animation: fadeIn 0.3s ease forwards;
+}
+.msg-feedback-tags.visible { display: flex; }
+.msg-feedback-tags button {
+  background: var(--gray-50); border: 1px solid var(--gray-200);
+  border-radius: 12px; padding: 3px 10px; cursor: pointer;
+  font-size: 0.68rem; color: var(--gray-600);
+  transition: all var(--transition);
+}
+.msg-feedback-tags button:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+.msg-feedback-tags button.selected { background: var(--blue-light); border-color: var(--blue); color: var(--blue); font-weight: 500; }
+.msg-feedback-thanks {
+  font-size: 0.7rem; color: var(--gray-400); margin-top: 4px; padding-left: 2px;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* ── Quiz action button bar ──────────────────────── */
+.quiz-action-bar {
+  padding: 12px 14px; border-top: 1px solid var(--gray-200);
+  display: none; flex-wrap: wrap; gap: 8px;
+  flex-shrink: 0; background: var(--gray-50); justify-content: center;
+}
+.quiz-action-bar.active { display: flex; }
+.quiz-action-btn {
+  padding: 8px 16px; border: 1.5px solid var(--blue); border-radius: 20px;
+  background: var(--white); color: var(--blue);
+  font-size: 0.82rem; font-weight: 500; cursor: pointer;
+  transition: all var(--transition);
+}
+.quiz-action-btn:hover { background: var(--blue); color: var(--white); }
+.quiz-action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.quiz-action-btn.primary { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.quiz-action-btn.primary:hover { background: var(--blue); border-color: var(--blue); }
+
+/* ── Quiz chapter grid ───────────────────────────── */
+.quiz-chapter-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px;
+}
+.quiz-chapter-btn {
+  padding: 10px 8px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+  background: var(--white); color: var(--navy);
+  font-size: 0.85rem; font-weight: 600; cursor: pointer; text-align: center;
+  transition: all var(--transition);
+}
+.quiz-chapter-btn:hover { border-color: var(--blue); background: var(--blue-light); }
+.quiz-chapter-btn .chapter-count {
+  display: block; font-size: 0.68rem; color: var(--gray-400); margin-top: 2px;
+}
+
+/* ── Exercise load spinner ─────────────────────── */
+.exercise-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: var(--gray-400);
+  font-size: 0.875em;
+  gap: 8px;
+}
+.exercise-spinner-ring {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--gray-200);
+  border-top-color: var(--blue-accent, {{CSS_BLUE_ACCENT}});
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Error banner ─────────────────────────────── */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff0f0;
+  border: 1px solid #f5c6c6;
+  border-radius: 6px;
+  color: #b00020;
+  font-size: 0.875em;
+  padding: 10px 14px;
+  margin: 8px 0;
+}
+.error-banner-dismiss {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #b00020;
+  font-size: 1.1em;
+  line-height: 1;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Hero ──────────────────────────────────────── -->
+<div class="page-hero">
+  <h1 id="demo-title">{{HERO_TITLE}}</h1>
+  <p class="hero-subtitle" id="hero-subtitle">{{HERO_SUBTITLE}}</p>
+  <button class="hero-cta" onclick="document.getElementById('chat-fab').click()">{{HERO_CTA}}</button>
+</div>
+
+<!-- ── Instructional content ──────────────────────── -->
+<div class="page-content">
+
+{{INSTRUCTIONS_FR}}
+
+<hr class="lang-separator">
+
+{{INSTRUCTIONS_EN}}
+
+</div>
+
+<!-- ── Page footer ───────────────────────────────── -->
+<div class="page-footer" id="page-footer"></div>
+
+<!-- Page-level link back to website (populated from JS config) -->
+<a id="page-back-link" class="page-back-link" target="_blank" rel="noopener" style="display:none">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+  </svg>
+  <span id="page-back-label"></span>
+</a>
+
+<!-- Floating action button -->
+<button id="chat-fab" aria-label="{{ARIA_OPEN_CHAT}}">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+</button>
+
+<!-- Chat panel -->
+<div id="chat-panel">
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-header-title">{{HEADER_TITLE}}</div>
+      <div class="chat-header-mode" id="mode-label">{{MODE_TUTOR_LABEL}}</div>
+      <div class="chat-header-usage" id="usage-display"></div>
+    </div>
+    <button class="lang-toggle" id="lang-toggle-btn" type="button" hidden>EN</button>
+    <button class="mode-toggle" id="mode-toggle-btn" type="button">{{TOGGLE_TO_QUIZ_LABEL}}</button>
+    <button class="new-chat-btn" id="new-chat-btn" title="{{TITLE_NEW_CHAT}}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+      </svg>
+    </button>
+    <button class="fullscreen-btn" id="fullscreen-btn" title="{{TITLE_FULLSCREEN}}">
+      <svg id="fs-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+      </svg>
+      <svg id="fs-shrink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/>
+      </svg>
+    </button>
+    <button class="close-btn" id="close-btn" title="{{TITLE_CLOSE}}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Login screen -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10l-10-5L2 10l10 5 10-5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/><line x1="22" y1="10" x2="22" y2="16"/>
+      </svg>
+    </div>
+    <div class="login-title">{{LOGIN_TITLE}}</div>
+    <div class="login-subtitle">{{LOGIN_SUBTITLE}}</div>
+    <input type="password" class="login-input" id="password-input" placeholder="{{LOGIN_PLACEHOLDER}}" autocomplete="off">
+    <button class="login-btn" id="login-btn">{{LOGIN_BUTTON}}</button>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-attempts" id="login-attempts"></div>
+  </div>
+
+  <!-- Credit bar (visible below login, hidden when chatting — populated from JS config) -->
+  <div class="credit-bar" id="credit-bar"></div>
+
+  <!-- Chat body -->
+  <div class="chat-body hidden" id="chat-body">
+    <div class="messages" id="messages"></div>
+    <div class="chat-input-bar" id="tutor-input-bar">
+      <textarea class="chat-input" id="chat-input" placeholder="{{CHAT_PLACEHOLDER}}" rows="1" maxlength="800"></textarea>
+      <button class="send-btn" id="send-btn" title="{{TITLE_SEND}}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+    <div class="quiz-action-bar" id="quiz-action-bar"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIGURATION — edit these values during setup
+// ============================================================
+const API_URL = "{{API_URL}}";
+
+// Branding & credits (shown on login screen and page)
+const BRANDING = {
+  COURSE_NAME: "{{COURSE_NAME}}",
+  INSTRUCTOR_NAME: "{{INSTRUCTOR_NAME}}",
+  INSTRUCTOR_TITLE: "{{INSTRUCTOR_TITLE}}",
+  INSTITUTION: "{{INSTITUTION}}",
+  WEBSITE_URL: "{{WEBSITE_URL}}",
+  WEBSITE_LABEL: "{{WEBSITE_LABEL}}",
+};
+
+// ── i18n strings ─────────────────────────────────
+const TEMPLATE_PRIMARY_LANG = "{{PRIMARY_LANG}}";          // "en" (default) or "fr"
+const BILINGUAL_ENABLED = {{BILINGUAL_ENABLED}};           // true → show language switch button
+const QUIZ_MODE_ENABLED = {{QUIZ_MODE_ENABLED}};           // true → show quiz mode toggle
+const AUTH_REQUIRED = {{AUTH_REQUIRED}};                   // false → skip login screen (demo/open-access mode)
+
+// Active language: bilingual deployments let the visitor override via localStorage.
+let PRIMARY_LANG = TEMPLATE_PRIMARY_LANG;
+if (BILINGUAL_ENABLED) {
+  const stored = (typeof localStorage !== "undefined" && localStorage.getItem("pref_lang")) || "";
+  if (stored === "en" || stored === "fr") PRIMARY_LANG = stored;
+}
+document.documentElement.lang = PRIMARY_LANG;
+const STRINGS = {
+  fr: {
+    welcome_tutor: `Bonjour ! Je suis votre **assistant ${BRANDING.COURSE_NAME}**. Posez-moi une question sur la mati\u00e8re du cours \u2014 je vous guiderai sans donner de solutions directes.`,
+    welcome_quiz: `**Mode quiz !** Choisissez un chapitre pour commencer.`,
+    mode_tutor: "Mode tuteur",
+    mode_quiz: "Mode quiz",
+    toggle_to_quiz: "Mode Quiz",
+    toggle_to_tutor: "Mode Tuteur",
+    rate_limit: "J'ai besoin d'une pause ! R\u00e9essayez dans quelques secondes.",
+    rate_limit_long: "J'ai besoin d'une pause ! Revenez demain et je serai pr\u00eat \u00e0 vous aider.",
+    session_expired: "Session expir\u00e9e. Veuillez vous reconnecter.",
+    connection_expired: "La connexion a expir\u00e9 \u2014 veuillez r\u00e9essayer.",
+    network_error: "Erreur de connexion. Veuillez r\u00e9essayer.",
+    server_unavailable: "Je suis indisponible en ce moment. R\u00e9essayez demain !",
+    generic_error: "Quelque chose s'est mal pass\u00e9 \u2014 veuillez r\u00e9essayer.",
+    unexpected_response: "R\u00e9ponse inattendue du serveur.",
+    empty_message: "Veuillez \u00e9crire un message.",
+    budget_exhausted: "Je suis indisponible \u2014 r\u00e9essayez demain !",
+    budget_quiz_only: "Forte utilisation \u2014 mode quiz seulement pour l'instant",
+    budget_reduced: "Journ\u00e9e charg\u00e9e \u2014 mes r\u00e9ponses seront plus courtes",
+    budget_low: "J'ai beaucoup aid\u00e9 aujourd'hui ! Je vais bient\u00f4t avoir besoin de repos.",
+    budget_warning: "Forte utilisation aujourd'hui \u2014 je pourrais ralentir bient\u00f4t",
+    budget_normal: "",
+    login_empty: "Veuillez entrer un mot de passe.",
+    login_incorrect: "Mot de passe incorrect.",
+    login_lockout_title: "Trop de tentatives \u00e9chou\u00e9es",
+    login_lockout_detail: "Veuillez patienter avant de r\u00e9essayer",
+    login_attempts_remaining: "tentative(s) restante(s)",
+    login_server_error: "Impossible de joindre le serveur \u2014 r\u00e9essayez dans un moment.",
+    login_generic_error: "Quelque chose s'est mal pass\u00e9 \u2014 veuillez r\u00e9essayer.",
+    login_enter: "Entrer",
+    built_by: "Con\u00e7u par",
+    ta_suffix: "{{ASSISTANT_LABEL_FR}}",
+    sources_label: "Sources : ",
+    feedback_thanks: "Merci pour votre retour !",
+    open_chat: "Ouvrir le chat",
+    new_conversation: "Nouvelle conversation",
+    toggle_fullscreen: "Plein \u00e9cran",
+    close: "Fermer",
+    send: "Envoyer",
+    helpful: "Utile",
+    not_helpful: "Pas utile",
+    chat_placeholder: "Posez une question...",
+  },
+  en: {
+    welcome_tutor: `Hello! I'm your **${BRANDING.COURSE_NAME} assistant**. Ask me a question about the course material \u2014 I'll guide you without giving direct solutions.`,
+    welcome_quiz: `**Quiz mode!** Pick a chapter to get started.`,
+    mode_tutor: "Tutor mode",
+    mode_quiz: "Quiz mode",
+    toggle_to_quiz: "Quiz Mode",
+    toggle_to_tutor: "Tutor Mode",
+    rate_limit: "I need a short break! Try again in a few seconds.",
+    rate_limit_long: "I need a break! Come back tomorrow and I'll be ready to help.",
+    session_expired: "Session expired. Please log in again.",
+    connection_expired: "Connection expired \u2014 please try again.",
+    network_error: "Connection error. Please try again.",
+    server_unavailable: "I'm unavailable right now. Try again tomorrow!",
+    generic_error: "Something went wrong \u2014 please try again.",
+    unexpected_response: "Unexpected response from the server.",
+    empty_message: "Please type a message.",
+    budget_exhausted: "I'm unavailable \u2014 try again tomorrow!",
+    budget_quiz_only: "Heavy usage \u2014 only quiz mode is available.",
+    budget_reduced: "Busy day \u2014 shorter answers enabled.",
+    budget_low: "I've been helping a lot today! I'll need a break soon.",
+    budget_warning: "Heavy usage today \u2014 I may slow down soon.",
+    budget_normal: "",
+    login_empty: "Please enter a password.",
+    login_incorrect: "Incorrect password.",
+    login_lockout_title: "Too many failed attempts",
+    login_lockout_detail: "Please wait before trying again",
+    login_attempts_remaining: "attempt(s) remaining",
+    login_server_error: "Can't reach the server \u2014 please try again in a moment.",
+    login_generic_error: "Something went wrong \u2014 please try again.",
+    login_enter: "Enter",
+    built_by: "Built by",
+    ta_suffix: "{{ASSISTANT_LABEL}}",
+    sources_label: "Sources: ",
+    feedback_thanks: "Thanks for your feedback!",
+    open_chat: "Open chat",
+    new_conversation: "New conversation",
+    toggle_fullscreen: "Toggle fullscreen",
+    close: "Close",
+    send: "Send",
+    helpful: "Helpful",
+    not_helpful: "Not helpful",
+    chat_placeholder: "Ask a question...",
+  },
+};
+const S = STRINGS[PRIMARY_LANG] || STRINGS.en;
+
+// ── State ────────────────────────────────────────
+let sessionToken = null;
+let mode = "tutor"; // "tutor" or "quiz"
+let conversationHistory = [];
+let isStreaming = false;
+let lastInteractionId = null;  // Updated from server done event
+const MAX_HISTORY_MESSAGES = 4; // Send last 4 messages (2 turns) — matches server MAX_HISTORY_TURNS
+const MAX_MESSAGE_CHARS = 800;  // Client-side cap (~200 words) — matches server MAX_MESSAGE_WORDS
+
+// Usage tracking (updated from server responses)
+let messagesRemaining = 50;      // server returns actual value on login + each response
+let budgetStatus = "normal";     // "normal" | "reduced" | "quiz_only" | "exhausted"
+
+// Quiz state (null when in tutor mode)
+let quizState = null;
+const DEFAULT_QUIZ_STATE = { phase: "menu", session: null, exercise_id: null, hint_index: 0, language: PRIMARY_LANG, question_type: null };
+
+// ── DOM refs ─────────────────────────────────────
+const fab = document.getElementById("chat-fab");
+const panel = document.getElementById("chat-panel");
+const loginScreen = document.getElementById("login-screen");
+const chatBody = document.getElementById("chat-body");
+const messagesEl = document.getElementById("messages");
+const chatInput = document.getElementById("chat-input");
+const sendBtn = document.getElementById("send-btn");
+const loginBtn = document.getElementById("login-btn");
+const passwordInput = document.getElementById("password-input");
+const loginError = document.getElementById("login-error");
+const modeLabel = document.getElementById("mode-label");
+const usageDisplay = document.getElementById("usage-display");
+const creditBar = document.getElementById("credit-bar");
+const modeToggleBtn = document.getElementById("mode-toggle-btn");
+const langToggleBtn = document.getElementById("lang-toggle-btn");
+const newChatBtn = document.getElementById("new-chat-btn");
+
+// Bilingual support: show the language button if enabled; otherwise remove it.
+if (BILINGUAL_ENABLED && langToggleBtn) {
+  langToggleBtn.hidden = false;
+  langToggleBtn.textContent = PRIMARY_LANG === "fr" ? "EN" : "FR";
+  langToggleBtn.setAttribute("aria-label", PRIMARY_LANG === "fr" ? "Switch to English" : "Passer en français");
+  langToggleBtn.addEventListener("click", () => {
+    const next = PRIMARY_LANG === "fr" ? "en" : "fr";
+    try { localStorage.setItem("pref_lang", next); } catch (_) { /* private mode */ }
+    location.reload();
+  });
+} else if (langToggleBtn) {
+  langToggleBtn.remove();
+}
+
+// Quiz mode toggle visibility (no exercises → no quiz button).
+if (!QUIZ_MODE_ENABLED && modeToggleBtn) {
+  modeToggleBtn.remove();
+}
+const fullscreenBtn = document.getElementById("fullscreen-btn");
+const fsExpand = document.getElementById("fs-expand");
+const fsShrink = document.getElementById("fs-shrink");
+const closeBtn = document.getElementById("close-btn");
+const tutorInputBar = document.getElementById("tutor-input-bar");
+const quizActionBar = document.getElementById("quiz-action-bar");
+
+// ── Welcome messages (from i18n STRINGS) ──
+const WELCOME_TUTOR = S.welcome_tutor;
+const WELCOME_QUIZ = S.welcome_quiz;
+
+// ── Quiz button labels (bilingual) ───────────────
+const QUIZ_LABELS = {
+  fr: {
+    hint: "Indice", more_hint: "Encore un indice", solution: "Solution",
+    explain: "Expliquer", course: "Cours",
+    next: "Suivant", exercises: "exercices",
+    choose_chapter_intro: "Choisissez un chapitre pour commencer :",
+    choose_chapter: "Choisir un chapitre",
+    choose_type_intro: "Choisissez un type d'exercice :",
+    all_types: "Tous",
+    type_btn: "Type",
+    back_to_chapters: "\u2190 Chapitres"
+  },
+  en: {
+    hint: "Hint", more_hint: "Another hint", solution: "Solution",
+    explain: "Explain", course: "Course",
+    next: "Next", exercises: "exercises",
+    choose_chapter_intro: "Choose a chapter to start:",
+    choose_chapter: "Choose chapter",
+    choose_type_intro: "Choose an exercise type:",
+    all_types: "All",
+    type_btn: "Type",
+    back_to_chapters: "\u2190 Chapters"
+  }
+};
+
+// Quiz flag tags (for exercise quality feedback on API responses)
+const QUIZ_FLAG_TAGS = {
+  fr: [
+    { key: "wrong", label: "Incorrect" },
+    { key: "not_relevant", label: "Non pertinent" },
+    { key: "problematic", label: "Probl\u00e9matique" },
+    { key: "unclear", label: "Pas clair" },
+    { key: "too_hard", label: "Trop difficile" },
+    { key: "too_easy", label: "Trop facile" }
+  ],
+  en: [
+    { key: "wrong", label: "Wrong" },
+    { key: "not_relevant", label: "Not relevant" },
+    { key: "problematic", label: "Problematic" },
+    { key: "unclear", label: "Unclear" },
+    { key: "too_hard", label: "Too hard" },
+    { key: "too_easy", label: "Too easy" }
+  ]
+};
+
+// ── Populate branding from config ────────────────
+(function initBranding() {
+  // Credit bar (below login)
+  if (creditBar && BRANDING.INSTRUCTOR_NAME) {
+    const link = BRANDING.WEBSITE_URL
+      ? `<a href="${BRANDING.WEBSITE_URL}" target="_blank" rel="noopener">${BRANDING.INSTRUCTOR_NAME}</a>`
+      : BRANDING.INSTRUCTOR_NAME;
+    creditBar.innerHTML = `${S.built_by} ${link}` +
+      (BRANDING.INSTRUCTOR_TITLE ? `, ${BRANDING.INSTRUCTOR_TITLE}` : "") +
+      (BRANDING.INSTITUTION ? `<span class="credit-institution">${BRANDING.INSTITUTION}</span>` : "");
+  }
+  // Page back link
+  const pageLink = document.getElementById("page-back-link");
+  const pageLabel = document.getElementById("page-back-label");
+  if (pageLink && BRANDING.WEBSITE_URL) {
+    pageLink.href = BRANDING.WEBSITE_URL;
+    pageLabel.textContent = BRANDING.WEBSITE_LABEL || BRANDING.WEBSITE_URL.replace(/^https?:\/\//, "");
+    pageLink.style.display = "";
+  }
+  // Header title + page title + hero title
+  const headerTitle = document.querySelector(".chat-header-title");
+  if (headerTitle) headerTitle.textContent = `${BRANDING.COURSE_NAME} ${S.ta_suffix}`;
+  document.title = `${BRANDING.COURSE_NAME} ${S.ta_suffix}`;
+  const demoTitle = document.getElementById("demo-title");
+  if (demoTitle) demoTitle.textContent = `${BRANDING.COURSE_NAME} ${S.ta_suffix}`;
+  // Page footer
+  const pageFooter = document.getElementById("page-footer");
+  if (pageFooter && BRANDING.INSTRUCTOR_NAME) {
+    const footerLink = BRANDING.WEBSITE_URL
+      ? `<a href="${BRANDING.WEBSITE_URL}" target="_blank" rel="noopener">${BRANDING.INSTRUCTOR_NAME}</a>`
+      : BRANDING.INSTRUCTOR_NAME;
+    pageFooter.innerHTML = `${BRANDING.COURSE_NAME} ${S.ta_suffix} &mdash; ${footerLink}` +
+      (BRANDING.INSTRUCTOR_TITLE ? `, ${BRANDING.INSTRUCTOR_TITLE}` : "") +
+      (BRANDING.INSTITUTION ? ` &mdash; ${BRANDING.INSTITUTION}` : "");
+  }
+})();
+
+// ── Open / Close ─────────────────────────────────
+// When auth is disabled (demo/open-access), initialize session without login
+function initNoAuthSession() {
+  sessionToken = "no-auth";
+  loginScreen.classList.add("hidden");
+  if (creditBar) creditBar.style.display = "none";
+  chatBody.classList.remove("hidden");
+  if (mode === "quiz") {
+    tutorInputBar.style.display = "none";
+    quizActionBar.classList.add("active");
+    quizState = { ...DEFAULT_QUIZ_STATE };
+    addWelcomeMessage();
+    sendQuizAction("menu");
+  } else {
+    addWelcomeMessage();
+    chatInput.focus();
+  }
+}
+
+fab.addEventListener("click", () => {
+  panel.classList.add("open");
+  fab.classList.add("hidden");
+  if (sessionToken) {
+    if (mode === "tutor") chatInput.focus();
+  } else if (!AUTH_REQUIRED) {
+    initNoAuthSession();
+  } else {
+    passwordInput.focus();
+  }
+});
+
+closeBtn.addEventListener("click", () => {
+  panel.classList.remove("open", "fullscreen");
+  fab.classList.remove("hidden");
+  fsExpand.style.display = ""; fsShrink.style.display = "none";
+});
+
+// ── Fullscreen toggle ────────────────────────────
+fullscreenBtn.addEventListener("click", () => {
+  const isFull = panel.classList.toggle("fullscreen");
+  fsExpand.style.display = isFull ? "none" : "";
+  fsShrink.style.display = isFull ? "" : "none";
+});
+
+// ── Login rate-limiting ───────────────────────────
+const AUTH_STORAGE_KEY = "ta_chat_auth_state_{{COURSE_ID_LOWER}}";
+const MAX_ATTEMPTS = 5;
+const BASE_LOCKOUT_SEC = 30;
+const MAX_LOCKOUT_SEC = 15 * 60;
+
+const loginAttemptsEl = document.getElementById("login-attempts");
+let lockoutInterval = null;
+
+function getAuthState() {
+  try {
+    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+    if (!raw) return { failures: 0, lockedUntil: 0, totalLockouts: 0 };
+    return JSON.parse(raw);
+  } catch (_) { return { failures: 0, lockedUntil: 0, totalLockouts: 0 }; }
+}
+
+function saveAuthState(state) {
+  try { localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(state)); } catch (_) {}
+}
+
+function clearAuthState() {
+  try { localStorage.removeItem(AUTH_STORAGE_KEY); } catch (_) {}
+}
+
+function isLockedOut() {
+  const s = getAuthState();
+  return s.lockedUntil > Date.now();
+}
+
+function getRemainingLockout() {
+  const s = getAuthState();
+  return Math.max(0, Math.ceil((s.lockedUntil - Date.now()) / 1000));
+}
+
+function showLockoutUI() {
+  const remaining = getRemainingLockout();
+  if (remaining <= 0) { endLockoutUI(); return; }
+
+  passwordInput.disabled = true;
+  loginBtn.disabled = true;
+  loginError.textContent = "";
+
+  const mins = Math.floor(remaining / 60);
+  const secs = remaining % 60;
+  const timeStr = mins > 0
+    ? `${mins}:${secs.toString().padStart(2, "0")}`
+    : `${secs}s`;
+
+  loginAttemptsEl.innerHTML =
+    `<div class="login-lockout">` +
+    `<div class="lockout-title">${S.login_lockout_title}</div>` +
+    `<div class="lockout-timer">${timeStr}</div>` +
+    `<div class="lockout-detail">${S.login_lockout_detail}</div>` +
+    `</div>`;
+
+  if (!lockoutInterval) {
+    lockoutInterval = setInterval(() => {
+      if (getRemainingLockout() <= 0) endLockoutUI();
+      else showLockoutUI();
+    }, 1000);
+  }
+}
+
+function endLockoutUI() {
+  if (lockoutInterval) { clearInterval(lockoutInterval); lockoutInterval = null; }
+  passwordInput.disabled = false;
+  loginBtn.disabled = false;
+  const s = getAuthState();
+  if (s.failures > 0) {
+    const left = MAX_ATTEMPTS - s.failures;
+    loginAttemptsEl.textContent = left > 0
+      ? `${left} ${S.login_attempts_remaining}`
+      : "";
+  } else {
+    loginAttemptsEl.textContent = "";
+  }
+}
+
+function recordFailure() {
+  const s = getAuthState();
+  s.failures += 1;
+  if (s.failures >= MAX_ATTEMPTS) {
+    s.totalLockouts += 1;
+    const lockSec = Math.min(BASE_LOCKOUT_SEC * Math.pow(2, s.totalLockouts - 1), MAX_LOCKOUT_SEC);
+    s.lockedUntil = Date.now() + lockSec * 1000;
+    s.failures = 0;
+    saveAuthState(s);
+    showLockoutUI();
+    return true;
+  }
+  saveAuthState(s);
+  const left = MAX_ATTEMPTS - s.failures;
+  loginAttemptsEl.textContent = `${left} ${S.login_attempts_remaining}`;
+  return false;
+}
+
+// Check lockout state on load
+if (isLockedOut()) showLockoutUI();
+else endLockoutUI();
+
+// ── Login ────────────────────────────────────────
+async function doLogin() {
+  if (isLockedOut()) { showLockoutUI(); return; }
+
+  const pw = passwordInput.value.trim();
+  if (!pw) { loginError.textContent = S.login_empty; return; }
+
+  loginBtn.disabled = true;
+  loginError.textContent = "";
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "auth", password: pw })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      if (res.status === 401) {
+        const locked = recordFailure();
+        if (locked) return;
+        throw new Error(err.error || S.login_incorrect);
+      }
+      if (res.status === 429) {
+        const retryAfter = err.retry_after || 60;
+        const s = getAuthState();
+        s.lockedUntil = Date.now() + retryAfter * 1000;
+        s.totalLockouts += 1;
+        s.failures = 0;
+        saveAuthState(s);
+        showLockoutUI();
+        return;
+      }
+      if (res.status === 502 || res.status === 504) {
+        throw new Error(S.login_server_error);
+      }
+      throw new Error(err.error || S.login_generic_error);
+    }
+    const data = await res.json();
+    sessionToken = data.session_token;
+
+    // Capture usage info from login response
+    if (data.messages_remaining != null) messagesRemaining = data.messages_remaining;
+    if (data.budget_status) budgetStatus = data.budget_status;
+    updateUsageDisplay();
+
+    // Success — clear rate-limit state
+    clearAuthState();
+    loginAttemptsEl.textContent = "";
+    loginScreen.classList.add("hidden");
+    if (creditBar) creditBar.style.display = "none";
+    chatBody.classList.remove("hidden");
+
+    // Initialize correct mode UI
+    if (mode === "quiz") {
+      tutorInputBar.style.display = "none";
+      quizActionBar.classList.add("active");
+      quizState = { ...DEFAULT_QUIZ_STATE };
+      addWelcomeMessage();
+      sendQuizAction("menu");
+    } else {
+      addWelcomeMessage();
+      chatInput.focus();
+    }
+  } catch (e) {
+    const msg = (e instanceof TypeError && e.message.includes("fetch"))
+      ? S.login_server_error
+      : e.message;
+    loginError.textContent = msg;
+  } finally {
+    if (!isLockedOut()) loginBtn.disabled = false;
+  }
+}
+
+loginBtn.addEventListener("click", doLogin);
+passwordInput.addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+
+// ── Mode toggle ──────────────────────────────────
+modeToggleBtn.addEventListener("click", () => {
+  isStreaming = false; // Cancel guard so pending request won't block new mode
+  mode = mode === "tutor" ? "quiz" : "tutor";
+  modeLabel.textContent = mode === "tutor" ? S.mode_tutor : S.mode_quiz;
+  modeToggleBtn.textContent = mode === "tutor" ? S.toggle_to_quiz : S.toggle_to_tutor;
+  clearChat();
+  if (mode === "quiz") {
+    tutorInputBar.style.display = "none";
+    quizActionBar.classList.add("active");
+    quizState = { ...DEFAULT_QUIZ_STATE };
+    addWelcomeMessage();
+    sendQuizAction("menu");
+  } else {
+    tutorInputBar.style.display = "";
+    quizActionBar.classList.remove("active");
+    quizState = null;
+    addWelcomeMessage();
+  }
+});
+
+// ── New chat ─────────────────────────────────────
+newChatBtn.addEventListener("click", () => {
+  isStreaming = false; // Cancel guard so pending request won't block new chat
+  clearChat();
+  if (mode === "quiz") {
+    quizState = { ...DEFAULT_QUIZ_STATE };
+    addWelcomeMessage();
+    sendQuizAction("menu");
+  } else {
+    addWelcomeMessage();
+  }
+});
+
+function clearChat() {
+  messagesEl.innerHTML = "";
+  conversationHistory = [];
+  if (mode === "quiz") {
+    quizActionBar.innerHTML = "";
+    quizState = { ...DEFAULT_QUIZ_STATE };
+  }
+}
+
+function addWelcomeMessage() {
+  const text = mode === "tutor" ? WELCOME_TUTOR : WELCOME_QUIZ;
+  appendMessage("assistant", text);
+}
+
+// ── Send message (tutor mode only) ───────────────
+async function sendMessage() {
+  if (mode === "quiz") return; // quiz uses sendQuizAction
+  const text = chatInput.value.trim();
+  if (!text || isStreaming) return;
+
+  if (messagesRemaining <= 0) {
+    appendMessage("assistant", S.rate_limit_long);
+    return;
+  }
+
+  const cappedText = text.length > MAX_MESSAGE_CHARS ? text.slice(0, MAX_MESSAGE_CHARS) + " [...]" : text;
+
+  appendMessage("user", cappedText);
+  conversationHistory.push({ role: "user", content: cappedText });
+  chatInput.value = "";
+  chatInput.style.height = "auto";
+  setStreaming(true);
+
+  const typingEl = document.createElement("div");
+  typingEl.className = "typing-indicator";
+  typingEl.innerHTML = "<span></span><span></span><span></span>";
+  messagesEl.appendChild(typingEl);
+  scrollToBottom();
+
+  try {
+    await realStream(text, typingEl);
+  } catch (e) {
+    typingEl.remove();
+    if (conversationHistory.length && conversationHistory[conversationHistory.length - 1].role === "user") {
+      conversationHistory.pop();
+    }
+    const friendlyMsg = (e instanceof TypeError && e.message.includes("fetch"))
+      ? S.connection_expired
+      : e.message;
+    appendMessage("assistant", friendlyMsg);
+    chatInput.value = text;
+  } finally {
+    setStreaming(false);
+  }
+}
+
+sendBtn.addEventListener("click", sendMessage);
+chatInput.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+
+// Auto-resize textarea
+chatInput.addEventListener("input", () => {
+  chatInput.style.height = "auto";
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + "px";
+});
+
+function setStreaming(v) {
+  isStreaming = v;
+  if (mode === "tutor") {
+    sendBtn.disabled = v || messagesRemaining <= 0;
+    chatInput.disabled = v;
+    if (!v) chatInput.focus();
+  } else {
+    // Quiz: disable/enable action bar buttons + inline chapter grid buttons
+    quizActionBar.querySelectorAll(".quiz-action-btn").forEach(btn => btn.disabled = v);
+    messagesEl.querySelectorAll(".quiz-chapter-btn").forEach(btn => btn.disabled = v);
+  }
+}
+
+// ── API streaming (tutor mode) ───────────────────
+async function realStream(userText, typingEl) {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "chat",
+      session_token: sessionToken,
+      mode: mode,
+      language: "auto",
+      message: userText,
+      conversation_history: conversationHistory.slice(-MAX_HISTORY_MESSAGES)
+    })
+  });
+
+  if (res.status === 401) {
+    sessionToken = null;
+    chatBody.classList.add("hidden");
+    loginScreen.classList.remove("hidden");
+    if (creditBar) creditBar.style.display = "";
+    loginError.textContent = S.session_expired;
+    typingEl.remove();
+    return;
+  }
+  if (res.status === 429) {
+    const data = await res.json().catch(() => ({}));
+    if (data.messages_remaining === 0) {
+      messagesRemaining = 0;
+      updateUsageDisplay();
+      throw new Error(S.rate_limit_long);
+    }
+    throw new Error(S.rate_limit);
+  }
+  if (res.status === 503) {
+    await res.json().catch(() => ({}));
+    budgetStatus = "exhausted";
+    updateUsageDisplay();
+    throw new Error(S.server_unavailable);
+  }
+  if (res.status === 502 || res.status === 504) {
+    throw new Error(S.connection_expired);
+  }
+  if (res.status === 500) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || S.generic_error);
+  }
+  if (!res.ok) throw new Error(S.generic_error);
+
+  // Handle JSON 200 responses (e.g. session-limit, quiz_only degradation) that aren't SSE
+  const contentType = res.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    typingEl.remove();
+    const data = await res.json();
+    if (data.messages_remaining !== undefined) {
+      messagesRemaining = data.messages_remaining;
+    }
+    if (data.budget_status) budgetStatus = data.budget_status;
+    updateUsageDisplay();
+    // Use appendMessage (no feedback buttons) — these are system messages, not LLM responses
+    appendMessage("assistant", data.text || data.chat_response || "");
+    isStreaming = false;
+    return;
+  }
+
+  typingEl.remove();
+  const { bubbleEl, citationsEl } = createAssistantBubble();
+  const msgEl = bubbleEl.closest(".msg");
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let accumulated = "";
+  let buffer = "";
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+
+      for (const line of lines) {
+        if (!line.startsWith("data: ")) continue;
+        const jsonStr = line.slice(6).trim();
+        if (!jsonStr) continue;
+
+        try {
+          const evt = JSON.parse(jsonStr);
+          if (evt.type === "chunk") {
+            accumulated += evt.text;
+            bubbleEl.innerHTML = renderMarkdown(accumulated);
+            scrollToBottom();
+          } else if (evt.type === "error") {
+            if (accumulated.trim()) {
+              console.warn("[TA] Stream error after response received \u2014 keeping partial answer:", evt.message);
+              renderMath(bubbleEl);
+              conversationHistory.push({ role: "assistant", content: accumulated });
+              return;
+            }
+            if (msgEl) msgEl.remove();
+            throw new Error(evt.message || S.generic_error);
+          } else if (evt.type === "done") {
+            renderMath(bubbleEl);
+            if (evt.citations && evt.citations.length) {
+              const titles = evt.citations.map(c => {
+                let label = c.title || c.source;
+                if (c.page_range) label += ` (${c.page_range})`;
+                return label;
+              });
+              citationsEl.textContent = S.sources_label + titles.join(", ");
+            }
+            if (evt.interaction_id) {
+              lastInteractionId = evt.interaction_id;
+              if (msgEl) msgEl.dataset.interactionId = evt.interaction_id;
+            }
+            if (evt.messages_remaining != null) messagesRemaining = evt.messages_remaining;
+            if (evt.budget_status) budgetStatus = evt.budget_status;
+            updateUsageDisplay();
+          }
+        } catch (parseErr) {
+          if (parseErr instanceof SyntaxError) continue;
+          throw parseErr;
+        }
+      }
+    }
+  } catch (streamErr) {
+    if (accumulated.trim() && mode === "tutor") {
+      console.warn("[TA] Stream error after partial response \u2014 keeping answer:", streamErr.message);
+      renderMath(bubbleEl);
+      conversationHistory.push({ role: "assistant", content: accumulated });
+      return;
+    }
+    if (msgEl && msgEl.parentNode) msgEl.remove();
+    throw streamErr;
+  }
+
+  // Guard: skip history push if mode changed during stream (orphaned response)
+  if (accumulated.trim() && mode === "tutor") {
+    conversationHistory.push({ role: "assistant", content: accumulated });
+  }
+}
+
+// ============================================================
+// QUIZ MODE — State Machine UI
+// ============================================================
+
+// ── Send quiz action (replaces sendMessage for quiz) ──
+// displayText: optional label shown in user bubble (defaults to capitalized keyword)
+async function sendQuizAction(keyword, displayText) {
+  if (isStreaming) return;
+
+  // Show user's choice as a bubble (except initial "menu" request)
+  if (keyword !== "menu") {
+    const label = displayText || keyword.charAt(0).toUpperCase() + keyword.slice(1);
+    appendMessage("user", label);
+  }
+
+  setStreaming(true);
+
+  showExerciseSpinner('messages');
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "chat",
+        session_token: sessionToken,
+        mode: "quiz",
+        message: keyword,
+        quiz_state: quizState || { ...DEFAULT_QUIZ_STATE }
+      })
+    });
+
+    clearExerciseSpinner();
+
+    // Handle auth expiry
+    if (res.status === 401) {
+      sessionToken = null;
+      chatBody.classList.add("hidden");
+      loginScreen.classList.remove("hidden");
+      if (creditBar) creditBar.style.display = "";
+      loginError.textContent = S.session_expired;
+      return;
+    }
+
+    // Handle rate limit (200 with chat_response for session limit, or 429 for rate limit)
+    if (res.status === 429) {
+      const data = await res.json().catch(() => ({}));
+      if (data.messages_remaining === 0) {
+        messagesRemaining = 0;
+        updateUsageDisplay();
+      }
+      appendMessage("assistant", S.rate_limit);
+      renderQuizButtons(quizState ? quizState.phase : "menu");
+      return;
+    }
+
+    if (res.status === 503) {
+      await res.json().catch(() => ({}));
+      budgetStatus = "exhausted";
+      updateUsageDisplay();
+      appendMessage("assistant", S.server_unavailable);
+      renderQuizButtons(quizState ? quizState.phase : "menu");
+      return;
+    }
+
+    if (res.status === 502 || res.status === 504) {
+      appendMessage("assistant", S.connection_expired);
+      renderQuizButtons(quizState ? quizState.phase : "menu");
+      return;
+    }
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      appendMessage("assistant", errData.error || S.generic_error);
+      renderQuizButtons(quizState ? quizState.phase : "menu");
+      return;
+    }
+
+    const data = await res.json();
+
+    // If student switched modes while request was in-flight, discard stale response
+    if (mode !== "quiz") return;
+
+    // Trust backend's quiz_state — server is authoritative
+    if (data.quiz_state) {
+      quizState = data.quiz_state;
+    }
+
+    // Update usage tracking
+    if (data.messages_remaining != null) messagesRemaining = data.messages_remaining;
+    if (data.budget_status) budgetStatus = data.budget_status;
+    updateUsageDisplay();
+
+    // Route to renderer
+    await renderQuizResponse(data);
+
+  } catch (e) {
+    clearExerciseSpinner();
+    const friendlyMsg = (e instanceof TypeError && e.message.includes("fetch"))
+      ? S.connection_expired
+      : (e.message || S.generic_error);
+    appendMessage("assistant", friendlyMsg);
+    renderQuizButtons(quizState ? quizState.phase : "menu");
+  } finally {
+    setStreaming(false);
+  }
+}
+
+// ── Route quiz response to renderer ──────────────
+async function renderQuizResponse(data) {
+  const type = data.type || "";
+  switch (type) {
+    case "quiz_menu":
+      renderQuizMenu(data);
+      break;
+    case "quiz_type_select":
+      renderQuizTypeSelect(data);
+      break;
+    case "quiz_exercise":
+    case "quiz_hint":
+    case "quiz_solution":
+    case "quiz_prompt":
+      await renderQuizContent(data);
+      break;
+    case "quiz_course_material":
+    case "quiz_explain":
+      await renderQuizApiResponse(data);
+      break;
+    case "quiz_error":
+    case "quiz_course_material_error":
+    case "quiz_explain_error":
+      await renderQuizContent(data);
+      break;
+    case "chat_response":
+      // Session limit (200) or empty message (200) — backend returns type: "chat_response" with text field
+      appendMessage("assistant", data.text || "");
+      renderQuizButtons(quizState ? quizState.phase : "menu");
+      break;
+    default:
+      if (data.text) {
+        await renderQuizContent(data);
+      } else {
+        appendMessage("assistant", S.unexpected_response);
+        renderQuizButtons(quizState ? quizState.phase : "menu");
+      }
+  }
+}
+
+// ── Render chapter menu (grid inside message) ────
+function renderQuizMenu(data) {
+  const msg = document.createElement("div");
+  msg.className = "msg assistant";
+
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble";
+
+  const lang = (quizState && quizState.language) || "fr";
+  const L = QUIZ_LABELS[lang] || QUIZ_LABELS.fr;
+  bubble.innerHTML = `<p><strong>${L.choose_chapter_intro}</strong></p>`;
+
+  // Chapter grid
+  const grid = document.createElement("div");
+  grid.className = "quiz-chapter-grid";
+
+  const exLabel = L.exercises;
+  if (data.options && data.options.length) {
+    data.options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-chapter-btn";
+      btn.innerHTML = `${escapeHtml(opt.label)}<span class="chapter-count">${escapeHtml(opt.count)} ${exLabel}</span>`;
+      btn.addEventListener("click", () => {
+        if (isStreaming) return;
+        sendQuizAction(opt.label, opt.label);
+      });
+      grid.appendChild(btn);
+    });
+  }
+
+  bubble.appendChild(grid);
+  msg.appendChild(bubble);
+  messagesEl.appendChild(msg);
+  scrollToBottom();
+
+  // Clear action bar — chapter grid is inline, no bottom buttons needed for successful menu
+  quizActionBar.innerHTML = "";
+  // (renderQuizButtons("menu") renders a recovery button; renderQuizMenu skips that since grid is present)
+}
+
+// ── Render type select (grid inside message) ─────
+function renderQuizTypeSelect(data) {
+  const msg = document.createElement("div");
+  msg.className = "msg assistant";
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble";
+  const lang = (quizState && quizState.language) || "fr";
+  const L = QUIZ_LABELS[lang] || QUIZ_LABELS.fr;
+  bubble.innerHTML = `<p><strong>${L.choose_type_intro}</strong></p>`;
+
+  const grid = document.createElement("div");
+  grid.className = "quiz-chapter-grid";
+
+  const exLabel = L.exercises;
+  if (data.options && data.options.length) {
+    data.options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-chapter-btn";
+      btn.innerHTML = `${escapeHtml(opt.label)}<span class="chapter-count">${escapeHtml(opt.count)} ${exLabel}</span>`;
+      btn.addEventListener("click", () => {
+        if (isStreaming) return;
+        sendQuizAction(opt.code === null ? "all" : opt.code, opt.label);
+      });
+      grid.appendChild(btn);
+    });
+  }
+
+  bubble.appendChild(grid);
+  msg.appendChild(bubble);
+  messagesEl.appendChild(msg);
+  scrollToBottom();
+  quizActionBar.innerHTML = "";
+  // Render back-to-chapters button in action bar
+  renderQuizButtons("type_select");
+}
+
+// ── Render quiz content (exercise/hint/solution/prompt/error) ──
+async function renderQuizContent(data) {
+  const text = stripTrailingInstructions(data.text || "");
+
+  const msg = document.createElement("div");
+  msg.className = "msg assistant";
+
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble";
+  msg.appendChild(bubble);
+
+  messagesEl.appendChild(msg);
+
+  // Progressive reveal for content types
+  const type = data.type || "";
+  if (type === "quiz_exercise" || type === "quiz_hint" || type === "quiz_solution") {
+    await typewriterRender(bubble, text);
+  } else {
+    bubble.innerHTML = renderMarkdown(text);
+    renderMath(bubble);
+  }
+  scrollToBottom();
+
+  // Skip post-render work if bubble was detached (mode switch / new chat)
+  if (!msg.isConnected) return;
+
+  // Add feedback UI for exercise/hint/solution content
+  if (type === "quiz_exercise" || type === "quiz_hint" || type === "quiz_solution") {
+    const interactionId = data.interaction_id;
+    const exerciseId = quizState ? quizState.exercise_id : null;
+    if (interactionId) {
+      createQuizFeedback(msg, interactionId, exerciseId, type);
+    }
+  }
+
+  // Render phase-appropriate buttons in bottom bar
+  const phase = (quizState && quizState.phase) || "menu";
+  renderQuizButtons(phase);
+}
+
+// ── Render quiz API response (course_material/explain) with feedback ──
+async function renderQuizApiResponse(data) {
+  const text = stripTrailingInstructions(data.text || "");
+
+  const msg = document.createElement("div");
+  msg.className = "msg assistant";
+
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble";
+  msg.appendChild(bubble);
+
+  messagesEl.appendChild(msg);
+
+  // Progressive reveal
+  await typewriterRender(bubble, text);
+
+  // Skip post-render work if bubble was detached (mode switch / new chat)
+  if (!msg.isConnected) return;
+
+  // Add feedback UI (thumbs + exercise flag tags) for API responses
+  const interactionId = data.interaction_id;
+  const exerciseId = quizState ? quizState.exercise_id : null;
+  if (interactionId) {
+    createQuizFeedback(msg, interactionId, exerciseId);
+  }
+
+  scrollToBottom();
+
+  // Render phase-appropriate buttons
+  const phase = (quizState && quizState.phase) || "menu";
+  renderQuizButtons(phase);
+}
+
+// ── Strip trailing instruction text from backend ──
+// Backend appends "Vous pouvez demander un **indice**..." etc.
+// Buttons replace this, so strip it.
+function stripTrailingInstructions(text) {
+  // Remove trailing lines that start with navigation instructions
+  // These patterns match the backend's appended instruction text
+  return text.replace(/\n\n(?:Vous pouvez|You can|Plus d'indices|No more hints|C'[eé]tait le dernier|That was the last)[^\n]*$/s, "").trim();
+}
+
+// ── Render quiz action buttons in bottom bar ─────
+function renderQuizButtons(phase) {
+  quizActionBar.innerHTML = "";
+  const lang = (quizState && quizState.language) || "fr";
+  const L = QUIZ_LABELS[lang] || QUIZ_LABELS.fr;
+
+  // Keywords sent to backend (must match state machine keyword patterns)
+  // French keywords always work (backend detects both FR + EN patterns)
+  const KEYWORDS = {
+    hint: "indice",
+    solution: "solution",
+    explain: "expliquer",
+    course: "cours",
+    type: "changer",
+    next: "suivant",
+    menu: "menu",
+    chapters: "chapitre"
+  };
+
+  let buttons = [];
+
+  switch (phase) {
+    case "menu":
+      // Normally chapter grid is inline — but after quiz_error recovery, provide a way back
+      buttons = [
+        { label: L.choose_chapter, keyword: KEYWORDS.menu, primary: true }
+      ];
+      break;
+
+    case "type_select":
+      buttons = [
+        { label: L.back_to_chapters, keyword: KEYWORDS.chapters, primary: false }
+      ];
+      break;
+
+    case "exercise":
+      buttons = [
+        { label: L.hint, keyword: KEYWORDS.hint, primary: true },
+        { label: L.solution, keyword: KEYWORDS.solution },
+        { label: L.course, keyword: KEYWORDS.course },
+        { label: L.type_btn, keyword: KEYWORDS.type }
+      ];
+      break;
+
+    case "hint":
+      buttons = [
+        { label: L.more_hint, keyword: KEYWORDS.hint, primary: true },
+        { label: L.solution, keyword: KEYWORDS.solution },
+        { label: L.explain, keyword: KEYWORDS.explain },
+        { label: L.course, keyword: KEYWORDS.course },
+        { label: L.type_btn, keyword: KEYWORDS.type }
+      ];
+      break;
+
+    case "solution":
+      buttons = [
+        { label: L.next, keyword: KEYWORDS.next, primary: true },
+        { label: L.explain, keyword: KEYWORDS.explain },
+        { label: L.course, keyword: KEYWORDS.course },
+        { label: L.type_btn, keyword: KEYWORDS.type }
+      ];
+      break;
+
+    default:
+      // Unknown phase — offer type select as fallback
+      buttons = [
+        { label: L.type_btn, keyword: KEYWORDS.type, primary: true }
+      ];
+  }
+
+  buttons.forEach(b => {
+    const btn = document.createElement("button");
+    btn.className = "quiz-action-btn" + (b.primary ? " primary" : "");
+    btn.textContent = b.label;
+    btn.addEventListener("click", () => {
+      if (isStreaming) return;
+      sendQuizAction(b.keyword, b.label);
+    });
+    quizActionBar.appendChild(btn);
+  });
+}
+
+// ── Quiz feedback with exercise flagging ─────────
+function createQuizFeedback(msgEl, interactionId, exerciseId, contentType) {
+  const lang = (quizState && quizState.language) || "fr";
+
+  // Thumbs up / down
+  const feedback = document.createElement("div");
+  feedback.className = "msg-feedback";
+  feedback.innerHTML = `
+    <button class="fb-up" title="${S.helpful}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+    </button>
+    <button class="fb-down" title="${S.not_helpful}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+    </button>`;
+  msgEl.appendChild(feedback);
+
+  // Exercise flag tags panel (shown on thumbs-down)
+  const flagTags = QUIZ_FLAG_TAGS[lang] || QUIZ_FLAG_TAGS.fr;
+  const tags = document.createElement("div");
+  tags.className = "msg-feedback-tags";
+  tags.innerHTML = flagTags.map(t => `<button data-tag="${t.key}">${t.label}</button>`).join("");
+  msgEl.appendChild(tags);
+
+  // Wire up handlers
+  const upBtn = feedback.querySelector(".fb-up");
+  const downBtn = feedback.querySelector(".fb-down");
+
+  upBtn.addEventListener("click", () => {
+    if (upBtn.disabled) return;
+    upBtn.classList.add("selected-up"); upBtn.disabled = true; downBtn.disabled = true;
+    sendQuizFeedback(interactionId, "up", [], exerciseId, contentType);
+    tags.classList.remove("visible");
+    showThanks(msgEl);
+  });
+
+  downBtn.addEventListener("click", () => {
+    if (downBtn.disabled) return;
+    downBtn.classList.add("selected-down"); downBtn.disabled = true; upBtn.disabled = true;
+    tags.classList.add("visible");
+    let tagsSent = false;
+    const selectedTags = new Set();
+    let autoTimer = setTimeout(() => {
+      if (!tagsSent) { tagsSent = true; sendQuizFeedback(interactionId, "down", [...selectedTags], exerciseId, contentType); showThanks(msgEl); }
+    }, 8000);
+    tags.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tag = btn.dataset.tag;
+        if (selectedTags.has(tag)) { selectedTags.delete(tag); btn.classList.remove("selected"); }
+        else { selectedTags.add(tag); btn.classList.add("selected"); }
+        clearTimeout(autoTimer);
+        autoTimer = setTimeout(() => {
+          if (!tagsSent) { tagsSent = true; sendQuizFeedback(interactionId, "down", [...selectedTags], exerciseId, contentType); showThanks(msgEl); }
+        }, 3000);
+      });
+    });
+  });
+}
+
+// Fire-and-forget quiz feedback
+async function sendQuizFeedback(interactionId, thumbs, tags, exerciseId, contentType) {
+  if (!sessionToken || !interactionId) return;
+  try {
+    fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "feedback",
+        session_token: sessionToken,
+        interaction_id: interactionId,
+        thumbs: thumbs,
+        tags: tags,
+        exercise_id: exerciseId || undefined,
+        content_type: contentType || undefined,
+        mode: "quiz"
+      })
+    }).catch(() => {});
+  } catch (_) {}
+}
+
+// ============================================================
+// SHARED — DOM helpers, markdown, math, usage
+// ============================================================
+
+function escapeHtml(str) {
+  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// ── UI utilities: spinner & error banner ─────────
+function showExerciseSpinner(containerId) {
+  const container = document.getElementById(containerId || 'messages');
+  if (!container) return;
+  const spinner = document.createElement('div');
+  spinner.className = 'exercise-spinner';
+  spinner.id = 'exercise-spinner';
+  const ring = document.createElement('span');
+  ring.className = 'exercise-spinner-ring';
+  const label = document.createElement('span');
+  label.textContent = 'Loading exercise\u2026';
+  spinner.appendChild(ring);
+  spinner.appendChild(label);
+  container.appendChild(spinner);
+}
+
+function clearExerciseSpinner() {
+  const s = document.getElementById('exercise-spinner');
+  if (s) s.remove();
+}
+
+function showError(message, containerId) {
+  const container = document.getElementById(containerId || 'messages');
+  if (!container) return;
+  container.querySelectorAll('.error-banner').forEach(el => el.remove());
+  const banner = document.createElement('div');
+  banner.className = 'error-banner';
+  const text = document.createElement('span');
+  text.textContent = message;
+  const btn = document.createElement('button');
+  btn.className = 'error-banner-dismiss';
+  btn.textContent = '\u2715';
+  btn.setAttribute('aria-label', 'Dismiss error');
+  btn.addEventListener('click', () => banner.remove());
+  banner.appendChild(text);
+  banner.appendChild(btn);
+  container.appendChild(banner);
+  container.scrollTop = container.scrollHeight;
+}
+
+// ============================================================
+// ============================================================
+
+function appendMessage(role, text) {
+  const msg = document.createElement("div");
+  msg.className = "msg " + role;
+
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble";
+  bubble.innerHTML = renderMarkdown(text);
+  msg.appendChild(bubble);
+  messagesEl.appendChild(msg);
+
+  renderMath(bubble);
+  scrollToBottom();
+}
+
+function createAssistantBubble() {
+  const msg = document.createElement("div");
+  msg.className = "msg assistant";
+
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble";
+  msg.appendChild(bubble);
+
+  const cit = document.createElement("div");
+  cit.className = "msg-citations";
+  msg.appendChild(cit);
+
+  // Feedback buttons (tutor mode — standard tags)
+  const feedback = document.createElement("div");
+  feedback.className = "msg-feedback";
+  feedback.innerHTML = `
+    <button class="fb-up" title="${S.helpful}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+    </button>
+    <button class="fb-down" title="${S.not_helpful}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+    </button>`;
+  msg.appendChild(feedback);
+
+  // Tags panel (shown on thumbs-down)
+  const tags = document.createElement("div");
+  tags.className = "msg-feedback-tags";
+  const lang = (quizState && quizState.language) || "fr";
+  const tutorTags = QUIZ_FLAG_TAGS[lang] || QUIZ_FLAG_TAGS.fr;
+  tags.innerHTML = tutorTags.map(t => `<button data-tag="${t.key}">${t.label}</button>`).join("");
+  msg.appendChild(tags);
+
+  messagesEl.appendChild(msg);
+  scrollToBottom();
+
+  // Wire up feedback handlers (tutor mode)
+  // Read interaction_id from this bubble's data attribute (set by done event),
+  // falling back to global lastInteractionId. Per-bubble binding prevents
+  // feedback from being attributed to a newer interaction.
+  const capturedId = () => msg.dataset.interactionId || lastInteractionId;
+  const upBtn = feedback.querySelector(".fb-up");
+  const downBtn = feedback.querySelector(".fb-down");
+
+  upBtn.addEventListener("click", () => {
+    if (upBtn.disabled) return;
+    upBtn.classList.add("selected-up"); upBtn.disabled = true; downBtn.disabled = true;
+    sendFeedback(capturedId(), "up", []);
+    tags.classList.remove("visible");
+    showThanks(msg);
+  });
+
+  downBtn.addEventListener("click", () => {
+    if (downBtn.disabled) return;
+    downBtn.classList.add("selected-down"); downBtn.disabled = true; upBtn.disabled = true;
+    tags.classList.add("visible");
+    let tagsSent = false;
+    const selectedTags = new Set();
+    let autoTimer = setTimeout(() => {
+      if (!tagsSent) { tagsSent = true; sendFeedback(capturedId(), "down", [...selectedTags]); showThanks(msg); }
+    }, 8000);
+    tags.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tag = btn.dataset.tag;
+        if (selectedTags.has(tag)) { selectedTags.delete(tag); btn.classList.remove("selected"); }
+        else { selectedTags.add(tag); btn.classList.add("selected"); }
+        clearTimeout(autoTimer);
+        autoTimer = setTimeout(() => {
+          if (!tagsSent) { tagsSent = true; sendFeedback(capturedId(), "down", [...selectedTags]); showThanks(msg); }
+        }, 3000);
+      });
+    });
+  });
+
+  return { bubbleEl: bubble, citationsEl: cit };
+}
+
+function showThanks(msgEl) {
+  const tags = msgEl.querySelector(".msg-feedback-tags");
+  const fb = msgEl.querySelector(".msg-feedback");
+  if (tags) tags.remove();
+  if (fb) fb.remove();
+  const thanks = document.createElement("div");
+  thanks.className = "msg-feedback-thanks";
+  thanks.textContent = S.feedback_thanks;
+  msgEl.appendChild(thanks);
+}
+
+async function sendFeedback(interactionId, thumbs, tags) {
+  if (!sessionToken || !interactionId) return;
+  try {
+    fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "feedback",
+        session_token: sessionToken,
+        interaction_id: interactionId,
+        thumbs: thumbs,
+        tags: tags,
+        mode: "tutor",
+      })
+    }).catch(() => {});
+  } catch (_) {}
+}
+
+function scrollToBottom() {
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+// ── Minimal Markdown renderer ────────────────────
+function renderMarkdown(text) {
+  let html = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  // Protect LaTeX delimiters (handle escaped \$ inside blocks)
+  const latexBlocks = [];
+  html = html.replace(/\$\$(?:[^$\\]|\\.|\n|\$(?!\$))*?\$\$/g, m => {
+    latexBlocks.push(m);
+    return `%%LATEX_BLOCK_${latexBlocks.length - 1}%%`;
+  });
+  html = html.replace(/\$(?:[^$\\\n]|\\.)+?\$/g, m => {
+    latexBlocks.push(m);
+    return `%%LATEX_BLOCK_${latexBlocks.length - 1}%%`;
+  });
+  // Convert remaining \$ (outside LaTeX blocks) to literal $
+  html = html.replace(/\\\$/g, "$");
+
+  // Bold
+  html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  // Italic
+  html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+  // Unordered lists
+  html = html.replace(/^- (.+)$/gm, "<li>$1</li>");
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, "<ul>$&</ul>");
+  // Ordered lists (runs after <ul> wrapping, so only bare <li> from numbered items remain)
+  html = html.replace(/^\d+\.\s+(.+)$/gm, "<li>$1</li>");
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, m => {
+    // Only wrap if not already inside <ul>
+    return m.includes("<ul>") ? m : "<ol>" + m + "</ol>";
+  });
+  // Parse pipe-delimited markdown tables into styled HTML tables
+  html = html.replace(
+    /^\|(.+)\|\s*\n\|[-| :]+\|\s*\n((?:\|.+\|\s*\n?)*)/gm,
+    (_, header, rows) => {
+      const splitCells = (s) => s.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|');
+      const ths = splitCells(header).map(c => {
+        const th = document.createElement('th');
+        th.textContent = c.trim();
+        return th.outerHTML;
+      }).join('');
+      const trs = rows.trim().split('\n').map(row => {
+        const tds = splitCells(row).map(c => {
+          const td = document.createElement('td');
+          td.textContent = c.trim();
+          return td.outerHTML;
+        }).join('');
+        return '<tr>' + tds + '</tr>';
+      }).join('');
+      return '<table class="md-table"><thead><tr>' + ths + '</tr></thead><tbody>' + trs + '</tbody></table>';
+    }
+  );
+  // Paragraphs
+  html = html.replace(/\n{2,}/g, "</p><p>");
+  html = "<p>" + html + "</p>";
+  html = html.replace(/<p>\s*<\/p>/g, "");
+  // Line breaks
+  html = html.replace(/\n/g, "<br>");
+  // Clean up list wrapping
+  html = html.replace(/<p>(<ul>)/g, "$1");
+  html = html.replace(/(<\/ul>)<\/p>/g, "$1");
+  html = html.replace(/<p>(<ol>)/g, "$1");
+  html = html.replace(/(<\/ol>)<\/p>/g, "$1");
+  html = html.replace(/<p>(<table[^>]*>)/g, "$1");
+  html = html.replace(/(<\/table>)<\/p>/g, "$1");
+
+  // Restore LaTeX (function replacer avoids $$ special-pattern interpretation)
+  latexBlocks.forEach((block, i) => {
+    html = html.replace(`%%LATEX_BLOCK_${i}%%`, () => block);
+  });
+
+  return html;
+}
+
+function renderMath(el) {
+  if (typeof renderMathInElement === "function") {
+    renderMathInElement(el, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ],
+      throwOnError: false
+    });
+  }
+}
+
+// ── Progressive text reveal (typewriter) ─────────
+async function typewriterRender(bubble, fullText) {
+  const tokens = fullText.split(/(\s+)/);  // Keep whitespace tokens
+  let accumulated = "";
+  const BATCH = 5;   // tokens per frame (~2-3 visible words)
+  const DELAY = 18;  // ms between batches
+
+  for (let i = 0; i < tokens.length; i++) {
+    accumulated += tokens[i];
+    if (i % BATCH === BATCH - 1 || i === tokens.length - 1) {
+      // Stop if bubble was removed from DOM (mode switch / new chat)
+      if (!bubble.isConnected) return;
+      bubble.innerHTML = renderMarkdown(accumulated);
+      scrollToBottom();
+      if (i < tokens.length - 1) {
+        await new Promise(r => setTimeout(r, DELAY));
+      }
+    }
+  }
+  if (bubble.isConnected) renderMath(bubble);
+}
+
+// ── Usage display (vague nudges, not precise counts) ──
+function updateUsageDisplay() {
+  if (!usageDisplay) return;
+
+  let text = "";
+  let cls = "chat-header-usage";
+
+  if (budgetStatus === "exhausted") {
+    text = S.budget_exhausted;
+    cls += " critical";
+  } else if (budgetStatus === "quiz_only") {
+    text = S.budget_quiz_only;
+    cls += " critical";
+  } else if (budgetStatus === "reduced") {
+    text = S.budget_reduced;
+    cls += " warning";
+  } else if (messagesRemaining <= 3) {
+    text = S.budget_low;
+    cls += " critical";
+  } else if (messagesRemaining <= 10) {
+    text = S.budget_warning;
+    cls += " warning";
+  }
+
+  usageDisplay.textContent = text;
+  usageDisplay.className = cls;
+}
+</script>
+</body>
+</html>

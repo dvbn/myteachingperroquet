@@ -1,0 +1,75 @@
+{
+  "course": {
+    "course_id": "example_course_2026",
+    "course_name_fr": "",
+    "course_name_en": "",
+    "institution": "",
+    "domain": "",
+    "languages": ["fr"]
+  },
+  "llm": {
+    "generation": {
+      "provider": "claude",
+      "model": "claude-opus-4-7"
+    },
+    "verifiers": [
+      {
+        "provider": "codex",
+        "model": "gpt-5.4"
+      }
+    ]
+  },
+  "sessions": [
+    {
+      "id": "S1",
+      "dir": "S1_Introduction",
+      "title_fr": "Introduction",
+      "title_en": "Introduction",
+      "topics": [],
+      "scope_terms": {
+        "fr": [],
+        "en": []
+      },
+      "prerequisites": [],
+      "exercise_count": 0,
+      "type_distribution": {},
+      "inbox_files": ["inbox/Slides/S1_Introduction/lecture_S1_topics_merged.md"],
+      "example_files": ["inbox/ExamExamples/S1/*.md"]
+    }
+  ],
+  "source_routes": [
+    {
+      "source": "resources/slides/session1.tex",
+      "target_session": "S1",
+      "source_type": "lecture_slides",
+      "source_role": "raw_topic_source",
+      "source_quality": "canonical",
+      "destination": ["moreexercices", "ta_llm"],
+      "authoring_only": false,
+      "slice_heading_prefixes": [],
+      "topic_label": "Introduction",
+      "merge_group": "S1"
+    }
+  ],
+  "policies": {
+    "quarantine_patterns": ["transcripts/**", "**/*correction*", "**/*solution*", "**/*.xls", "**/*.xlsx", "**/*.xlsm"],
+    "assessment_material_destination": "moreexercices_only",
+    "lecture_merge_default": "unified_topic_corpus",
+    "unified_corpus_default": true,
+    "merge_by_topic": true,
+    "unified_voice": true,
+    "emit_raw_source_split_to_ta": false,
+    "emit_synthetic_ta_exercises": false,
+    "require_human_approval": true,
+    "allow_generated_question_seeds": false,
+    "record_downstream_change_requests": true,
+    "modify_downstream_repos_in_phase1": false
+  },
+  "outputs": {
+    "root": "phase1-output",
+    "human_verification": "phase1-output/human-verification",
+    "moreexercices_input": "phase1-output/moreexercices-input",
+    "ta_llm_input": "phase1-output/ta-llm-input",
+    "downstream_change_requests": "phase1-output/DOWNSTREAM_CHANGE_REQUESTS.md"
+  }
+}

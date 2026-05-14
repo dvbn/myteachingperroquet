@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+.env
+.DS_Store
+
+# Pipeline outputs at the project root are user-generated runs;
+# bundled examples under examples/*/output/ are committed.
+/output/
+
+# Instructor-provided material copied into the inbox is private by default.
+/inbox/Slides/*
+/inbox/Exercises/*
+/inbox/Syllabus/*
+!/inbox/Slides/.gitkeep
+!/inbox/Exercises/.gitkeep
+!/inbox/Syllabus/.gitkeep

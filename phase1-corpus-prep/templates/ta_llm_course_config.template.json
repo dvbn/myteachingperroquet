@@ -1,0 +1,14 @@
+{
+  "course_topics": ["S1: Introduction", "S2: Topic from approved session map"],
+  "question_type_labels": {},
+  "hidden_question_types": [],
+  "features": {
+    "auth_required": true,
+    "quiz_mode_enabled": false
+  },
+  "prompt_profile": "course_ta",
+  "assistant_persona": "",
+  "terminology_fr": "",
+  "abbreviations": {},
+  "academic_signals": []
+}

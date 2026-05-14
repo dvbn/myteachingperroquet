@@ -1,0 +1,257 @@
+{
+  "course_id": "econometrics_example_2026",
+  "course_name_en": "Introduction to Econometrics",
+  "course_name_fr": "Introduction à l'économétrie",
+  "institution": "Example University",
+  "domain": "econometrics",
+  "languages": ["en", "fr"],
+
+  "batch_size": 10,
+  "generation_loops": 1,
+
+  "llm": {
+    "generation": {
+      "provider": "claude",
+      "model": "claude-opus-4-7",
+      "api_key_env": null,
+      "extra_args": []
+    },
+    "verifiers": [
+      {
+        "provider": "claude",
+        "model": "claude-opus-4-7",
+        "api_key_env": null,
+        "extra_args": []
+      }
+    ]
+  },
+
+  "sessions": [
+    {
+      "id": "S1",
+      "dir": "S1_Introduction_SLR",
+      "title_en": "Introduction & Simple Linear Regression",
+      "title_fr": "Introduction et régression linéaire simple",
+      "topics": ["data_types", "cross_section", "time_series", "panel_data", "SLR_model", "OLS_intuition", "beta_interpretation", "error_term", "correlation_vs_causation"],
+      "scope_terms": {
+        "en": ["OLS", "ordinary least squares", "simple linear regression", "SLR", "covariance", "correlation", "R-squared", "R²", "SST", "SSE", "SSR", "total sum of squares", "explained sum of squares", "residual sum of squares", "SLR.1", "SLR.2", "SLR.3", "SLR.4"],
+        "fr": ["MCO", "moindres carrés ordinaires", "régression linéaire simple", "RLS", "covariance", "corrélation", "R-carré", "R²", "SST", "SSE", "SSR", "somme totale des carrés", "somme des carrés expliquée", "somme des carrés résiduelle", "SLR.1", "SLR.2", "SLR.3", "SLR.4"]
+      },
+      "prerequisites": [],
+      "exercise_count": 10,
+      "type_distribution": {"CONCEPT": 10}
+    },
+    {
+      "id": "S2",
+      "dir": "S2_SLR_Properties",
+      "title_en": "SLR: Assumptions, Properties & Prediction",
+      "title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+      "topics": ["SLR_assumptions", "Gauss_Markov", "BLUE", "unbiasedness", "R_squared", "prediction_errors", "residuals_vs_errors", "confounding"],
+      "scope_terms": {
+        "en": ["Gauss-Markov theorem", "BLUE", "R-squared", "R²", "SST", "SSE", "SSR", "total sum of squares", "explained sum of squares", "residual sum of squares", "SLR.1", "SLR.2", "SLR.3", "SLR.4", "omitted variable bias", "sample selection bias", "confidence interval", "p-value", "F-statistic", "perfect collinearity", "adjusted R-squared", "marginal effect"],
+        "fr": ["théorème de Gauss-Markov", "BLUE", "R-carré", "R²", "SST", "SSE", "SSR", "somme totale des carrés", "somme des carrés expliquée", "somme des carrés résiduelle", "SLR.1", "SLR.2", "SLR.3", "SLR.4", "biais de variables omises", "biais de sélection d'échantillon", "intervalle de confiance", "valeur-p", "statistique F", "colinéarité parfaite", "R² ajusté", "effet marginal"]
+      },
+      "prerequisites": ["S1_SLR_model", "S1_OLS_intuition"],
+      "exercise_count": 10,
+      "type_distribution": {"CONCEPT": 10}
+    },
+    {
+      "id": "S3",
+      "dir": "S3_Multiple_Regression",
+      "title_en": "Multiple Linear Regression",
+      "title_fr": "Modèle linéaire multivarié",
+      "topics": ["MLR_model", "OVB", "multicollinearity", "adjusted_R2", "controlling_for_variables", "partial_effect"],
+      "scope_terms": {
+        "en": ["Gauss-Markov theorem", "BLUE", "MLR", "multiple linear regression", "MLR.1", "MLR.2", "MLR.3", "MLR.4", "MLR.5", "partition regression", "perfect collinearity", "adjusted R-squared", "dummy variable", "marginal effect", "interaction term", "log-level"],
+        "fr": ["théorème de Gauss-Markov", "BLUE", "RLM", "régression linéaire multivariée", "MLR.1", "MLR.2", "MLR.3", "MLR.4", "MLR.5", "régression de partition", "colinéarité parfaite", "R² ajusté", "variable dichotomique", "effet marginal", "terme d'interaction", "log-niveau"]
+      },
+      "prerequisites": ["S1_SLR_model", "S2_SLR_assumptions"],
+      "exercise_count": 10,
+      "type_distribution": {"CONCEPT": 10}
+    },
+    {
+      "id": "S4",
+      "dir": "S4_Inference_MLR",
+      "title_en": "Inference in Multiple Regression",
+      "title_fr": "Inférence en régression multivariée",
+      "topics": ["t_test", "F_test", "confidence_intervals", "p_value", "significance_level", "restricted_model", "MLR_assumptions", "normality_assumption"],
+      "scope_terms": {
+        "en": ["t-test", "t-statistic", "F-test", "F-statistic", "Student t-distribution", "confidence interval", "p-value", "VIF", "variance inflation factor", "one-tailed test", "two-tailed test", "Type I error", "MLR.6", "restricted model", "unrestricted model", "robust standard errors"],
+        "fr": ["test t", "statistique t", "test F", "statistique F", "distribution de Student", "intervalle de confiance", "valeur-p", "FIV", "facteur d'inflation de la variance", "test unilatéral", "test bilatéral", "erreur de type I", "MLR.6", "modèle restreint", "modèle non restreint", "erreurs types robustes"]
+      },
+      "prerequisites": ["S3_MLR_model"],
+      "exercise_count": 0,
+      "type_distribution": {"CONCEPT": 0}
+    },
+    {
+      "id": "S5",
+      "dir": "S5_Functional_Forms",
+      "title_en": "Specifications & Functional Forms",
+      "title_fr": "Spécifications et formes fonctionnelles",
+      "topics": ["log_models", "log_level", "level_log", "log_log", "elasticity", "quadratic", "interaction_terms", "dummy_variables", "z_score", "adjusted_R2"],
+      "scope_terms": {
+        "en": ["log-level", "level-log", "log-log", "quadratic form", "linear probability model", "LPM", "adjusted R-squared", "Z-score", "interaction term", "dummy variable", "dichotomous variable", "polytomous variable", "marginal effect"],
+        "fr": ["forme log-niveau", "forme niveau-log", "forme log-log", "forme quadratique", "modèle de probabilité linéaire", "R² ajusté", "cote Z", "terme d'interaction", "variable dichotomique", "variable polytomique", "effet marginal"]
+      },
+      "prerequisites": ["S3_MLR_model", "S4_t_test"],
+      "exercise_count": 0,
+      "type_distribution": {"CONCEPT": 0}
+    },
+    {
+      "id": "S6",
+      "dir": "S6_Heteroskedasticity",
+      "title_en": "Heteroskedasticity",
+      "title_fr": "Hétéroscédasticité",
+      "topics": ["heteroskedasticity_definition", "consequences_on_OLS", "BP_test", "White_test", "robust_SE", "WLS", "GLS"],
+      "scope_terms": {
+        "en": ["Breusch-Pagan test", "BP test", "White test", "GLS", "generalized least squares", "FGLS", "feasible generalized least squares", "WLS", "weighted least squares", "White-robust standard errors", "Eiker-Huber-White", "robust standard errors"],
+        "fr": ["test de Breusch-Pagan", "test BP", "test de White", "MCG", "moindres carrés généralisés", "MCGF", "MCP", "moindres carrés pondérés", "erreurs types robustes", "Eiker-Huber-White", "variance robuste à l'hétéroscédasticité"]
+      },
+      "prerequisites": ["S4_t_test", "S4_F_test", "S5_log_models"],
+      "exercise_count": 0,
+      "type_distribution": {"CONCEPT": 0}
+    },
+    {
+      "id": "S7",
+      "dir": "S7_Autocorrelation",
+      "title_en": "Autocorrelation & Time Series",
+      "title_fr": "Autocorrélation et séries chronologiques",
+      "topics": ["autocorrelation_definition", "DW_test", "Cochrane_Orcutt", "FGLS", "distributed_lags", "spurious_regression", "trends"],
+      "scope_terms": {
+        "en": ["Durbin-Watson test", "DW test", "Cochrane-Orcutt", "Newey-West standard errors", "AR(1)", "FGLS", "feasible generalized least squares", "Phillips curve", "ARMA", "distributed lag model", "spurious regression", "first difference"],
+        "fr": ["test de Durbin-Watson", "test DW", "Cochrane-Orcutt", "erreurs standard de Newey-West", "AR(1)", "MCGF", "moindres carrés généralisés faisables", "courbe de Phillips", "ARMA", "modèle à retards échelonnés", "régression fallacieuse", "différence première"]
+      },
+      "prerequisites": ["S6_heteroskedasticity_definition"],
+      "exercise_count": 0,
+      "type_distribution": {"CONCEPT": 0}
+    },
+    {
+      "id": "S8",
+      "dir": "S8_Instrumental_Variables",
+      "title_en": "Instrumental Variables & 2SLS",
+      "title_fr": "Variables instrumentales et doubles moindres carrés",
+      "topics": ["endogeneity_sources", "simultaneity", "measurement_error", "attenuation_bias", "IV_conditions", "relevance", "exclusion_restriction", "2SLS"],
+      "scope_terms": {
+        "en": ["2SLS", "two-stage least squares", "instrumental variable", "IV", "Hausman test", "first-stage F-test", "exclusion restriction", "relevance condition", "attenuation bias", "simultaneity bias", "measurement error bias"],
+        "fr": ["DMC", "doubles moindres carrés", "variable instrumentale", "VI", "test de Hausman", "test F de première étape", "restriction d'exclusion", "condition de pertinence", "biais d'atténuation", "biais de simultanéité", "biais d'erreur de mesure"]
+      },
+      "prerequisites": ["S3_MLR_model", "S4_t_test", "S5_log_models", "S6_heteroskedasticity_definition"],
+      "exercise_count": 0,
+      "type_distribution": {"CONCEPT": 0}
+    },
+    {
+      "id": "S9",
+      "dir": "S9_Panel_Data_DiD",
+      "title_en": "Panel Data & Difference-in-Differences",
+      "title_fr": "Données de panel et différence de différences",
+      "topics": ["panel_structure", "fixed_effects", "time_fixed_effects", "DiD", "common_trend_assumption", "counterfactual", "treatment_effect", "repeated_cross_sections"],
+      "scope_terms": {
+        "en": ["fixed effects", "time fixed effects", "pooled OLS", "first difference", "difference-in-differences", "DiD", "random effects", "parallel trends assumption", "common trend assumption", "SUTVA", "repeated cross-sections"],
+        "fr": ["effets fixes", "effets fixes temporels", "MCO poolés", "différence première", "différence de différences", "DiD", "effets aléatoires", "hypothèse de tendances parallèles", "hypothèse de tendances communes", "SUTVA", "coupes transversales répétées"]
+      },
+      "prerequisites": ["S3_MLR_model", "S8_endogeneity_sources", "S7_autocorrelation_definition"],
+      "exercise_count": 0,
+      "type_distribution": {"CONCEPT": 0}
+    }
+  ],
+
+  "exercise_types": ["MATH", "CONCEPT", "INTERP", "CASE", "TF", "SOFTWARE"],
+  "difficulty_distribution": {"EASY": 0.30, "MED": 0.45, "HARD": 0.25},
+
+  "id_regex": "^S\\d+_(FR|EN)_(MATH|CONCEPT|INTERP|CASE|TF|SOFTWARE)_\\d{3}$",
+
+  "software_tool": "Stata",
+
+  "interpretation_template_en": "When [X] increases by [unit], [Y] tends to be [higher/lower] by [value], on average, all else equal.",
+  "interpretation_template_fr": "Lorsque [X] augmente de [unité], [Y] a tendance à être [plus élevé(e)/plus bas(se)] de [valeur], en moyenne, toutes choses égales par ailleurs.",
+
+  "glossary_terms": [
+    {"en": "OLS", "fr": "MCO", "note": "Always MCO in French"},
+    {"en": "Unbiased", "fr": "Sans biais", "note": "Never 'non biaisé'"},
+    {"en": "Standard error", "fr": "Erreur type", "note": "Never 'erreur standard'"},
+    {"en": "Robust standard errors", "fr": "Erreurs types robustes"},
+    {"en": "Dummy variable", "fr": "Variable dichotomique", "note": "Never 'variable muette'"},
+    {"en": "Z-score", "fr": "Cote Z", "note": "Never 'score Z'"},
+    {"en": "Dependent variable", "fr": "Variable dépendante"},
+    {"en": "Independent variable", "fr": "Variable explicative"},
+    {"en": "Residual", "fr": "Résidu"},
+    {"en": "Error term", "fr": "Terme d'erreur"},
+    {"en": "Intercept", "fr": "Ordonnée à l'origine"},
+    {"en": "Slope", "fr": "Pente"},
+    {"en": "Heteroskedasticity", "fr": "Hétéroscédasticité"},
+    {"en": "Homoskedasticity", "fr": "Homoscédasticité"},
+    {"en": "Autocorrelation", "fr": "Autocorrélation"},
+    {"en": "GLS", "fr": "MCG"},
+    {"en": "WLS", "fr": "MCP"},
+    {"en": "FGLS", "fr": "MCGF"},
+    {"en": "2SLS", "fr": "DMC", "note": "Never 'deux moindres carrés'"},
+    {"en": "Fixed effects", "fr": "Effets fixes"},
+    {"en": "Difference-in-differences", "fr": "Différence de différences"},
+    {"en": "Panel data", "fr": "Données de panel"},
+    {"en": "Cross-section data", "fr": "Coupe transversale"},
+    {"en": "Time series", "fr": "Série temporelle"},
+    {"en": "Endogeneity", "fr": "Endogénéité"},
+    {"en": "Exogenous", "fr": "Exogène"},
+    {"en": "Instrumental variable", "fr": "Variable instrumentale"},
+    {"en": "Gauss-Markov theorem", "fr": "Théorème de Gauss-Markov"},
+    {"en": "Multicollinearity", "fr": "Multicolinéarité"}
+  ],
+
+  "solution_constraints": {
+    "max_words": 300,
+    "hints_min": 2,
+    "hints_max": 3,
+    "hint_max_words": 150,
+    "common_mistakes_required_for": ["MATH", "INTERP"],
+    "required_solution_fields": ["text", "key_formula"]
+  },
+
+  "math_validation": {
+    "tolerance_relative": 0.02,
+    "tolerance_absolute": 0.05,
+    "checks": ["formula_eval"]
+  },
+
+  "pipeline": {
+    "max_fix_iterations": 3,
+    "rag_ingestion_enabled": false
+  },
+
+  "scaling": {
+    "claude_model": "opus",
+    "codex_model": "gpt-5.4",
+    "max_parallel_batches": 2,
+    "max_retries_per_batch": 2,
+    "subprocess_timeout_secs": 600,
+    "large_slide_max_chars": 200000
+  },
+
+  "foundational_terms": {
+    "en": [
+      {"term": "confidence interval", "introduced_in": "S2"},
+      {"term": "p-value", "introduced_in": "S2"},
+      {"term": "F-statistic", "introduced_in": "S2"},
+      {"term": "adjusted R-squared", "introduced_in": "S2"},
+      {"term": "marginal effect", "introduced_in": "S2"},
+      {"term": "perfect collinearity", "introduced_in": "S2"},
+      {"term": "robust standard errors", "introduced_in": "S4"},
+      {"term": "dummy variable", "introduced_in": "S3"}
+    ],
+    "fr": [
+      {"term": "intervalle de confiance", "introduced_in": "S2"},
+      {"term": "valeur-p", "introduced_in": "S2"},
+      {"term": "statistique F", "introduced_in": "S2"},
+      {"term": "R² ajusté", "introduced_in": "S2"},
+      {"term": "effet marginal", "introduced_in": "S2"},
+      {"term": "colinéarité parfaite", "introduced_in": "S2"},
+      {"term": "erreurs types robustes", "introduced_in": "S4"},
+      {"term": "variable dichotomique", "introduced_in": "S3"}
+    ]
+  },
+
+  "topic_aliases": {},
+
+  "content_boundary": {
+    "novel_term_triggers": ["test", "method", "theorem", "estimator", "model"]
+  }
+}

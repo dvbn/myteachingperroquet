@@ -1,0 +1,14 @@
+.env.local
+data/course_config.json
+data/tutor_vectors.json
+data/tutor_corpus.json
+data/exercise_index.json
+data/lecture_chunks.json
+data/exercise_tutor_chunks.json
+node_modules/
+.netlify/
+.superpowers/
+frontend/
+.DS_Store
+.claude/
+docs/superpowers/

@@ -1,0 +1,362 @@
+[
+  {
+    "id": "S2_FR_CONCEPT_001",
+    "twin_id": "S2_EN_CONCEPT_001",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.1",
+    "question_text": "Considérez le modèle de régression linéaire simple $y = \\beta_0 + \\beta_1 x + u$. Associez chaque hypothèse de Gauss-Markov (SLR.1 à SLR.4) à sa description correcte.\n\n(a) Le modèle de population est linéaire dans les paramètres $\\beta_0$ et $\\beta_1$.\n(b) L'échantillon $(x_i, y_i)$ pour $i = 1, \\ldots, n$ est tiré aléatoirement de la population.\n(c) Il y a de la variation d'échantillon dans la variable explicative $x$, c'est-à-dire que tous les $x_i$ ne prennent pas la même valeur.\n(d) Le terme d'erreur $u$ a une moyenne nulle conditionnellement à $x$, c'est-à-dire $E(u \\mid x) = 0$.\n\nQuelle étiquette (SLR.1, SLR.2, SLR.3, SLR.4) correspond à chaque énoncé ?",
+    "data_table": null,
+    "solution": {
+      "text": "Les quatre hypothèses classiques de la RLS s'associent comme suit :\n- (a) → SLR.1 (Linéarité dans les paramètres) : le modèle est linéaire en $\\beta_0$ et $\\beta_1$.\n- (b) → SLR.2 (Échantillonnage aléatoire) : $(x_i, y_i)$ est un échantillon aléatoire i.i.d. de la population.\n- (c) → SLR.3 (Variation d'échantillon dans $x$) : les $x_i$ ne sont pas tous égaux, de sorte que la pente MCO est bien définie (dénominateur non nul).\n- (d) → SLR.4 (Moyenne conditionnelle nulle) : $E(u \\mid x) = 0$, ce qui assure l'absence de biais des MCO.\n\nNotez que SLR.4 est strictement plus fort que $E(u) = 0$ et $\\operatorname{Cov}(x, u) = 0$ ; cela exige qu'aucune fonction de $x$ ne soit corrélée avec $u$.",
+      "key_formula": "$E(u \\mid x) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Rappelez-vous que les quatre hypothèses RLS couvrent, dans l'ordre, la forme du modèle, la manière dont les données sont obtenues, une propriété de la variable explicative et une propriété du terme d'erreur.",
+      "Indice 2 : SLR.1 concerne l'équation. SLR.2 concerne la façon dont les observations ont été sélectionnées. SLR.3 concerne le fait que $x$ varie. SLR.4 concerne $E(u \\mid x)$.",
+      "Indice 3 : L'hypothèse qui assure l'absence de biais de $\\hat{\\beta}_1$ est l'hypothèse de moyenne conditionnelle nulle."
+    ],
+    "related_exercises": [
+      "S2_FR_CONCEPT_004",
+      "S2_FR_CONCEPT_005",
+      "S2_FR_CONCEPT_008"
+    ]
+  },
+  {
+    "id": "S2_FR_CONCEPT_002",
+    "twin_id": "S2_EN_CONCEPT_002",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "residuals_vs_errors"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.2",
+    "question_text": "Dans le modèle de régression linéaire simple $y_i = \\beta_0 + \\beta_1 x_i + u_i$, le **terme d'erreur** $u_i$ et le **résidu** $\\hat{u}_i$ sont souvent confondus, mais ce sont des objets conceptuellement différents.\n\nPour chaque énoncé ci-dessous, indiquez s'il fait référence au terme d'erreur $u_i$, au résidu $\\hat{u}_i$, ou aux deux.\n\n(a) Il est inobservable : il dépend des paramètres de population inconnus $\\beta_0, \\beta_1$.\n(b) Il est calculé à partir des données comme $y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i$.\n(c) Sa moyenne d'échantillon est mécaniquement égale à zéro lorsqu'une ordonnée à l'origine est incluse.\n(d) Sous SLR.4, sa moyenne conditionnelle sachant $x_i$ est nulle.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Terme d'erreur $u_i$ — il est défini par rapport aux paramètres de population $\\beta_0, \\beta_1$, qui sont inconnus, donc $u_i$ est inobservable.\n(b) Résidu $\\hat{u}_i$ — par définition, $\\hat{u}_i = y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i$, calculé à partir des coefficients estimés.\n(c) Résidu $\\hat{u}_i$ — la condition de premier ordre des MCO pour l'ordonnée à l'origine donne $\\sum_i \\hat{u}_i = 0$, donc $\\bar{\\hat{u}} = 0$ est une propriété mécanique des MCO.\n(d) Terme d'erreur $u_i$ — SLR.4 est l'hypothèse au niveau de la population $E(u_i \\mid x_i) = 0$. C'est une hypothèse sur le terme d'erreur inobservable, et non une propriété des résidus.\n\nÀ retenir : les résidus sont des estimations basées sur l'échantillon des termes d'erreur. Les propriétés (c) et (d) se ressemblent superficiellement mais sont très différentes — (c) est mécanique, (d) est une hypothèse.",
+      "key_formula": "$\\hat{u}_i = y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : L'un est un objet de population défini par rapport aux vrais paramètres ; l'autre est un objet d'échantillon défini par rapport aux paramètres estimés.",
+      "Indice 2 : Les identités « mécaniques » (toujours vraies par construction des MCO) décrivent les résidus, tandis que les « hypothèses » décrivent les termes d'erreur.",
+      "Indice 3 : Soyez attentif à (c) vs (d) : les deux ressemblent à « moyenne égale à zéro », mais une seule est une hypothèse."
+    ],
+    "related_exercises": []
+  },
+  {
+    "id": "S2_FR_CONCEPT_003",
+    "twin_id": "S2_EN_CONCEPT_003",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "R_squared"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.3",
+    "question_text": "Un analyste régresse la consommation mensuelle d'électricité des ménages $y$ (en kWh) sur la température extérieure moyenne $x$ (en °C) à l'aide des MCO et rapporte un $R^2$ de $0{,}18$.\n\nQuelle est l'interprétation correcte parmi les suivantes ?\n\nA. Environ 18 % de la consommation des ménages est expliquée par la température.\nB. Environ 18 % de la variation d'échantillon de la consommation mensuelle est expliquée par la régression sur la température.\nC. La corrélation entre la consommation et la température est exactement de $0{,}18$.\nD. La pente MCO $\\hat{\\beta}_1$ est statistiquement égale à $0{,}18$.\n\nChoisissez la bonne option et expliquez brièvement pourquoi chacune des autres est incorrecte.",
+    "data_table": null,
+    "solution": {
+      "text": "Bonne réponse : **B**.\n\n$R^2 = \\mathrm{SSE}/\\mathrm{SST} = 1 - \\mathrm{SSR}/\\mathrm{SST}$ mesure la part de la **variation d'échantillon** de la variable dépendante $y$ qui est expliquée par l'ajustement MCO ; il est borné entre 0 et 1.\n\n- A est faux : le $R^2$ se réfère à la variation entre observations, et non à la part de la consommation elle-même. Il n'est pas vrai que 18 % de la consommation de chaque ménage est « due » à la température.\n- C est faux : en RLS, $R^2 = r_{xy}^2$, donc une corrélation de $0{,}18$ donnerait $R^2 \\approx 0{,}0324$. Pour obtenir $R^2 = 0{,}18$, il faut $|r_{xy}| \\approx 0{,}424$.\n- D est faux : le $R^2$ est une mesure de qualité d'ajustement sans unité ; il n'a pas de relation directe avec la magnitude du coefficient de pente.",
+      "key_formula": "$R^2 = \\dfrac{\\text{SSE}}{\\text{SST}} = 1 - \\dfrac{\\text{SSR}}{\\text{SST}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Le $R^2$ concerne la variation entre observations, et non les niveaux.",
+      "Indice 2 : En RLS, rappelez-vous le lien $R^2 = r_{xy}^2$ entre le $R^2$ et la corrélation.",
+      "Indice 3 : Éliminez les options qui confondent le $R^2$ avec la corrélation ou avec un coefficient."
+    ],
+    "related_exercises": [
+      "S2_FR_CONCEPT_006",
+      "S2_FR_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S2_FR_CONCEPT_004",
+    "twin_id": "S2_EN_CONCEPT_004",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "unbiasedness",
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.1",
+    "question_text": "Un chercheur affirme : *« Sous SLR.1–SLR.4, la pente MCO $\\hat{\\beta}_1$ est sans biais pour $\\beta_1$, ce qui signifie que pour tout échantillon donné, $\\hat{\\beta}_1$ est égal à $\\beta_1$. »*\n\nCette affirmation contient une erreur conceptuelle.\n\n(a) Identifiez l'erreur.\n(b) Énoncez l'interprétation correcte de l'absence de biais en une ou deux phrases.\n(c) Parmi SLR.1–SLR.4, quelle est l'hypothèse **clé** pour l'absence de biais ?",
+    "data_table": null,
+    "solution": {
+      "text": "(a) L'erreur consiste à identifier l'absence de biais à une égalité échantillon par échantillon. Dans tout échantillon donné, $\\hat{\\beta}_1$ diffère généralement de $\\beta_1$ — c'est une variable aléatoire qui dépend de l'échantillon.\n\n(b) L'absence de biais est une propriété de la **distribution d'échantillonnage** de l'estimateur : $E(\\hat{\\beta}_1) = \\beta_1$. À travers des échantillons répétés hypothétiques, la moyenne des estimations est égale au vrai paramètre. Toute estimation unique n'est qu'un tirage de cette distribution.\n\n(c) L'hypothèse clé est **SLR.4**, l'hypothèse de moyenne conditionnelle nulle $E(u \\mid x) = 0$. SLR.1 fixe la forme du modèle, SLR.2 assure l'échantillonnage aléatoire, SLR.3 garantit que l'estimateur MCO est bien défini, mais SLR.4 est ce qui élimine le biais systématique. Si $E(u \\mid x) \\ne 0$ (par exemple, biais de variable omise), $\\hat{\\beta}_1$ est biaisé même avec une infinité de données.",
+      "key_formula": "$E(\\hat{\\beta}_1) = \\beta_1$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : L'absence de biais est un énoncé sur une espérance, pas sur une réalisation unique.",
+      "Indice 2 : Pensez à $\\hat{\\beta}_1$ comme une variable aléatoire : imaginez tirer plusieurs échantillons et regarder la distribution des estimations.",
+      "Indice 3 : Parmi SLR.1–SLR.4, quelle hypothèse contrôle la *moyenne du terme d'erreur* sachant $x$ ?"
+    ],
+    "related_exercises": [
+      "S2_FR_CONCEPT_010",
+      "S2_FR_CONCEPT_001",
+      "S2_FR_CONCEPT_005"
+    ]
+  },
+  {
+    "id": "S2_FR_CONCEPT_005",
+    "twin_id": "S2_EN_CONCEPT_005",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "confounding",
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.4",
+    "question_text": "Un chercheur régresse les revenus annuels individuels $y$ (en dollars) sur les années de scolarité $x$ à partir d'un échantillon aléatoire d'adultes actifs. La pente estimée est $\\hat{\\beta}_1 = 4\\,200$. Le chercheur conclut : *« Une année supplémentaire de scolarité **cause** une hausse des revenus annuels d'environ \\$4\\,200, en moyenne. »*\n\n(a) Pourquoi SLR.4 pourrait-elle échouer dans cette régression ?\n(b) Donnez un exemple concret d'un facteur inobservé qui ferait plausiblement échouer SLR.4 ici.\n(c) La pente $\\hat{\\beta}_1 = 4\\,200$ a-t-elle encore une interprétation utile, même si SLR.4 échoue ? Si oui, laquelle ?",
+    "data_table": null,
+    "solution": {
+      "text": "(a) SLR.4 exige $E(u \\mid x) = 0$ : conditionnellement aux années de scolarité, la moyenne de tous les déterminants inobservés des revenus doit être nulle. Dans une équation de revenus, c'est peu plausible parce que de nombreuses caractéristiques inobservées qui affectent les revenus sont aussi corrélées avec les choix de scolarité.\n\n(b) Exemples : capacité innée/aptitude cognitive, milieu familial, motivation, ou conditions du marché du travail local. Les personnes ayant une plus grande capacité tendent à acquérir plus de scolarité **et** à gagner davantage indépendamment de la scolarité, donc $\\operatorname{Cov}(x, u) \\ne 0$.\n\n(c) Oui. Même si SLR.4 échoue, $\\hat{\\beta}_1$ est encore un estimateur convergent de la pente du **meilleur prédicteur linéaire**, c'est-à-dire une mesure de combien les revenus diffèrent **en moyenne** entre des personnes qui diffèrent d'une année de scolarité dans cet échantillon. C'est une interprétation descriptive/associative, et non causale. Le qualificatif « toutes choses égales par ailleurs » de l'interprétation causale n'est pas justifié, parce que les inobservés ne sont pas maintenus fixes.",
+      "key_formula": "$E(u \\mid x) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Demandez-vous si les personnes ayant des niveaux de scolarité différents sont par ailleurs comparables sur les facteurs qui affectent les revenus.",
+      "Indice 2 : SLR.4 échoue lorsqu'un élément inobservé est corrélé avec $x$ et affecte aussi $y$.",
+      "Indice 3 : Une pente biaisée peut tout de même être un résumé descriptif valable de la moyenne conditionnelle de $y$ sachant $x$."
+    ],
+    "related_exercises": [
+      "S2_FR_CONCEPT_010",
+      "S2_FR_CONCEPT_001",
+      "S2_FR_CONCEPT_004"
+    ]
+  },
+  {
+    "id": "S2_FR_CONCEPT_006",
+    "twin_id": "S2_EN_CONCEPT_006",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "R_squared"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.3",
+    "question_text": "Considérez la décomposition $\\mathrm{SST} = \\mathrm{SSE} + \\mathrm{SSR}$ en régression linéaire simple, avec $\\mathrm{SST} = \\sum_i (y_i - \\bar{y})^2$, $\\mathrm{SSE} = \\sum_i (\\hat{y}_i - \\bar{y})^2$, et $\\mathrm{SSR} = \\sum_i \\hat{u}_i^2$.\n\nPour chaque énoncé, déterminez s'il est **VRAI** ou **FAUX** et justifiez en une courte phrase.\n\n(a) $R^2 = 0$ implique $\\hat{\\beta}_1 = 0$ (dans une régression avec ordonnée à l'origine).\n(b) Ajouter plus de variation d'échantillon dans $x$ (par exemple, observer des valeurs de $x$ plus diverses) augmente mécaniquement le $R^2$.\n(c) Un $R^2$ élevé implique que le modèle de régression est sans biais.\n(d) $R^2 = 1$ implique que tous les points de données se trouvent exactement sur la droite MCO.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) **VRAI.** Avec une ordonnée à l'origine, $R^2 = 0$ ssi $\\mathrm{SSE} = 0$ ssi $\\hat{y}_i = \\bar{y}$ pour tout $i$, ce qui se produit ssi $\\hat{\\beta}_1 = 0$ (alors $\\hat{\\beta}_0 = \\bar{y}$).\n\n(b) **FAUX.** Le $R^2$ dépend de l'*ajustement* relativement à la variation totale, et pas seulement de $\\operatorname{Var}(x)$. Ajouter plus de variation dans $x$ peut élever ou abaisser le $R^2$ selon que les nouvelles valeurs de $x$ suivent mieux ou non $y$.\n\n(c) **FAUX.** Le $R^2$ mesure l'ajustement, pas l'absence de biais. Une régression peut avoir un $R^2$ très élevé tout en étant biaisée (par exemple, lorsque SLR.4 échoue à cause de variables confondantes) ; inversement, une régression correctement spécifiée peut avoir un faible $R^2$ si la variance d'erreur est grande.\n\n(d) **VRAI.** $R^2 = 1$ ssi $\\mathrm{SSR} = 0$, c'est-à-dire $\\hat{u}_i = 0$ pour tout $i$, donc chaque $(x_i, y_i)$ se trouve exactement sur la droite ajustée.",
+      "key_formula": "$R^2 = 1 - \\dfrac{\\mathrm{SSR}}{\\mathrm{SST}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Traduisez chaque énoncé sur le $R^2$ en énoncé sur SSE et SSR.",
+      "Indice 2 : Le $R^2$ concerne la qualité d'ajustement ; l'absence de biais concerne l'espérance de l'estimateur.",
+      "Indice 3 : Un ajustement parfait signifie que les résidus sont exactement nuls pour chaque observation."
+    ],
+    "related_exercises": [
+      "S2_FR_CONCEPT_003",
+      "S2_FR_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S2_FR_CONCEPT_007",
+    "twin_id": "S2_EN_CONCEPT_007",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "BLUE",
+      "Gauss_Markov"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.5",
+    "question_text": "Le théorème de Gauss-Markov énonce que, sous SLR.1–SLR.5, les MCO sont BLUE.\n\nDécomposez l'acronyme **BLUE** et expliquez précisément ce que chaque lettre signifie dans le contexte de l'estimation de $\\beta_1$. En particulier :\n\n(a) Que signifie le **B** (« Best »)? Meilleur en quel sens, et au sein de quelle classe d'estimateurs ?\n(b) Que signifie **L** (« Linear »)? Linéaire en quoi ?\n(c) Pourquoi **U** (« Unbiased ») fait-il partie de l'énoncé, étant donné qu'on a déjà l'absence de biais sous SLR.1–SLR.4 ?\n(d) Quelle hypothèse (au-delà de SLR.1–SLR.4) est nécessaire pour obtenir BLUE, et qu'exige-t-elle ?",
+    "data_table": null,
+    "solution": {
+      "text": "**B — Best (meilleur).** Au sein de la classe définie par L et U, les MCO ont la **plus petite variance d'échantillonnage** pour $\\hat{\\beta}_1$. Ainsi « meilleur » signifie *de variance minimale*.\n\n**L — Linear (linéaire).** L'estimateur est **linéaire en $y$** (pas nécessairement en $x$) : $\\hat{\\beta}_1 = \\sum_i w_i\\, y_i$ pour des poids $w_i$ qui ne dépendent que des $x_i$. Gauss-Markov compare les MCO uniquement à d'autres estimateurs de cette forme.\n\n**U — Unbiased (sans biais).** La comparaison est restreinte aux estimateurs sans biais pour $\\beta_1$. Parmi les estimateurs biaisés, on peut parfois trouver une variance plus faible, mais ils sont exclus de la comparaison BLUE.\n\n**E — Estimator (estimateur).** Les MCO eux-mêmes sont un estimateur de $\\beta_1$.\n\n(d) L'hypothèse ajoutée est **SLR.5 — homoscédasticité** : $\\operatorname{Var}(u \\mid x) = \\sigma^2$, c'est-à-dire que la variance conditionnelle de l'erreur ne dépend pas de $x$. Sous SLR.1–SLR.5, aucun autre estimateur linéaire sans biais n'a une variance plus petite que les MCO.",
+      "key_formula": "$\\operatorname{Var}(u \\mid x) = \\sigma^2$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : « Meilleur » est toujours « meilleur » par rapport à un certain critère et une certaine classe — identifiez les deux.",
+      "Indice 2 : « Linéaire » fait référence à la façon dont l'estimateur dépend de la variable dépendante, et non de $x$.",
+      "Indice 3 : Gauss-Markov nécessite une hypothèse de plus que l'absence de biais — sur la variance de $u$."
+    ],
+    "related_exercises": []
+  },
+  {
+    "id": "S2_FR_CONCEPT_008",
+    "twin_id": "S2_EN_CONCEPT_008",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "prediction_errors",
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.6",
+    "question_text": "Supposez que nous avons estimé le modèle RLS $\\hat{y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 x$ sur un échantillon aléatoire et que nous voulons l'utiliser pour prédire le résultat à une nouvelle valeur $x_0$ qui se trouve **à l'intérieur** de l'intervalle des $x_i$ de l'échantillon.\n\nUn étudiant écrit : *« Ma valeur prédite est $\\hat{y}_0 = \\hat{\\beta}_0 + \\hat{\\beta}_1 x_0$, et la seule source d'erreur dans cette prédiction est l'erreur d'échantillonnage dans $\\hat{\\beta}_0$ et $\\hat{\\beta}_1$. »*\n\n(a) Identifiez les **deux** sources distinctes d'erreur de prédiction lors de la prédiction d'un résultat individuel $y_0$ à $x_0$. L'étudiant en a omis une — laquelle ?\n(b) Décrivez brièvement l'**intuition** expliquant pourquoi l'intervalle de prédiction pour un $y_0$ individuel est plus large que l'intervalle de confiance pour la moyenne conditionnelle $E(y \\mid x = x_0)$.\n(c) Quelle préoccupation supplémentaire surgit si $x_0$ se trouve **à l'extérieur** de l'intervalle des $x_i$ échantillonnés ?",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Deux sources d'erreur de prédiction pour un résultat individuel $y_0 = \\beta_0 + \\beta_1 x_0 + u_0$ :\n  1. **Erreur d'estimation** dans les coefficients $\\hat{\\beta}_0, \\hat{\\beta}_1$, qui rend la droite ajustée incertaine.\n  2. **Erreur idiosyncrasique** $u_0$ à la nouvelle observation, qui est véritablement imprévisible à partir de $x_0$ seul (elle a une variance $\\sigma^2$ même si les coefficients étaient connus exactement).\n\nL'étudiant a omis la source 2.\n\n(b) L'intervalle de confiance pour $E(y \\mid x_0)$ ne tient compte que de la source 1 : l'incertitude sur l'emplacement de la **vraie droite de régression** à $x_0$. Un intervalle de prédiction pour un $y_0$ individuel doit aussi tenir compte de la source 2, la dispersion imprévisible autour de cette droite, donc il est strictement plus large.\n\n(c) **Extrapolation.** En dehors du support des $x_i$ échantillonnés, on n'a aucune donnée pour informer la relation ; l'hypothèse de linéarité SLR.1 peut aussi y échouer. Les prédictions deviennent beaucoup plus incertaines et peuvent être trompeuses même si l'ajustement à l'intérieur de l'échantillon paraît bon.",
+      "key_formula": "$y_0 - \\hat{y}_0 = (\\beta_0 - \\hat{\\beta}_0) + (\\beta_1 - \\hat{\\beta}_1)\\, x_0 + u_0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Distinguez la prédiction du résultat *moyen* à $x_0$ et la prédiction d'un résultat *individuel* à $x_0$.",
+      "Indice 2 : Même si vous connaissiez les vrais $\\beta_0$ et $\\beta_1$, $y_0$ serait-il parfaitement prévisible à partir de $x_0$ ? Et le terme d'erreur ?",
+      "Indice 3 : Pour (c), réfléchissez à ce que les données peuvent et ne peuvent pas vous dire sur la fonction de régression en dehors de la plage observée de $x$."
+    ],
+    "related_exercises": [
+      "S2_FR_CONCEPT_001",
+      "S2_FR_CONCEPT_004",
+      "S2_FR_CONCEPT_005"
+    ]
+  },
+  {
+    "id": "S2_FR_CONCEPT_009",
+    "twin_id": "S2_EN_CONCEPT_009",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "R_squared",
+      "unbiasedness"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.3",
+    "question_text": "Deux études de RLS partagent le même modèle de population $y = \\beta_0 + \\beta_1 x + u$ avec $\\beta_1 = 2$.\n\n- **Étude A** : variance d'erreur $\\sigma_A^2 = 1$, variance d'échantillon de $x$ égale à $1$. Le $R^2$ rapporté est $0{,}80$.\n- **Étude B** : variance d'erreur $\\sigma_B^2 = 16$, variance d'échantillon de $x$ égale à $1$. Le $R^2$ rapporté est $0{,}20$.\n\n(a) Quelle étude, le cas échéant, a un estimateur *plus sans biais* de $\\beta_1$ ? Justifiez.\n(b) Expliquez pourquoi l'étude A a un $R^2$ beaucoup plus élevé que l'étude B même si la pente est identique.\n(c) Un collègue conclut : *« Donc l'étude A est plus crédible que l'étude B. »* Commentez cette affirmation de manière critique en utilisant les concepts de cette session.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Aucune n'est « plus sans biais » que l'autre. L'absence de biais est une propriété binaire — sous SLR.1–SLR.4, les MCO sont sans biais quel que soit $\\sigma^2$. Les deux études estiment $\\beta_1 = 2$ en moyenne ; la magnitude de $\\sigma^2$ n'affecte pas l'*espérance* de $\\hat{\\beta}_1$, seulement sa variance.\n\n(b) En utilisant $R^2 = \\dfrac{\\beta_1^2 \\operatorname{Var}(x)}{\\beta_1^2 \\operatorname{Var}(x) + \\sigma^2}$ (analogue de population) : l'étude A a $R^2 \\approx 4/(4+1) = 0{,}80$, et l'étude B a $R^2 \\approx 4/(4+16) = 0{,}20$. Même pente, même variation dans $x$ — seul le niveau de bruit $\\sigma^2$ diffère. Une variance d'erreur plus grande fait dominer la dispersion résiduelle, abaissant le $R^2$.\n\n(c) La conclusion n'est pas justifiée. Le $R^2$ mesure l'*ajustement*, pas la crédibilité. Les deux études fournissent des estimations sans biais de $\\beta_1$. L'étude A a simplement une variable de résultat moins bruitée. La crédibilité dépend de la validité de SLR.1–SLR.4 (par exemple, y a-t-il des variables confondantes/un biais de variable omise ?), et non du $R^2$. Une étude avec un $R^2$ faible mais des hypothèses d'identification valides peut être bien plus crédible qu'une étude à $R^2$ élevé contaminée par des variables confondantes.",
+      "key_formula": "$R^2 = \\dfrac{\\beta_1^2\\operatorname{Var}(x)}{\\beta_1^2\\operatorname{Var}(x) + \\sigma^2}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Rappelez-vous que l'absence de biais dépend de laquelle des hypothèses SLR.1–SLR.4 ? L'une d'elles mentionne-t-elle $\\sigma^2$ ?",
+      "Indice 2 : Décomposez la variation totale de $y$ en variation expliquée par $x$ versus variation due à $u$.",
+      "Indice 3 : Distinguez « à quel point la droite ajustée suit $y$ » de « si la pente capte la vraie relation causale/structurelle »."
+    ],
+    "related_exercises": [
+      "S2_FR_CONCEPT_003",
+      "S2_FR_CONCEPT_004",
+      "S2_FR_CONCEPT_006"
+    ]
+  },
+  {
+    "id": "S2_FR_CONCEPT_010",
+    "twin_id": "S2_EN_CONCEPT_010",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "confounding",
+      "unbiasedness",
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.4",
+    "question_text": "Supposez que le vrai processus générateur de données pour le salaire du travailleur $i$ est\n$$\\text{salaire}_i = \\gamma_0 + \\gamma_1\\, \\text{scolarité}_i + \\gamma_2\\, \\text{capacité}_i + v_i,\\qquad E(v \\mid \\text{scolarité}, \\text{capacité}) = 0,$$\navec $\\gamma_1 > 0$ et $\\gamma_2 > 0$. La capacité est inobservée par l'analyste, qui régresse donc le salaire sur la scolarité uniquement :\n$$\\text{salaire}_i = \\beta_0 + \\beta_1\\, \\text{scolarité}_i + u_i.$$\n\nDans l'échantillon, $\\operatorname{Cov}(\\text{scolarité}, \\text{capacité}) > 0$ (les travailleurs plus scolarisés tendent à avoir une capacité inobservée plus élevée).\n\n(a) Exprimez le terme d'erreur de la RLS $u_i$ en fonction des objets sous-jacents du vrai PGD.\n(b) Montrez, en utilisant la structure de $u_i$, dans quelle direction $\\hat{\\beta}_1$ est biaisé comme estimation du *vrai* effet de la scolarité $\\gamma_1$.\n(c) Reliez votre réponse à l'hypothèse de Gauss-Markov qui échoue et au concept de **biais de variable omise**.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) En identifiant les termes entre les deux équations, on obtient\n$$u_i = \\gamma_2\\, \\text{capacité}_i + v_i.$$\nLe terme d'erreur de la RLS contient donc le terme de capacité inobservée, pondéré par son vrai effet sur les salaires.\n\n(b) Signe du biais. Avec $E(v \\mid \\text{scolarité}) = 0$ mais $\\operatorname{Cov}(\\text{scolarité}, \\text{capacité}) > 0$ et $\\gamma_2 > 0$, le terme d'erreur de la RLS $u_i = \\gamma_2 \\text{capacité}_i + v_i$ est positivement corrélé avec scolarité. La pente MCO satisfait (en population)\n$$\\beta_1 = \\gamma_1 + \\gamma_2\\,\\frac{\\operatorname{Cov}(\\text{scolarité}, \\text{capacité})}{\\operatorname{Var}(\\text{scolarité})} > \\gamma_1.$$\nDonc $\\hat{\\beta}_1$ est **biaisé à la hausse** pour $\\gamma_1$ : il surestime l'effet causal de la scolarité.\n\n(c) L'hypothèse qui échoue est **SLR.4** : $E(u \\mid \\text{scolarité}) \\ne 0$, parce que $u$ contient la capacité et que la capacité est corrélée avec la scolarité. C'est le cas classique du **biais de variable omise** : omettre une variable qui (i) appartient au modèle et (ii) est corrélée avec la variable explicative incluse produit une estimation MCO biaisée, dont le signe est égal à $\\operatorname{sign}(\\gamma_2) \\cdot \\operatorname{sign}(\\operatorname{Cov}(\\text{scolarité}, \\text{capacité}))$.",
+      "key_formula": "$\\beta_1 = \\gamma_1 + \\gamma_2\\,\\dfrac{\\operatorname{Cov}(\\text{scolarité}, \\text{capacité})}{\\operatorname{Var}(\\text{scolarité})}$",
+      "numerical_answer": null,
+      "common_mistakes": [
+        "Conclure que le biais est à la baisse en ignorant que $\\gamma_2 > 0$ et $\\operatorname{Cov}(\\text{scolarité}, \\text{capacité}) > 0$ contribuent tous deux positivement.",
+        "Affirmer que le biais disparaît lorsque $n \\to \\infty$ — c'est un biais en espérance, donc des échantillons plus grands ne le corrigent pas."
+      ]
+    },
+    "hints": [
+      "Indice 1 : Comparez la vraie équation et la régression que vous exécutez réellement. Que reste-t-il dans $u_i$ ?",
+      "Indice 2 : Le signe du biais est déterminé par le signe de $\\gamma_2$ et le signe de $\\operatorname{Cov}(\\text{scolarité}, \\text{capacité})$.",
+      "Indice 3 : Reliez l'échec à SLR.4 — lorsque la variable omise est corrélée avec $x$, $E(u \\mid x) \\ne 0$."
+    ],
+    "related_exercises": [
+      "S2_FR_CONCEPT_004",
+      "S2_FR_CONCEPT_005",
+      "S2_FR_CONCEPT_001"
+    ]
+  }
+]

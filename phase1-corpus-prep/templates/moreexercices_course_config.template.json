@@ -1,0 +1,91 @@
+{
+  "course_id": "example_course_2026",
+  "course_name_fr": "",
+  "course_name_en": "",
+  "institution": "",
+  "domain": "",
+  "languages": ["fr"],
+  "assessment_style_basis": "pending_assessment_style_audit",
+  "assessment_style_evidence": [],
+  "exercise_type_inference_default": "infer_from_exams_and_practice",
+  "smoke_exercises_per_session": null,
+  "full_exercises_per_session": null,
+  "quiz_mode_constraints": {
+    "runtime_shape": "short conversational prose, about 200 words, no bullets/lists/headings/emojis",
+    "visible_types": [],
+    "hidden_types": [],
+    "adaptation_rule": "shorten long essay or passage-analysis assessment styles into case/application prompts before exposing them in quiz mode"
+  },
+  "batch_size": 10,
+  "generation_loops": 1,
+  "llm": {
+    "generation": {
+      "provider": "claude",
+      "model": "claude-opus-4-7",
+      "api_key_env": null,
+      "extra_args": []
+    },
+    "verifiers": [
+      {
+        "provider": "codex",
+        "model": "gpt-5.4",
+        "api_key_env": null,
+        "extra_args": []
+      }
+    ]
+  },
+  "sessions": [
+    {
+      "id": "S1",
+      "dir": "S1_Introduction",
+      "title_fr": "Introduction",
+      "topics": [],
+      "scope_terms": {
+        "fr": []
+      },
+      "prerequisites": [],
+      "exercise_count": 0,
+      "type_distribution": {},
+      "inbox_files": ["inbox/Slides/S1_Introduction/lecture_S1_topics_merged.md"],
+      "example_files": ["inbox/ExamExamples/S1/*.md"]
+    }
+  ],
+  "exercise_types": [],
+  "difficulty_distribution": {
+    "EASY": 0.3,
+    "MED": 0.45,
+    "HARD": 0.25
+  },
+  "id_regex": "^S\\d+_(FR)_[A-Z_]+_\\d{3}$",
+  "solution_constraints": {
+    "max_words": 300,
+    "hints_min": 2,
+    "hints_max": 3,
+    "hint_max_words": 150,
+    "required_solution_fields": ["text"]
+  },
+  "math_validation": {
+    "tolerance_relative": 0.02,
+    "tolerance_absolute": 0.05,
+    "checks": []
+  },
+  "pipeline": {
+    "max_fix_iterations": 3,
+    "rag_ingestion_enabled": false
+  },
+  "foundational_terms": {
+    "fr": []
+  },
+  "topic_aliases": {},
+  "content_boundary": {
+    "novel_term_triggers": []
+  },
+  "scaling": {
+    "claude_model": "opus",
+    "codex_model": "gpt-5.4",
+    "max_parallel_batches": 2,
+    "max_retries_per_batch": 2,
+    "subprocess_timeout_secs": 600,
+    "large_slide_max_chars": 200000
+  }
+}

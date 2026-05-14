@@ -1,0 +1,339 @@
+[
+  {
+    "id": "S3_FR_CONCEPT_001",
+    "twin_id": "S3_EN_CONCEPT_001",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "MLR_model"
+    ],
+    "prerequisites": [
+      "S1_SLR_model"
+    ],
+    "lecture_ref": "S3.1",
+    "question_text": "Écrivez le modèle de régression linéaire multivariée (MLR) en population avec deux variables explicatives sous sa forme standard, et identifiez brièvement ce que représente chaque symbole.",
+    "data_table": null,
+    "solution": {
+      "text": "Le modèle MLR à deux régresseurs est $y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + u$. Ici $y$ est la variable dépendante, $x_1$ et $x_2$ sont des variables explicatives, $\\beta_0$ est l'ordonnée à l'origine (la valeur espérée de $y$ lorsque $x_1 = x_2 = 0$), $\\beta_1$ et $\\beta_2$ sont les paramètres de pente partielle, et $u$ est le terme d'erreur non observé qui regroupe tous les autres facteurs influençant $y$. Le modèle MLR généralise la régression linéaire simple en autorisant plus d'un régresseur du côté droit.",
+      "key_formula": "$y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + u$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Partez du modèle SLR $y = \\beta_0 + \\beta_1 x + u$ et demandez-vous ce qui change lorsque plus d'une variable explicative est incluse.",
+      "Indice 2 : Il y a exactement une ordonnée à l'origine, un coefficient de pente par régresseur, et un terme d'erreur. Assurez-vous que chaque symbole reçoit une courte étiquette verbale."
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_006",
+      "S3_FR_CONCEPT_008",
+      "S3_FR_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S3_FR_CONCEPT_002",
+    "twin_id": "S3_EN_CONCEPT_002",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "partial_effect",
+      "controlling_for_variables"
+    ],
+    "prerequisites": [
+      "S1_SLR_model"
+    ],
+    "lecture_ref": "S3.2",
+    "question_text": "Considérez le modèle $\\text{salaire} = \\beta_0 + \\beta_1 \\, \\text{educ} + \\beta_2 \\, \\text{exper} + u$. En une ou deux phrases, expliquez en français clair ce que mesure le coefficient $\\beta_1$, et pourquoi cela diffère de la pente que vous obtiendriez dans une régression simple du salaire sur l'éducation seule.",
+    "data_table": null,
+    "solution": {
+      "text": "$\\beta_1$ est l'effet partiel (toutes choses égales par ailleurs) d'une année supplémentaire d'éducation sur le salaire espéré, en maintenant l'expérience fixe. Dans le MLR, $\\beta_1$ isole la variation de l'éducation qui n'est pas reliée à l'expérience. Dans une régression simple du salaire sur l'éducation, la pente capterait aussi toute portion de la corrélation entre éducation et expérience qui affecte le salaire — c'est-à-dire qu'elle ne contrôlerait pas pour l'expérience. Les deux pentes coïncident uniquement lorsque l'éducation et l'expérience sont non corrélées dans l'échantillon.",
+      "key_formula": "$\\beta_1 = \\dfrac{\\partial\\, E(\\text{salaire} \\mid \\text{educ}, \\text{exper})}{\\partial\\, \\text{educ}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Le mot « partiel » est la clé. Quelle(s) variable(s) sont maintenues fixes lors de l'interprétation de $\\beta_1$ ?",
+      "Indice 2 : Comparez avec le SLR : qu'est-ce qui serait confondu dans la pente SLR mais ne l'est plus dans le MLR ?"
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_007",
+      "S3_FR_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S3_FR_CONCEPT_003",
+    "twin_id": "S3_EN_CONCEPT_003",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "adjusted_R2"
+    ],
+    "prerequisites": [
+      "S1_R_squared"
+    ],
+    "lecture_ref": "S3.6",
+    "question_text": "Expliquez brièvement pourquoi le $R^2$ ajusté peut diminuer lorsqu'un nouveau régresseur est ajouté à une régression MCO, alors même que le $R^2$ ordinaire ne diminue jamais.",
+    "data_table": null,
+    "solution": {
+      "text": "L'ajout de tout régresseur réduit faiblement la somme des carrés des résidus, donc $R^2 = 1 - \\text{SCR}/\\text{SCT}$ est non décroissant en le nombre de régresseurs. Le $R^2$ ajusté corrige cela en appliquant une pénalité pour les degrés de liberté : $\\bar{R}^2 = 1 - \\dfrac{\\text{SCR}/(n-k-1)}{\\text{SCT}/(n-1)}$. Lorsqu'un nouveau régresseur est ajouté, $k$ augmente d'une unité, ce qui accroît le terme de pénalité $\\text{SCR}/(n-k-1)$ à moins que la SCR ne diminue suffisamment pour le compenser. Si le nouveau régresseur explique très peu de variation supplémentaire, $\\bar{R}^2$ baisse. Le $R^2$ ajusté récompense donc l'ajout de régresseurs uniquement lorsque leur contribution explicative dépasse la pénalité pour le degré de liberté perdu.",
+      "key_formula": "$\\bar{R}^2 = 1 - \\dfrac{\\text{SCR}/(n-k-1)}{\\text{SCT}/(n-1)}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Écrivez les formules de $R^2$ et $\\bar{R}^2$ et comparez ce qui se passe lorsque $k$ augmente de 1.",
+      "Indice 2 : Pensez à une « pénalité pour l'ajout de régresseurs ». Quand la pénalité l'emporte-t-elle sur le gain d'ajustement ?"
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S3_FR_CONCEPT_004",
+    "twin_id": "S3_EN_CONCEPT_004",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "OVB"
+    ],
+    "prerequisites": [
+      "S2_OVB",
+      "S1_SLR_model"
+    ],
+    "lecture_ref": "S3.4",
+    "question_text": "Supposez que le vrai modèle est $\\text{salaire} = \\beta_0 + \\beta_1 \\, \\text{educ} + \\beta_2 \\, \\text{aptitude} + u$, mais qu'un chercheur omet l'aptitude et estime $\\text{salaire} = \\tilde{\\beta}_0 + \\tilde{\\beta}_1 \\, \\text{educ} + v$. Supposez que l'aptitude augmente les salaires ($\\beta_2 > 0$) et est positivement corrélée avec l'éducation dans l'échantillon. Énoncez la formule du biais de variable omise sur $\\tilde{\\beta}_1$ et déterminez son signe.",
+    "data_table": null,
+    "solution": {
+      "text": "La formule du biais de variable omise est $E(\\tilde{\\beta}_1) - \\beta_1 = \\beta_2 \\, \\delta_1$, où $\\delta_1$ est la pente de la régression auxiliaire de la variable omise (aptitude) sur le régresseur inclus (éducation). Ici $\\beta_2 > 0$ (l'aptitude augmente les salaires) et $\\delta_1 > 0$ (l'éducation et l'aptitude sont positivement corrélées, donc la pente auxiliaire est positive). Par conséquent, le biais est positif : $\\tilde{\\beta}_1$ est, en moyenne, plus grand que le vrai $\\beta_1$. On dit que l'estimateur MCO surestime le rendement de l'éducation lorsque l'aptitude est omise.",
+      "key_formula": "$E(\\tilde{\\beta}_1) - \\beta_1 = \\beta_2 \\, \\delta_1$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Le BVO comporte deux ingrédients : comment la variable omise affecte $y$, et comment la variable omise est corrélée avec le régresseur inclus.",
+      "Indice 2 : Construisez un tableau 2×2 des signes : signe de $\\beta_2$ × signe de $\\delta_1$ → signe du biais."
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S3_FR_CONCEPT_005",
+    "twin_id": "S3_EN_CONCEPT_005",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "multicollinearity"
+    ],
+    "prerequisites": [
+      "S1_OLS"
+    ],
+    "lecture_ref": "S3.5",
+    "question_text": "Un chercheur régresse les dépenses des ménages sur le revenu mesuré en dollars ($x_1$) et sur le même revenu mesuré en milliers de dollars ($x_2 = x_1/1000$), avec une ordonnée à l'origine. La méthode MCO ne pourra pas produire d'estimation unique. Identifiez quelle hypothèse du MLR est violée, nommez le phénomène, et expliquez en une ou deux phrases pourquoi l'estimateur échoue.",
+    "data_table": null,
+    "solution": {
+      "text": "L'hypothèse violée est **MLR.3 (absence de colinéarité parfaite)** : aucun régresseur ne peut être une combinaison linéaire exacte des autres (et d'une ordonnée à l'origine). Ici $x_2$ est un multiple scalaire de $x_1$, donc la matrice de design $X$ n'est pas de plein rang colonne et $X^\\top X$ est singulière. Le phénomène s'appelle **multicolinéarité parfaite**. Les équations normales MCO $X^\\top X \\hat{\\beta} = X^\\top y$ admettent une infinité de solutions car il n'y a aucun moyen de démêler les contributions séparées de $x_1$ et $x_2$ : tout changement de $\\beta_1$ peut être exactement compensé par un changement correspondant de $\\beta_2$. Les logiciels répondent typiquement en supprimant l'un des deux régresseurs redondants.",
+      "key_formula": null,
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Examinez la relation entre $x_1$ et $x_2$. L'un est-il une fonction exacte de l'autre ?",
+      "Indice 2 : Rappelez la condition de rang requise pour que $X^\\top X$ soit inversible."
+    ],
+    "related_exercises": []
+  },
+  {
+    "id": "S3_FR_CONCEPT_006",
+    "twin_id": "S3_EN_CONCEPT_006",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "MLR_model"
+    ],
+    "prerequisites": [
+      "S2_OVB"
+    ],
+    "lecture_ref": "S3.4",
+    "question_text": "Énoncez l'hypothèse MLR.4 (espérance conditionnelle nulle) pour le modèle $y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + u$, et expliquez en deux ou trois phrases pourquoi sa violation rend l'estimateur MCO de $\\beta_1$ biaisé. Reliez votre réponse à l'idée d'une variable omise.",
+    "data_table": null,
+    "solution": {
+      "text": "MLR.4 stipule que $E(u \\mid x_1, x_2) = 0$ : le terme d'erreur non observé a une moyenne nulle conditionnellement à chaque régresseur. De manière équivalente, aucun régresseur ne contient d'information sur $u$. Si une variable pertinente est omise, elle est absorbée dans $u$ ; si cette variable omise est corrélée avec $x_1$, alors $E(u \\mid x_1, x_2) \\neq 0$ et MLR.4 échoue. En conséquence, la pente MCO sur $x_1$ capte non seulement l'effet partiel de $x_1$ sur $y$ mais aussi l'effet indirect transitant par la variable omise, produisant le biais de variable omise étudié à S2. MLR.4 est l'hypothèse qui exclut ce phénomène.",
+      "key_formula": "$E(u \\mid x_1, x_2) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Écrivez MLR.4 comme une espérance conditionnelle et traduisez-la en français clair : « le terme d'erreur ne contient aucune information sur les régresseurs ».",
+      "Indice 2 : Comment l'omission d'un régresseur pertinent corrélé avec $x_1$ modifie-t-elle $E(u \\mid x_1, x_2)$ ?"
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_001",
+      "S3_FR_CONCEPT_008",
+      "S3_FR_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S3_FR_CONCEPT_007",
+    "twin_id": "S3_EN_CONCEPT_007",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "controlling_for_variables",
+      "partial_effect"
+    ],
+    "prerequisites": [
+      "S1_OLS"
+    ],
+    "lecture_ref": "S3.3",
+    "question_text": "En utilisant l'interprétation par régression partitionnée (Frisch–Waugh–Lovell) des MCO, expliquez en trois ou quatre phrases ce que signifie « contrôler pour » une variable dans le MLR. Décrivez en mots la procédure en deux étapes qui produit la même estimation de $\\hat{\\beta}_1$ que la régression multiple complète de $y$ sur $x_1$ et $x_2$.",
+    "data_table": null,
+    "solution": {
+      "text": "« Contrôler pour » $x_2$ lors de l'estimation de l'effet partiel de $x_1$ sur $y$ signifie utiliser uniquement la variation de $x_1$ qui n'est pas reliée à (orthogonale à) $x_2$. La procédure en deux étapes de Frisch–Waugh–Lovell est : (i) régresser $x_1$ sur $x_2$ (avec une ordonnée à l'origine) et conserver les résidus $\\tilde{x}_1$, qui représentent la part de $x_1$ que $x_2$ ne peut prédire ; (ii) régresser $y$ sur ces résidus $\\tilde{x}_1$. La pente de l'étape (ii) est exactement $\\hat{\\beta}_1$ de la régression multiple complète originale. Donc « contrôler pour $x_2$ » équivaut mécaniquement à d'abord retirer $x_2$ de $x_1$, puis à demander comment cette variation purifiée de $x_1$ fait bouger $y$.",
+      "key_formula": null,
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : « Contrôler pour » est parfois appelé « partialiser ». Qu'est-ce qui est partialisé, et à partir de quoi ?",
+      "Indice 2 : L'étape 1 est une régression auxiliaire de $x_1$ sur $x_2$. Qu'est-ce qui joue le rôle de $x_1$ à l'étape 2 ?"
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_002",
+      "S3_FR_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S3_FR_CONCEPT_008",
+    "twin_id": "S3_EN_CONCEPT_008",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "MLR_model"
+    ],
+    "prerequisites": [
+      "S2_SLR_assumptions"
+    ],
+    "lecture_ref": "S3.7",
+    "question_text": "Énoncez le théorème de Gauss–Markov pour le modèle de régression linéaire multivariée. Précisez (a) ce que signifie « BLUE », (b) à quelle classe d'estimateurs les MCO sont comparés, et (c) quelles hypothèses (MLR.1–MLR.5) sont requises.",
+    "data_table": null,
+    "solution": {
+      "text": "**Théorème de Gauss–Markov.** Sous les hypothèses MLR.1 (linéarité dans les paramètres), MLR.2 (échantillonnage aléatoire), MLR.3 (absence de colinéarité parfaite), MLR.4 (espérance conditionnelle nulle de l'erreur), et MLR.5 (homoscédasticité, $\\mathrm{Var}(u \\mid x_1,\\dots,x_k) = \\sigma^2$), l'estimateur MCO $\\hat{\\beta}$ est **BLUE** : le **B**est **L**inear **U**nbiased **E**stimator (meilleur estimateur linéaire sans biais). (a) « Best » signifie variance minimale ; « Linear » signifie linéaire en $y$ ; « Unbiased » signifie sans biais, $E(\\hat{\\beta}) = \\beta$ ; « Estimator » est simplement un estimateur. (b) La classe de comparaison est constituée de tous les estimateurs qui sont linéaires en $y$ et sans biais. (c) MLR.1–MLR.4 donnent l'absence de biais ; MLR.5 (homoscédasticité) est l'ingrédient supplémentaire requis pour la propriété de variance minimale.",
+      "key_formula": "$\\mathrm{Var}(\\hat{\\beta}_j) \\le \\mathrm{Var}(\\tilde{\\beta}_j)$ pour tout autre estimateur linéaire sans biais $\\tilde{\\beta}_j$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Décomposez « BLUE » lettre par lettre et attachez un sens précis à chacune.",
+      "Indice 2 : Quel sous-ensemble de MLR.1–MLR.5 est nécessaire pour l'absence de biais seule, et quelle hypothèse supplémentaire est nécessaire pour l'efficacité ?"
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_001",
+      "S3_FR_CONCEPT_006",
+      "S3_FR_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S3_FR_CONCEPT_009",
+    "twin_id": "S3_EN_CONCEPT_009",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "OVB",
+      "controlling_for_variables"
+    ],
+    "prerequisites": [
+      "S2_OVB"
+    ],
+    "lecture_ref": "S3.4",
+    "question_text": "Une économiste de l'éducation régresse les notes moyennes aux examens dans une classe sur la taille de la classe et obtient une petite pente *positive*, suggérant que les classes plus grandes sont associées à de meilleures notes. Elle soupçonne que ce résultat est trompeur car les ressources scolaires par élève (livres, ordinateurs, personnel de soutien) sont omises. Dans son district, les écoles plus aisées tendent à avoir *à la fois* plus de ressources *et* des classes plus grandes (effet $> 0$ des ressources sur les notes ; corrélation positive entre ressources et taille de classe). (a) Utilisez la formule du BVO pour déterminer le signe du biais sur le coefficient de la taille de classe. (b) Expliquez si le véritable effet partiel de la taille de classe sur les notes est plus probablement positif, nul, ou négatif. (c) Décrivez comment l'ajout des ressources par élève comme variable de contrôle modifierait l'interprétation.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Soit $\\beta_{\\text{res}} > 0$ (les ressources augmentent les notes) et soit la pente auxiliaire $\\delta_{\\text{res, taille}} > 0$ (les ressources sont positivement corrélées avec la taille de classe dans ce district). Le BVO sur la pente de la taille de classe est $\\beta_{\\text{res}} \\cdot \\delta_{\\text{res, taille}} > 0$ : le biais de variable omise est **positif**, donc la pente SLR sur la taille de classe est biaisée vers le haut. (b) Comme la pente SLR observée est déjà petite et positive, retirer un biais à la hausse pousserait l'estimation vers zéro, voire en territoire négatif. L'effet partiel véritable de la taille de classe est donc plausiblement **nul ou négatif**, conforme au résultat éducatif standard selon lequel des classes plus petites aident faiblement. (c) Ajouter les ressources par élève comme variable de contrôle dans le MLR isole la variation de la taille de classe qui n'est pas reliée aux ressources scolaires (régression partitionnée / partialisation). La pente MLR sur la taille de classe estime alors l'effet partiel en maintenant les ressources fixes, et devrait baisser par rapport à l'estimation SLR.",
+      "key_formula": "$\\text{Biais}(\\tilde{\\beta}_{\\text{taille}}) = \\beta_{\\text{res}} \\cdot \\delta_{\\text{res, taille}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Écrivez la formule du BVO et lisez le signe de chaque morceau. Le signe du biais est le produit des deux signes.",
+      "Indice 2 : Si le biais est à la hausse et la pente observée est légèrement positive, qu'est-ce que cela implique une fois le biais retiré ?",
+      "Indice 3 : « Ajouter un contrôle » = « partialiser » = « utiliser uniquement la variation de la taille de classe non reliée aux ressources »."
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_002",
+      "S3_FR_CONCEPT_004",
+      "S3_FR_CONCEPT_007"
+    ]
+  },
+  {
+    "id": "S3_FR_CONCEPT_010",
+    "twin_id": "S3_EN_CONCEPT_010",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "adjusted_R2",
+      "MLR_model"
+    ],
+    "prerequisites": [
+      "S1_R_squared"
+    ],
+    "lecture_ref": "S3.6",
+    "question_text": "Un analyste compare deux spécifications MCO concurrentes pour le log-salaire sur le même échantillon de $n = 200$ observations. Le modèle A utilise $k_A = 4$ régresseurs et donne $R^2_A = 0{,}42$ ; le modèle B utilise $k_A + 4 = 8$ régresseurs et donne $R^2_B = 0{,}44$. (a) Lequel des $R^2$ est nécessairement plus grand, et pourquoi cette comparaison à elle seule ne nous dit pas quel modèle est préférable ? (b) Utilisez la formule du $R^2$ ajusté pour argumenter qualitativement (sans recourir à un test d'hypothèse) si les quatre régresseurs supplémentaires du modèle B semblent « payer leur place ». (c) Nommez une limite substantielle de l'utilisation du $R^2$ ajusté comme seul critère de sélection de modèle.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) $R^2$ est non décroissant en le nombre de régresseurs, donc $R^2_B \\ge R^2_A$ est mécaniquement attendu : les régresseurs supplémentaires ne peuvent que réduire faiblement la SCR. La comparaison brute des $R^2$ ne pénalise donc pas le modèle B pour les quatre paramètres ajoutés et ne peut, à elle seule, classer les deux modèles. (b) Le $R^2$ ajusté est $\\bar{R}^2 = 1 - (1-R^2)\\dfrac{n-1}{n-k-1}$. En substituant : $\\bar{R}^2_A = 1 - 0{,}58 \\cdot \\dfrac{199}{195} \\approx 0{,}408$ ; $\\bar{R}^2_B = 1 - 0{,}56 \\cdot \\dfrac{199}{191} \\approx 0{,}417$. Le $R^2$ ajusté du modèle B n'est que marginalement plus élevé (environ 0,009 au-dessus de A), donc les quatre régresseurs supplémentaires couvrent à peine la pénalité des degrés de liberté. Qualitativement, le critère du $R^2$ ajusté favorise légèrement B mais pas de manière décisive. (c) Le $R^2$ ajusté récompense la contribution explicative mais ne dit rien sur le fait que chaque régresseur reflète un canal causal significatif ; il peut être gonflé en incluant des variables corrélées avec la variable dépendante uniquement parce qu'elles sont elles-mêmes endogènes, et il ne mesure pas l'erreur de prédiction hors échantillon.",
+      "key_formula": "$\\bar{R}^2 = 1 - (1-R^2)\\,\\dfrac{n-1}{n-k-1}$",
+      "numerical_answer": "$\\bar{R}^2_A \\approx 0{,}408$ ; $\\bar{R}^2_B \\approx 0{,}417$",
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Pour (a), rappelez la relation algébrique entre la SCR et le nombre de régresseurs. Pourquoi $R^2$ ne baisse-t-il jamais lorsqu'un régresseur est ajouté ?",
+      "Indice 2 : Pour (b), calculez $\\bar{R}^2$ pour les deux modèles avec $n = 200$. Comparez les deux valeurs ajustées, pas les valeurs brutes de $R^2$.",
+      "Indice 3 : Pour (c), pensez à des cas où deux régresseurs augmentent l'ajustement sans représenter des mécanismes sous-jacents distincts — l'ajustement est-il un indicateur suffisant de la qualité d'un modèle ?"
+    ],
+    "related_exercises": [
+      "S3_FR_CONCEPT_001",
+      "S3_FR_CONCEPT_003",
+      "S3_FR_CONCEPT_006"
+    ]
+  }
+]

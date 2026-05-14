@@ -1,0 +1,339 @@
+[
+  {
+    "id": "S3_EN_CONCEPT_001",
+    "twin_id": "S3_FR_CONCEPT_001",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "MLR_model"
+    ],
+    "prerequisites": [
+      "S1_SLR_model"
+    ],
+    "lecture_ref": "S3.1",
+    "question_text": "Write the population multiple linear regression (MLR) model with two explanatory variables in its standard form, and briefly identify what each symbol represents.",
+    "data_table": null,
+    "solution": {
+      "text": "The two-regressor MLR model is $y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + u$. Here $y$ is the dependent variable, $x_1$ and $x_2$ are explanatory (independent) variables, $\\beta_0$ is the intercept (the expected value of $y$ when $x_1 = x_2 = 0$), $\\beta_1$ and $\\beta_2$ are the partial slope parameters, and $u$ is the unobserved error term capturing every other factor that influences $y$. The MLR model generalizes simple linear regression by allowing more than one regressor on the right-hand side.",
+      "key_formula": "$y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + u$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Start from the SLR model $y = \\beta_0 + \\beta_1 x + u$ and ask what changes when more than one explanatory variable is included.",
+      "Hint 2: There is exactly one intercept, one slope coefficient per regressor, and one error term. Make sure every symbol has a short verbal label."
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_006",
+      "S3_EN_CONCEPT_008",
+      "S3_EN_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S3_EN_CONCEPT_002",
+    "twin_id": "S3_FR_CONCEPT_002",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "partial_effect",
+      "controlling_for_variables"
+    ],
+    "prerequisites": [
+      "S1_SLR_model"
+    ],
+    "lecture_ref": "S3.2",
+    "question_text": "Consider the model $\\text{wage} = \\beta_0 + \\beta_1 \\, \\text{educ} + \\beta_2 \\, \\text{exper} + u$. In one or two sentences, explain in plain English what the coefficient $\\beta_1$ measures, and why this differs from the slope you would obtain in a simple regression of wage on education alone.",
+    "data_table": null,
+    "solution": {
+      "text": "$\\beta_1$ is the partial (ceteris paribus) effect of one additional year of education on expected wage, holding experience fixed. In MLR, $\\beta_1$ isolates the variation in education that is unrelated to experience. In a simple regression of wage on education, the slope would also pick up any portion of education's correlation with experience that affects wage — i.e., it would not control for experience. The two slopes coincide only when education and experience are uncorrelated in the sample.",
+      "key_formula": "$\\beta_1 = \\dfrac{\\partial\\, E(\\text{wage} \\mid \\text{educ}, \\text{exper})}{\\partial\\, \\text{educ}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: The word 'partial' is the key. Which variable(s) are being held fixed when interpreting $\\beta_1$?",
+      "Hint 2: Compare to SLR: what would be confounded in the SLR slope that is no longer confounded in MLR?"
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_007",
+      "S3_EN_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S3_EN_CONCEPT_003",
+    "twin_id": "S3_FR_CONCEPT_003",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "adjusted_R2"
+    ],
+    "prerequisites": [
+      "S1_R_squared"
+    ],
+    "lecture_ref": "S3.6",
+    "question_text": "Briefly explain why the adjusted $R^2$ can decrease when a new regressor is added to an OLS regression, even though the ordinary $R^2$ never decreases.",
+    "data_table": null,
+    "solution": {
+      "text": "Adding any regressor weakly reduces the residual sum of squares, so $R^2 = 1 - \\text{SSR}/\\text{SST}$ is non-decreasing in the number of regressors. Adjusted $R^2$ corrects for this by applying a degrees-of-freedom penalty: $\\bar{R}^2 = 1 - \\dfrac{\\text{SSR}/(n-k-1)}{\\text{SST}/(n-1)}$. When a new regressor is added, $k$ rises by one, which increases the penalty term $\\text{SSR}/(n-k-1)$ unless the SSR drops by enough to offset it. If the new regressor explains very little additional variation, $\\bar{R}^2$ falls. Adjusted $R^2$ therefore rewards added regressors only when their explanatory contribution exceeds the penalty for the lost degree of freedom.",
+      "key_formula": "$\\bar{R}^2 = 1 - \\dfrac{\\text{SSR}/(n-k-1)}{\\text{SST}/(n-1)}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Write down the formulas for $R^2$ and $\\bar{R}^2$ and compare what happens when $k$ increases by 1.",
+      "Hint 2: Think about a 'penalty for adding regressors'. When does the penalty outweigh the gain in fit?"
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S3_EN_CONCEPT_004",
+    "twin_id": "S3_FR_CONCEPT_004",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "OVB"
+    ],
+    "prerequisites": [
+      "S2_OVB",
+      "S1_SLR_model"
+    ],
+    "lecture_ref": "S3.4",
+    "question_text": "Suppose the true model is $\\text{wage} = \\beta_0 + \\beta_1 \\, \\text{educ} + \\beta_2 \\, \\text{ability} + u$, but a researcher omits ability and runs $\\text{wage} = \\tilde{\\beta}_0 + \\tilde{\\beta}_1 \\, \\text{educ} + v$. Assume ability raises wages ($\\beta_2 > 0$) and is positively correlated with education in the sample. State the formula for the omitted variable bias on $\\tilde{\\beta}_1$ and determine its sign.",
+    "data_table": null,
+    "solution": {
+      "text": "The omitted variable bias formula is $E(\\tilde{\\beta}_1) - \\beta_1 = \\beta_2 \\, \\delta_1$, where $\\delta_1$ is the slope from the auxiliary regression of the omitted variable (ability) on the included regressor (education). Here $\\beta_2 > 0$ (ability raises wages) and $\\delta_1 > 0$ (education and ability are positively correlated, so the auxiliary slope is positive). Therefore the bias is positive: $\\tilde{\\beta}_1$ is, on average, larger than the true $\\beta_1$. We say the OLS estimator overstates the return to education when ability is omitted.",
+      "key_formula": "$E(\\tilde{\\beta}_1) - \\beta_1 = \\beta_2 \\, \\delta_1$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: The OVB has two ingredients: how the omitted variable affects $y$, and how the omitted variable correlates with the included regressor.",
+      "Hint 2: Make a 2×2 sign table: sign of $\\beta_2$ × sign of $\\delta_1$ → sign of bias."
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S3_EN_CONCEPT_005",
+    "twin_id": "S3_FR_CONCEPT_005",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "multicollinearity"
+    ],
+    "prerequisites": [
+      "S1_OLS"
+    ],
+    "lecture_ref": "S3.5",
+    "question_text": "A researcher regresses household expenditure on income measured in dollars ($x_1$) and on the same income measured in thousands of dollars ($x_2 = x_1/1000$), along with an intercept. OLS will fail to produce a unique estimate. Identify which MLR assumption is violated, name the phenomenon, and explain in one or two sentences why the estimator breaks down.",
+    "data_table": null,
+    "solution": {
+      "text": "The assumption violated is **MLR.3 (no perfect collinearity)**: no regressor may be an exact linear combination of the others (and an intercept). Here $x_2$ is a scalar multiple of $x_1$, so the design matrix $X$ does not have full column rank and $X^\\top X$ is singular. The phenomenon is called **perfect collinearity**. The OLS normal equations $X^\\top X \\hat{\\beta} = X^\\top y$ have infinitely many solutions because there is no way to disentangle the separate contributions of $x_1$ and $x_2$: any change in $\\beta_1$ can be exactly offset by a corresponding change in $\\beta_2$. Software typically responds by dropping one of the two redundant regressors.",
+      "key_formula": null,
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Look at the relation between $x_1$ and $x_2$. Is one an exact function of the other?",
+      "Hint 2: Recall the rank condition required for $X^\\top X$ to be invertible."
+    ],
+    "related_exercises": []
+  },
+  {
+    "id": "S3_EN_CONCEPT_006",
+    "twin_id": "S3_FR_CONCEPT_006",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "MLR_model"
+    ],
+    "prerequisites": [
+      "S2_OVB"
+    ],
+    "lecture_ref": "S3.4",
+    "question_text": "State assumption MLR.4 (zero conditional mean) for the model $y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + u$, and explain in two or three sentences why violating it makes the OLS estimator of $\\beta_1$ biased. Connect your answer to the idea of an omitted variable.",
+    "data_table": null,
+    "solution": {
+      "text": "MLR.4 states that $E(u \\mid x_1, x_2) = 0$: the unobserved error has mean zero conditional on every regressor. Equivalently, no regressor carries information about $u$. If a relevant variable is omitted, it is absorbed into $u$; if that omitted variable is correlated with $x_1$, then $E(u \\mid x_1, x_2) \\neq 0$ and MLR.4 fails. As a result, the OLS slope on $x_1$ picks up not only the partial effect of $x_1$ on $y$ but also the indirect effect operating through the omitted variable, producing the omitted variable bias studied in S2. MLR.4 is the assumption that rules this out.",
+      "key_formula": "$E(u \\mid x_1, x_2) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Write MLR.4 as a conditional expectation statement and translate it into plain English: 'the error term contains no information about the regressors'.",
+      "Hint 2: How does omitting a relevant regressor that is correlated with $x_1$ change $E(u \\mid x_1, x_2)$?"
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_001",
+      "S3_EN_CONCEPT_008",
+      "S3_EN_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S3_EN_CONCEPT_007",
+    "twin_id": "S3_FR_CONCEPT_007",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "controlling_for_variables",
+      "partial_effect"
+    ],
+    "prerequisites": [
+      "S1_OLS"
+    ],
+    "lecture_ref": "S3.3",
+    "question_text": "Using the partition regression (Frisch–Waugh–Lovell) interpretation of OLS, explain in three or four sentences what it means to 'control for' a variable in MLR. Describe in words the two-step procedure that produces the same estimate of $\\hat{\\beta}_1$ as running the full multiple regression of $y$ on $x_1$ and $x_2$.",
+    "data_table": null,
+    "solution": {
+      "text": "To 'control for' $x_2$ when estimating the partial effect of $x_1$ on $y$ means using only the variation in $x_1$ that is unrelated to (orthogonal to) $x_2$. The Frisch–Waugh–Lovell two-step procedure is: (i) regress $x_1$ on $x_2$ (with an intercept) and save the residuals $\\tilde{x}_1$, which represent the part of $x_1$ that $x_2$ cannot predict; (ii) regress $y$ on these residuals $\\tilde{x}_1$. The slope from step (ii) is exactly $\\hat{\\beta}_1$ from the original full multiple regression. So 'controlling for $x_2$' is mechanically equivalent to first netting $x_2$ out of $x_1$ and then asking how this purified variation in $x_1$ moves $y$.",
+      "key_formula": null,
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: 'Controlling for' is sometimes called 'partialling out'. What is being partialled out, and from what?",
+      "Hint 2: Step 1 is an auxiliary regression of $x_1$ on $x_2$. What plays the role of $x_1$ in step 2?"
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_002",
+      "S3_EN_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S3_EN_CONCEPT_008",
+    "twin_id": "S3_FR_CONCEPT_008",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "MLR_model"
+    ],
+    "prerequisites": [
+      "S2_SLR_assumptions"
+    ],
+    "lecture_ref": "S3.7",
+    "question_text": "State the Gauss–Markov theorem for the multiple linear regression model. Specify (a) what 'BLUE' stands for, (b) which class of estimators OLS is being compared against, and (c) which assumptions (MLR.1–MLR.5) are required.",
+    "data_table": null,
+    "solution": {
+      "text": "**Gauss–Markov theorem.** Under assumptions MLR.1 (linear in parameters), MLR.2 (random sampling), MLR.3 (no perfect collinearity), MLR.4 (zero conditional mean of the error), and MLR.5 (homoskedasticity, $\\mathrm{Var}(u \\mid x_1,\\dots,x_k) = \\sigma^2$), the OLS estimator $\\hat{\\beta}$ is **BLUE**: the **B**est **L**inear **U**nbiased **E**stimator. (a) 'Best' means smallest variance; 'Linear' means linear in $y$; 'Unbiased' means $E(\\hat{\\beta}) = \\beta$; 'Estimator' is just an estimator. (b) The comparison class is all estimators that are linear in $y$ and unbiased. (c) MLR.1–MLR.4 give unbiasedness; MLR.5 (homoskedasticity) is the additional ingredient required for the variance-minimizing claim.",
+      "key_formula": "$\\mathrm{Var}(\\hat{\\beta}_j) \\le \\mathrm{Var}(\\tilde{\\beta}_j)$ for any other linear unbiased $\\tilde{\\beta}_j$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Decompose 'BLUE' letter by letter and attach a precise meaning to each.",
+      "Hint 2: Which subset of MLR.1–MLR.5 is needed for unbiasedness alone, and which extra assumption is needed for the efficiency claim?"
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_001",
+      "S3_EN_CONCEPT_006",
+      "S3_EN_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S3_EN_CONCEPT_009",
+    "twin_id": "S3_FR_CONCEPT_009",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "OVB",
+      "controlling_for_variables"
+    ],
+    "prerequisites": [
+      "S2_OVB"
+    ],
+    "lecture_ref": "S3.4",
+    "question_text": "An education economist regresses average classroom test scores on class size and obtains a small *positive* slope, suggesting that larger classes are associated with higher scores. She suspects this is misleading because per-pupil school resources (books, computers, support staff) are omitted. In her district, wealthier schools tend to have *both* more resources *and* larger classes (resources $> 0$ effect on scores; positive correlation between resources and class size). (a) Use the OVB formula to determine the sign of the bias on the class-size coefficient. (b) Explain whether the true partial effect of class size on scores is more likely to be positive, zero, or negative. (c) Describe how adding per-pupil resources as a control variable would change the interpretation.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Let $\\beta_{\\text{res}} > 0$ (resources raise scores) and let the auxiliary slope $\\delta_{\\text{res, size}} > 0$ (resources are positively correlated with class size in this district). The OVB on the class-size slope is $\\beta_{\\text{res}} \\cdot \\delta_{\\text{res, size}} > 0$: the omitted-variable bias is **positive**, so the SLR slope on class size is biased upward. (b) Because the observed SLR slope is already small and positive, removing an upward bias would push the estimate toward zero or even into negative territory. The true partial effect of class size is therefore plausibly **zero or negative**, consistent with the standard educational finding that smaller classes weakly help. (c) Adding per-pupil resources as a control variable in MLR isolates the variation in class size that is unrelated to school resources (partition regression / partialling out). The MLR slope on class size then estimates the partial effect holding resources fixed, and should move downward relative to the SLR estimate.",
+      "key_formula": "$\\text{Bias}(\\tilde{\\beta}_{\\text{size}}) = \\beta_{\\text{res}} \\cdot \\delta_{\\text{res, size}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Write the OVB formula and read off the sign of each piece. The sign of the bias is the product of the two signs.",
+      "Hint 2: If the bias is upward and the observed slope is slightly positive, what does that imply once the bias is removed?",
+      "Hint 3: 'Adding a control' = 'partialling out' = 'using only the variation in class size unrelated to resources'."
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_002",
+      "S3_EN_CONCEPT_004",
+      "S3_EN_CONCEPT_007"
+    ]
+  },
+  {
+    "id": "S3_EN_CONCEPT_010",
+    "twin_id": "S3_FR_CONCEPT_010",
+    "session": "S3",
+    "session_title_en": "Multiple Linear Regression",
+    "session_title_fr": "Modèle linéaire multivarié",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "adjusted_R2",
+      "MLR_model"
+    ],
+    "prerequisites": [
+      "S1_R_squared"
+    ],
+    "lecture_ref": "S3.6",
+    "question_text": "An analyst compares two competing OLS specifications for log wage on the same sample of $n = 200$ observations. Model A uses $k_A = 4$ regressors and yields $R^2_A = 0.42$; model B uses $k_A + 4 = 8$ regressors and yields $R^2_B = 0.44$. (a) Which $R^2$ is necessarily larger, and why does that comparison alone not tell us which model is preferred? (b) Use the adjusted $R^2$ formula to argue qualitatively (not by relying on any hypothesis test) whether model B's four extra regressors appear to be 'earning their keep'. (c) Name one substantive limitation of using adjusted $R^2$ as the sole model-selection criterion.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) $R^2$ is non-decreasing in the number of regressors, so $R^2_B \\ge R^2_A$ is mechanically expected: the extra regressors can only weakly reduce the SSR. The raw $R^2$ comparison therefore does not penalize model B for the four added parameters and cannot, by itself, rank the two models. (b) Adjusted $R^2$ is $\\bar{R}^2 = 1 - (1-R^2)\\dfrac{n-1}{n-k-1}$. Plugging in: $\\bar{R}^2_A = 1 - 0.58 \\cdot \\dfrac{199}{195} \\approx 0.408$; $\\bar{R}^2_B = 1 - 0.56 \\cdot \\dfrac{199}{191} \\approx 0.417$. Model B's adjusted $R^2$ is only marginally higher (~0.009 above A), so the four extra regressors barely cover the degrees-of-freedom penalty. Qualitatively, the adjusted $R^2$ criterion mildly favors B but not decisively. (c) Adjusted $R^2$ rewards explanatory contribution but says nothing about whether each regressor reflects a meaningful causal channel; it can be inflated by including variables that are correlated with the outcome only because they are themselves endogenous, and it does not measure prediction error out of sample.",
+      "key_formula": "$\\bar{R}^2 = 1 - (1-R^2)\\,\\dfrac{n-1}{n-k-1}$",
+      "numerical_answer": "$\\bar{R}^2_A \\approx 0.408$; $\\bar{R}^2_B \\approx 0.417$",
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: For (a), recall the algebraic relation between SSR and the number of regressors. Why does $R^2$ never fall when a regressor is added?",
+      "Hint 2: For (b), compute $\\bar{R}^2$ for both models with $n = 200$. Compare the two adjusted values, not the raw $R^2$ values.",
+      "Hint 3: For (c), think of cases where two regressors increase fit without representing distinct underlying mechanisms — is fit a sufficient indicator of model quality?"
+    ],
+    "related_exercises": [
+      "S3_EN_CONCEPT_001",
+      "S3_EN_CONCEPT_003",
+      "S3_EN_CONCEPT_006"
+    ]
+  }
+]

@@ -1,0 +1,335 @@
+[
+  {
+    "id": "S1_EN_CONCEPT_001",
+    "twin_id": "S1_FR_CONCEPT_001",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "data_types",
+      "cross_section",
+      "time_series",
+      "panel_data"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.1",
+    "question_text": "A researcher collects the following datasets. For each one, identify whether it is a **cross-section**, **time series**, or **panel** dataset.\n\n1. The unemployment rate of the United States, recorded monthly from January 2000 to December 2023.\n2. The annual income, education level, and age of 5{,}000 different households surveyed once in 2023.\n3. The GDP, inflation rate, and unemployment rate of 30 OECD countries, observed every year from 1990 to 2020.\n\nJustify each answer in one short sentence.",
+    "data_table": null,
+    "solution": {
+      "text": "1. **Time series**: a single entity (the U.S.) is observed repeatedly over time (monthly, 2000-2023). The variation that matters is across time. 2. **Cross-section**: many distinct units (5{,}000 households) are each observed once at a single point in time (2023). The variation is across units. 3. **Panel (longitudinal)**: the same set of units (30 OECD countries) is observed repeatedly over time (annually, 1990-2020). The dataset has both a unit dimension and a time dimension.",
+      "key_formula": null,
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Ask yourself two questions for each dataset — how many distinct units are observed, and how many time periods are observed?",
+      "Hint 2: A cross-section has many units at one time. A time series has one (or a small number of) unit(s) over many periods. A panel has many units AND many periods."
+    ],
+    "related_exercises": []
+  },
+  {
+    "id": "S1_EN_CONCEPT_002",
+    "twin_id": "S1_FR_CONCEPT_002",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "correlation_vs_causation"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.2",
+    "question_text": "A newspaper reports: *\"Cities with more firefighters tend to have larger fires (measured in property damage). Therefore, sending firefighters to a fire makes the fire worse.\"*\n\nExplain in 3-4 sentences why this argument is flawed. In your answer, distinguish clearly between **correlation** and **causation**, and propose a plausible alternative explanation for the observed positive correlation.",
+    "data_table": null,
+    "solution": {
+      "text": "The argument confuses correlation with causation. The data show only that the number of firefighters and the size of fires move together (correlation), not that one causes the other. A plausible alternative explanation is that both variables are driven by a third factor: the size or severity of the fire. Big fires require more firefighters AND cause more damage; small fires need few firefighters AND cause little damage. The third variable (fire size) creates the positive correlation, even though dispatching more firefighters likely *reduces* damage holding fire size constant.",
+      "key_formula": null,
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Two variables can move together for reasons other than one causing the other. What else could explain the pattern?",
+      "Hint 2: Think about what determines BOTH the number of firefighters dispatched AND the size of the fire. Is there a common driver?"
+    ],
+    "related_exercises": [
+      "S1_EN_CONCEPT_007"
+    ]
+  },
+  {
+    "id": "S1_EN_CONCEPT_003",
+    "twin_id": "S1_FR_CONCEPT_003",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "SLR_model",
+      "error_term"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.3",
+    "question_text": "Consider the simple linear regression population model:\n\n$$y = \\beta_0 + \\beta_1 x + u.$$\n\nFor each of the following items, state in one sentence what it represents:\n\n(a) $y$\n(b) $x$\n(c) $\\beta_0$\n(d) $\\beta_1$\n(e) $u$\n\nThen explain in 1-2 sentences why $u$ is needed in the model — i.e., what would be lost if we wrote $y = \\beta_0 + \\beta_1 x$ exactly.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) $y$ is the **dependent variable** (or outcome / regressand) — the variable whose variation we want to explain. (b) $x$ is the **independent variable** (or regressor / explanatory variable) — the variable used to explain $y$. (c) $\\beta_0$ is the **intercept**: the expected value of $y$ when $x = 0$. (d) $\\beta_1$ is the **slope**: the expected change in $y$ associated with a one-unit increase in $x$. (e) $u$ is the **error term** (or disturbance): everything that affects $y$ but is not captured by $x$.\n\nThe error term $u$ is needed because no two units with the same $x$ have exactly the same $y$ in the real world. $u$ collects unobserved factors, omitted variables, measurement error, and the inherent randomness in the relationship — without it, the model would be a deterministic line that no real dataset would satisfy exactly.",
+      "key_formula": "$y = \\beta_0 + \\beta_1 x + u$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Each Greek letter and variable in the SLR model has a specific role: outcome, regressor, intercept, slope, or unobservables.",
+      "Hint 2: Think about what the model would predict if you set $x = 0$. That tells you what $\\beta_0$ means. Then think about how $y$ changes when $x$ changes by one unit — that gives you $\\beta_1$."
+    ],
+    "related_exercises": [
+      "S1_EN_CONCEPT_004",
+      "S1_EN_CONCEPT_005",
+      "S1_EN_CONCEPT_006"
+    ]
+  },
+  {
+    "id": "S1_EN_CONCEPT_004",
+    "twin_id": "S1_FR_CONCEPT_004",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "beta_interpretation",
+      "SLR_model"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.4",
+    "question_text": "An economist estimates the following simple linear regression on a cross-section of 1{,}200 workers:\n\n$$\\widehat{\\text{wage}} = 4.50 + 0.62 \\, \\text{educ},$$\n\nwhere $\\text{wage}$ is hourly wage in U.S. dollars and $\\text{educ}$ is years of completed education.\n\n(a) Interpret the estimated slope $\\hat\\beta_1 = 0.62$ in one sentence using the standard interpretation template.\n\n(b) Interpret the estimated intercept $\\hat\\beta_0 = 4.50$. Is this interpretation economically meaningful in this dataset? Explain briefly.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) When years of education increase by 1 year, hourly wage tends to be higher by \\$0.62, on average, all else equal.\n\n(b) Mechanically, $\\hat\\beta_0 = 4.50$ is the predicted hourly wage for a worker with $\\text{educ} = 0$ years of schooling. In this dataset, that interpretation is **not economically meaningful**: workers with literally zero years of education are extremely rare (or absent) in a typical labor-market sample, so $\\text{educ} = 0$ lies outside the range of the data. The intercept is best viewed as a fitting constant that anchors the regression line, not as a reliable prediction.",
+      "key_formula": "$\\widehat{y} = \\hat\\beta_0 + \\hat\\beta_1 x$",
+      "numerical_answer": null,
+      "common_mistakes": [
+        "Saying \"if education increases by 1, wage increases by 0.62\" without the words \"on average\" or \"tends to\" — this overstates the deterministic content of the regression.",
+        "Interpreting $\\hat\\beta_0 = 4.50$ as a meaningful prediction without checking whether $x = 0$ is inside the range of the data."
+      ]
+    },
+    "hints": [
+      "Hint 1: The slope answers: \"if $x$ goes up by one unit, what happens to $y$ on average?\" The intercept answers: \"what is predicted $y$ when $x = 0$?\"",
+      "Hint 2: For the intercept, ask whether $\\text{educ} = 0$ is a plausible value in the sample. If it isn't, the intercept's literal interpretation is an extrapolation."
+    ],
+    "related_exercises": [
+      "S1_EN_CONCEPT_003",
+      "S1_EN_CONCEPT_005",
+      "S1_EN_CONCEPT_006"
+    ]
+  },
+  {
+    "id": "S1_EN_CONCEPT_005",
+    "twin_id": "S1_FR_CONCEPT_005",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "OLS_intuition",
+      "SLR_model"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.5",
+    "question_text": "A student claims: *\"OLS chooses the line that minimizes the sum of vertical distances between the data points and the fitted line, $\\sum_{i=1}^n (y_i - \\hat y_i)$.\"*\n\nThis statement is incorrect.\n\n(a) Explain why minimizing $\\sum_{i=1}^n (y_i - \\hat y_i)$ is **not** a useful criterion for fitting a line.\n\n(b) State the criterion that OLS actually minimizes, and explain in 1-2 sentences why squaring (rather than, say, taking absolute values) is the standard choice in introductory econometrics.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) The sum $\\sum_i (y_i - \\hat y_i)$ allows positive and negative residuals to cancel out. A line that passes way above some points and way below others can produce a small (or zero) sum even when the fit is poor. In fact, for any line passing through $(\\bar x, \\bar y)$, the residuals already sum to zero — the criterion has no power to distinguish a good fit from a bad one.\n\n(b) OLS minimizes the **sum of squared residuals**:\n$$\\min_{\\hat\\beta_0, \\hat\\beta_1} \\sum_{i=1}^n \\bigl(y_i - \\hat\\beta_0 - \\hat\\beta_1 x_i\\bigr)^2.$$\nSquaring (i) treats positive and negative residuals symmetrically so they cannot cancel, (ii) penalizes large residuals more heavily than small ones, and (iii) yields a smooth, differentiable objective with closed-form solutions for $\\hat\\beta_0$ and $\\hat\\beta_1$.",
+      "key_formula": "$\\min \\sum_i (y_i - \\hat\\beta_0 - \\hat\\beta_1 x_i)^2$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: What goes wrong if positive errors and negative errors cancel out? Could a clearly bad line achieve a sum of zero?",
+      "Hint 2: Think of two transformations of the residual that prevent cancellation: absolute value and squaring. Which one gives a smooth objective with a clean closed-form solution?"
+    ],
+    "related_exercises": [
+      "S1_EN_CONCEPT_010",
+      "S1_EN_CONCEPT_003",
+      "S1_EN_CONCEPT_004"
+    ]
+  },
+  {
+    "id": "S1_EN_CONCEPT_006",
+    "twin_id": "S1_FR_CONCEPT_006",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "SLR_model",
+      "SLR.1",
+      "SLR.2",
+      "SLR.3",
+      "SLR.4"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.6",
+    "question_text": "Match each assumption (SLR.1-SLR.4) of the simple linear regression model with the correct verbal statement.\n\n**Assumptions:** SLR.1, SLR.2, SLR.3, SLR.4.\n\n**Statements (in random order):**\n\nA. The values of the regressor $x_i$ are not all the same in the sample (sample variation in $x$).\nB. The population relationship is $y = \\beta_0 + \\beta_1 x + u$ — i.e., $y$ is linear in the parameters $\\beta_0$ and $\\beta_1$.\nC. The error term has zero conditional mean: $E(u \\mid x) = 0$.\nD. The data $\\{(x_i, y_i)\\}_{i=1}^n$ are a random sample from the population.\n\nProvide the matching as a list (e.g., \"SLR.1 ↔ X\"). Then, in one sentence, explain why SLR.4 (zero conditional mean) is the assumption that is most easily violated in observational data.",
+    "data_table": null,
+    "solution": {
+      "text": "Matching:\n- SLR.1 ↔ B (linearity in parameters)\n- SLR.2 ↔ D (random sampling)\n- SLR.3 ↔ A (sample variation in $x$)\n- SLR.4 ↔ C (zero conditional mean: $E(u \\mid x) = 0$)\n\nSLR.4 is the most easily violated assumption in observational data because $u$ contains every variable that affects $y$ but is not in the regression. If any of those unobserved factors are correlated with $x$, then $E(u \\mid x) \\neq 0$ and the OLS slope no longer recovers the true $\\beta_1$ — this is the standard concern behind \"correlation is not causation\" in non-experimental settings.",
+      "key_formula": "$E(u \\mid x) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: One assumption is about the *form* of the model, one is about *how the data are collected*, one is about the *spread of $x$*, and one is about the *error term*.",
+      "Hint 2: SLR.4 is sometimes called \"exogeneity of $x$\". It says $x$ carries no information about the average value of the unobservables."
+    ],
+    "related_exercises": [
+      "S1_EN_CONCEPT_010",
+      "S1_EN_CONCEPT_003",
+      "S1_EN_CONCEPT_004"
+    ]
+  },
+  {
+    "id": "S1_EN_CONCEPT_007",
+    "twin_id": "S1_FR_CONCEPT_007",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "error_term",
+      "SLR.4",
+      "correlation_vs_causation"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.7",
+    "question_text": "A researcher runs the simple linear regression\n\n$$\\text{score}_i = \\beta_0 + \\beta_1 \\, \\text{study\\_hours}_i + u_i,$$\n\nwhere $\\text{score}$ is a student's exam score (out of 100) and $\\text{study\\_hours}$ is hours studied per week.\n\n(a) Give two concrete examples of variables that would be absorbed into the error term $u_i$ in this regression.\n\n(b) For each variable you named, argue whether it is plausibly correlated with $\\text{study\\_hours}$ in a typical student sample.\n\n(c) State the assumption that fails when one of these unobserved variables is correlated with $\\text{study\\_hours}$, and explain in one sentence why this matters for interpreting $\\hat\\beta_1$.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Many answers are possible. Two natural examples: (i) the student's underlying ability or motivation, and (ii) the quality of the high school the student attended.\n\n(b) Both examples are plausibly correlated with $\\text{study\\_hours}$. More motivated students tend to study more hours; students from stronger high schools may have learned better study habits and therefore study more efficiently and possibly more frequently. The correlation need not be huge — what matters is that it is not zero.\n\n(c) Assumption **SLR.4** ($E(u \\mid x) = 0$) fails. When unobserved factors in $u$ are correlated with $\\text{study\\_hours}$, the OLS estimate $\\hat\\beta_1$ mixes the true effect of study hours with the effect of those omitted factors, so $\\hat\\beta_1$ no longer measures the causal impact of an extra hour of studying.",
+      "key_formula": "$E(u \\mid x) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: The error term contains every determinant of the outcome that you did not put on the right-hand side of the regression. What else, besides hours studied, drives an exam score?",
+      "Hint 2: For each variable in $u$, ask: \"Do students who study more also tend to be different on this dimension?\" If yes, $x$ and $u$ are correlated."
+    ],
+    "related_exercises": [
+      "S1_EN_CONCEPT_002",
+      "S1_EN_CONCEPT_003",
+      "S1_EN_CONCEPT_006"
+    ]
+  },
+  {
+    "id": "S1_EN_CONCEPT_008",
+    "twin_id": "S1_FR_CONCEPT_008",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "R-squared",
+      "SST",
+      "SSE",
+      "SSR"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.8",
+    "question_text": "Consider the standard decomposition of the total sum of squares in a simple linear regression:\n\n$$\\underbrace{\\sum_{i=1}^n (y_i - \\bar y)^2}_{\\text{SST}} = \\underbrace{\\sum_{i=1}^n (\\hat y_i - \\bar y)^2}_{\\text{SSE}} + \\underbrace{\\sum_{i=1}^n \\hat u_i^2}_{\\text{SSR}},$$\n\nwhere SST is the total sum of squares, SSE is the explained sum of squares, and SSR is the residual sum of squares.\n\n(a) Define $R^2$ in terms of SST, SSE, and SSR (give two equivalent forms).\n\n(b) An analyst reports $R^2 = 0.18$ for a regression of household savings on household income. Their colleague says: *\"An $R^2$ that low means the regression is useless and the slope is not telling us anything real.\"* Give two reasons why this conclusion is too strong.\n\n(c) Without doing any calculation, what would $R^2$ equal in the extreme case where the OLS line passes exactly through every data point? And in the case where $\\hat\\beta_1 = 0$? Briefly justify each.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) $R^2$ is the share of total variation in $y$ explained by the regression:\n$$R^2 = \\frac{\\text{SSE}}{\\text{SST}} = 1 - \\frac{\\text{SSR}}{\\text{SST}}.$$\n\n(b) The conclusion is too strong for at least two reasons. (i) $R^2$ measures **predictive fit**, not whether the slope $\\hat\\beta_1$ captures a real relationship. A low $R^2$ simply means $x$ alone leaves a lot of variation in $y$ unexplained, which is normal in cross-sectional household data where many other factors (family size, expectations, region, etc.) drive savings. (ii) A low $R^2$ does not mean $\\hat\\beta_1$ is zero or unimportant. The slope can be a meaningful, economically relevant number even when most of the variation in savings is left to the error term.\n\n(c) If the line fits every point exactly, then $\\hat u_i = 0$ for all $i$, so SSR = 0 and $R^2 = 1$. If $\\hat\\beta_1 = 0$, then $\\hat y_i = \\hat\\beta_0 = \\bar y$ for every $i$, so SSE = 0 and $R^2 = 0$ — the regression explains none of the variation in $y$.",
+      "key_formula": "$R^2 = \\frac{\\text{SSE}}{\\text{SST}} = 1 - \\frac{\\text{SSR}}{\\text{SST}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: $R^2$ ranges between 0 and 1. Think about which of SSE, SSR, SST you put in the numerator to get the share *explained*.",
+      "Hint 2: Distinguish two different questions: (i) does $x$ predict $y$ well? (ii) is the slope $\\hat\\beta_1$ meaningful? A regression can have a low $R^2$ and still answer (ii) usefully."
+    ],
+    "related_exercises": []
+  },
+  {
+    "id": "S1_EN_CONCEPT_009",
+    "twin_id": "S1_FR_CONCEPT_009",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "covariance",
+      "correlation",
+      "OLS_intuition",
+      "beta_interpretation"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.9",
+    "question_text": "The OLS slope estimator in simple linear regression can be written as\n\n$$\\hat\\beta_1 = \\frac{\\widehat{\\operatorname{Cov}}(x, y)}{\\widehat{\\operatorname{Var}}(x)}.$$\n\nFour separate claims are made by four students. For each claim, state whether it is **true** or **false**, and justify your answer in one sentence.\n\n**Claim A.** \"If the sample correlation between $x$ and $y$ is zero, then $\\hat\\beta_1 = 0$.\"\n\n**Claim B.** \"$\\hat\\beta_1$ and the sample correlation $\\hat\\rho_{xy}$ always have the same sign.\"\n\n**Claim C.** \"If we rescale $x$ by multiplying every $x_i$ by 100 (e.g., switching units from meters to centimeters), $\\hat\\beta_1$ is multiplied by 100 as well.\"\n\n**Claim D.** \"If we rescale $x$ as in C, the sample correlation $\\hat\\rho_{xy}$ is also multiplied by 100.\"",
+    "data_table": null,
+    "solution": {
+      "text": "**A. True.** The numerator of $\\hat\\beta_1$ is $\\widehat{\\operatorname{Cov}}(x,y)$, which is zero if and only if the sample correlation is zero (the standard deviations are positive when $x$ has variation, SLR.3). So zero correlation implies $\\hat\\beta_1 = 0$.\n\n**B. True.** $\\hat\\beta_1 = \\widehat{\\operatorname{Cov}}(x,y) / \\widehat{\\operatorname{Var}}(x)$, and $\\widehat{\\operatorname{Var}}(x) > 0$. The sample correlation has the same sign as $\\widehat{\\operatorname{Cov}}(x,y)$, so it has the same sign as $\\hat\\beta_1$.\n\n**C. False.** If $x$ is multiplied by 100, then $\\widehat{\\operatorname{Cov}}(x,y)$ is multiplied by 100 and $\\widehat{\\operatorname{Var}}(x)$ is multiplied by $100^2$, so $\\hat\\beta_1$ is divided by 100, not multiplied. Intuition: a one-centimeter change in $x$ is a much smaller change than a one-meter change, so the slope per unit of $x$ shrinks.\n\n**D. False.** Correlation is unit-free. Multiplying $x$ by a positive constant does not change $\\hat\\rho_{xy}$ at all. (Multiplying by a negative constant would flip the sign but not the magnitude.)",
+      "key_formula": "$\\hat\\beta_1 = \\widehat{\\operatorname{Cov}}(x,y) / \\widehat{\\operatorname{Var}}(x)$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Use the formula $\\hat\\beta_1 = \\widehat{\\operatorname{Cov}}(x,y)/\\widehat{\\operatorname{Var}}(x)$ and ask, for each rescaling, what happens to the numerator and the denominator separately.",
+      "Hint 2: Correlation is unit-free, but the slope has units of $y$ per unit of $x$. That alone tells you which of C and D can possibly be true."
+    ],
+    "related_exercises": [
+      "S1_EN_CONCEPT_004",
+      "S1_EN_CONCEPT_005",
+      "S1_EN_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S1_EN_CONCEPT_010",
+    "twin_id": "S1_FR_CONCEPT_010",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "SLR.3",
+      "OLS_intuition",
+      "SLR_model"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.10",
+    "question_text": "Assumption **SLR.3** requires that the regressor $x$ exhibits sample variation: not all $x_i$ are equal.\n\n(a) Suppose a researcher tries to estimate\n\n$$y_i = \\beta_0 + \\beta_1 x_i + u_i$$\n\non a sample where every observation has $x_i = 5$. Using the formula\n\n$$\\hat\\beta_1 = \\frac{\\sum_i (x_i - \\bar x)(y_i - \\bar y)}{\\sum_i (x_i - \\bar x)^2},$$\n\nexplain what goes wrong, both algebraically and intuitively.\n\n(b) Now suppose the sample has *almost* no variation in $x$ — for instance, 99% of observations have $x_i = 5$ and only 1% have $x_i = 6$. The OLS estimator is technically defined, but it is widely considered \"unreliable\" in this case. Explain in 2-3 sentences why, focusing on what role the variation in $x$ plays in identifying $\\beta_1$.\n\n(c) Connect your answer to the slogan: *\"OLS uses variation in $x$ to learn about how $y$ responds to $x$.\"*",
+    "data_table": null,
+    "solution": {
+      "text": "(a) If every $x_i = 5$, then $\\bar x = 5$ and $x_i - \\bar x = 0$ for all $i$. The denominator $\\sum_i (x_i - \\bar x)^2 = 0$ and the numerator is also zero, so $\\hat\\beta_1$ is $0/0$ — undefined. Intuitively, when $x$ does not vary at all, the data contain no information about how $y$ changes when $x$ changes, so no slope can be identified. SLR.3 rules out this degenerate case.\n\n(b) The denominator $\\sum_i (x_i - \\bar x)^2$ is positive but very small. A tiny sliver of variation in $x$ has to do all the work of pinning down $\\hat\\beta_1$, so the estimator becomes extremely sensitive to a few observations and to noise in the corresponding $y$ values. Two samples that look almost identical can produce very different slope estimates — i.e., $\\hat\\beta_1$ is imprecise.\n\n(c) OLS learns $\\beta_1$ by comparing units with different values of $x$ and asking how their $y$ values differ. With no variation, no such comparison is possible (case a). With little variation, only a narrow comparison is available (case b), so the estimate is fragile. Variation in $x$ is the raw material out of which the slope is built.",
+      "key_formula": "$\\hat\\beta_1 = \\frac{\\sum_i (x_i - \\bar x)(y_i - \\bar y)}{\\sum_i (x_i - \\bar x)^2}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Plug $x_i = 5$ for all $i$ directly into the formula. What does $x_i - \\bar x$ become? What does that do to the denominator?",
+      "Hint 2: For part (b), think of the slope as \"rise over run\". If the run (variation in $x$) is tiny, even small noise in the rise (variation in $y$) translates into a wildly different slope."
+    ],
+    "related_exercises": [
+      "S1_EN_CONCEPT_005",
+      "S1_EN_CONCEPT_006",
+      "S1_EN_CONCEPT_003"
+    ]
+  }
+]

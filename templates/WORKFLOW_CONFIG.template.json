@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "course": {
+    "course_id": "example_course_2026",
+    "course_name": {
+      "en": "Example Course"
+    },
+    "institution": "Example University",
+    "domain": "example_domain",
+    "term": "2026",
+    "audience_level": "undergraduate advanced",
+    "languages": ["en"],
+    "primary_language": "en"
+  },
+  "paths": {
+    "raw_dir": "courses/example_course_2026/raw",
+    "phase1_output": "courses/example_course_2026/phase1-output",
+    "phase2_smoke_output": "courses/example_course_2026/phase2-output/smoke",
+    "phase2_full_output": "courses/example_course_2026/phase2-output/full",
+    "phase3_ingestion_output": "courses/example_course_2026/phase3-output/ingestion",
+    "deployment_preview_output": "courses/example_course_2026/phase3-output/deployment-preview",
+    "production_output": "courses/example_course_2026/phase3-output/production",
+    "quizbank_repo": "phase2-quizbank/quiz-llm-bank",
+    "ta_repo": "phase3-ta-llm-system"
+  },
+  "policies": {
+    "require_approval": true,
+    "lecture_merge_default": "unified_topic_corpus",
+    "unified_corpus_default": true,
+    "merge_by_topic": true,
+    "unified_voice": true,
+    "emit_raw_source_split_to_ta": false,
+    "ta_sources_default": "canonical_only",
+    "assessment_material": "authoring_only",
+    "quarantine_transcripts": true,
+    "quarantine_generated_derivatives": true,
+    "allow_generated_scaffolds": false
+  },
+  "branding": {
+    "palette": {
+      "brand_navy": "#0b1f3a",
+      "brand_blue": "#2563eb",
+      "brand_teal": "#0f766e",
+      "brand_light_blue": "#e0f2fe",
+      "brand_white": "#ffffff",
+      "brand_gray": "#64748b"
+    },
+    "logo_path": null,
+    "footer_text": "Created with MyTeachingPerroquet."
+  },
+  "sessions": [
+    {
+      "id": "S1",
+      "dir": "S1_Introduction",
+      "title": {"en": "Introduction"},
+      "topics": [],
+      "scope_terms": {"en": []},
+      "prerequisites": []
+    }
+  ],
+  "exercise_profile": {
+    "basis": "pending_assessment_style_audit",
+    "mode": "pending_assessment_style_audit",
+    "exercise_types": [],
+    "exercise_type_inference_default": "infer_from_exams_and_practice",
+    "smoke_exercises_per_session": null,
+    "full_exercises_per_session": null,
+    "type_distribution": {},
+    "type_distribution_overrides": {},
+    "batch_size": null,
+    "generation_loops": null,
+    "difficulty_distribution": {},
+    "solution_style": "pending_assessment_style_audit",
+    "assessment_style_evidence": [],
+    "quiz_visible_types": [],
+    "hidden_from_quiz": []
+  },
+  "llm": {
+    "orchestrator_agent": "user_selected",
+    "generation": {
+      "provider": "claude",
+      "model": "claude-opus-4-7",
+      "agent_role": "quiz_generation",
+      "requires_fresh_context": true
+    },
+    "verifiers": [
+      {
+        "provider": "claude",
+        "model": "claude-opus-4-7",
+        "agent_role": "quiz_verification",
+        "requires_fresh_context": true,
+        "must_not_reuse_generation_context": true
+      }
+    ],
+    "optional_verifiers": [
+      {"provider": "codex", "model": "gpt-5.4", "agent_role": "secondary_verification"}
+    ],
+    "verification_policy": "Generate first, then verify in one or more independent fresh-context verifier agents. The verifier may use the same model as generation, but must not share the generation chat/context."
+  },
+  "ta": {
+    "prompt_profile": "course_ta",
+    "assistant_persona": "",
+    "source_strictness": "canonical_only",
+    "ingestion_scope": "unified_canonical_corpus_plus_verified_quizbank",
+    "quiz_mode_selection": {
+      "student_selects_session": true,
+      "student_selects_question_type": true,
+      "include_all_option": true,
+      "random_within_selection": true
+    },
+    "features": {
+      "auth_required": true,
+      "quiz_mode_enabled": false
+    },
+    "hidden_question_types": [],
+    "runtime": {
+      "provider": "mistral",
+      "model": "mistral-medium-latest",
+      "embedding_provider": "openai"
+    }
+  },
+  "deployment": {
+    "target": "local_then_password_preview",
+    "netlify_site": null,
+    "allowed_origin": null,
+    "production_requires_explicit_approval": true,
+    "required_secrets": [
+      "OPENAI_API_KEY",
+      "MISTRAL_API_KEY or selected runtime LLM key",
+      "JWT_SECRET",
+      "TA_CHAT_PASSWORD when auth_required"
+    ],
+    "budget_profile": "budget_conscious_default"
+  }
+}

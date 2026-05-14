@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Course Configuration",
+  "description": "Runtime config for course-specific content loaded by ta-chat.mjs",
+  "type": "object",
+  "properties": {
+    "abbreviations": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Map of abbreviation to expansion (e.g. {\"gdp\": \"gross domestic product\"}). Merged on top of built-in French lecture synonyms."
+    },
+    "academic_signals": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Course-specific terms/stems for academic signal detection. Combined with ~60 built-in generic academic terms."
+    },
+    "terminology_fr": {
+      "type": "string",
+      "description": "French terminology table appended to French responses. Empty string or omit for no suffix."
+    },
+    "course_topics": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Chapter/session labels (e.g. [\"S1: Introduction\", \"S2: Core Concepts\"]). Metadata only."
+    },
+    "question_type_labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "fr": { "type": "string" },
+          "en": { "type": "string" }
+        }
+      },
+      "description": "Optional display labels for exercise type codes, e.g. {\"STATA\": {\"fr\": \"Logiciel\", \"en\": \"Software\"}}."
+    },
+    "hidden_question_types": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Type codes to exclude from the quiz UI entirely (e.g. [\"STATA\"]). Exercises remain in data but are never shown to students."
+    },
+    "features": {
+      "type": "object",
+      "description": "Feature flags read by the backend at cold-start.",
+      "properties": {
+        "auth_required": {
+          "type": "boolean",
+          "description": "Set to false to disable password login. Useful for demos. Rate limiting still applies."
+        },
+        "quiz_mode_enabled": {
+          "type": "boolean",
+          "description": "Show the quiz mode toggle in the UI. Defaults to true if exercises exist, false otherwise."
+        }
+      },
+      "additionalProperties": false
+    },
+    "prompt_profile": {
+      "type": "string",
+      "enum": ["course_ta", "content_companion"],
+      "description": "Which system-prompt persona the assistant adopts. 'course_ta' = university-level teaching assistant with short conversational prose, source-grounded answers, and hints before homework solutions. 'content_companion' = guide grounded in the supplied content for paper/book/manual companions. Defaults to 'course_ta' for backwards compatibility."
+    },
+    "assistant_persona": {
+      "type": "string",
+      "description": "Free-text addendum appended to the system prompt — describes who the assistant is and the audience. E.g. 'You are a companion to a research paper on minimum-wage effects; readers are policy analysts.'"
+    }
+  },
+  "additionalProperties": false
+}

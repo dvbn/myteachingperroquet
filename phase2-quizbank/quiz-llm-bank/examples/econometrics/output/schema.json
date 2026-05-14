@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Introduction to Econometrics Exercise",
+  "description": "Schema for exercise bank: econometrics_example_2026",
+  "type": "object",
+  "required": [
+    "id",
+    "twin_id",
+    "session",
+    "session_title_en",
+    "session_title_fr",
+    "language",
+    "question_type",
+    "difficulty",
+    "topics",
+    "prerequisites",
+    "lecture_ref",
+    "question_text",
+    "solution",
+    "hints",
+    "related_exercises"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^S\\d+_(FR|EN)_(MATH|CONCEPT|INTERP|CASE|TF|SOFTWARE)_\\d{3}$",
+      "description": "Unique exercise ID"
+    },
+    "twin_id": {
+      "type": "string",
+      "pattern": "^S\\d+_(FR|EN)_(MATH|CONCEPT|INTERP|CASE|TF|SOFTWARE)_\\d{3}$",
+      "description": "ID of the translation twin exercise"
+    },
+    "session": {
+      "type": "string",
+      "enum": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9"
+      ]
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "en",
+        "fr"
+      ]
+    },
+    "question_type": {
+      "type": "string",
+      "enum": [
+        "MATH",
+        "CONCEPT",
+        "INTERP",
+        "CASE",
+        "TF",
+        "SOFTWARE"
+      ]
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "EASY",
+        "MED",
+        "HARD"
+      ]
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "lecture_ref": {
+      "type": "string"
+    },
+    "question_text": {
+      "type": "string"
+    },
+    "data_table": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "solution": {
+      "type": "object",
+      "required": [
+        "text",
+        "key_formula"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "key_formula": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "numerical_answer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "common_mistakes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "hints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "maxItems": 3
+    },
+    "related_exercises": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "session_title_en": {
+      "type": "string"
+    },
+    "session_title_fr": {
+      "type": "string"
+    },
+    "software_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

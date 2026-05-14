@@ -1,0 +1,24 @@
+[build]
+  publish = "frontend"
+  functions = "netlify/functions"
+
+[functions]
+  included_files = ["data/**"]
+
+# Serve ta-widget.html at the site root so the Netlify URL works directly
+[[redirects]]
+  from = "/"
+  to = "/ta-widget.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # The widget is meant to be embeddable via <iframe> from the operator's
+    # own site. Default policy: allow same-origin embeds, deny cross-origin
+    # framing for clickjacking protection. To embed from a specific external
+    # site, replace this with:
+    #   Content-Security-Policy = "frame-ancestors 'self' https://your-site.example;"
+    # To allow embedding from anywhere (less safe), remove this header.
+    Content-Security-Policy = "frame-ancestors 'self';"
+    X-Content-Type-Options = "nosniff"

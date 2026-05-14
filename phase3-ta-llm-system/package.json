@@ -1,0 +1,26 @@
+{
+  "name": "myteachingperroquet-ta",
+  "version": "1.0.0",
+  "description": "Embeddable LLM chat widget that grounds answers in your own structured content (course notes, papers, books, manuals). Originally a teaching assistant; doubles as a content companion.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "preflight": "node scripts/preflight_check.mjs",
+    "chunk": "node scripts/chunk_lectures.mjs",
+    "transform": "node scripts/transform_exercises.mjs",
+    "rebuild": "node scripts/rebuild_corpus.mjs",
+    "vectors": "node scripts/build_vectors.mjs --corpus data/tutor_corpus.json"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@inquirer/prompts": "^8.4.2"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.92.0",
+    "@netlify/blobs": "^10.7.4",
+    "jose": "^6.2.3"
+  }
+}

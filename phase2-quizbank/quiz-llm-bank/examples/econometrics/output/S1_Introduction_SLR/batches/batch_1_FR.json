@@ -1,0 +1,332 @@
+[
+  {
+    "id": "S1_FR_CONCEPT_001",
+    "twin_id": "S1_EN_CONCEPT_001",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "data_types",
+      "cross_section",
+      "time_series",
+      "panel_data"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.1",
+    "question_text": "Un chercheur recueille les ensembles de données suivants. Pour chacun, identifiez s'il s'agit d'une **coupe transversale**, d'une **série temporelle** ou de **données de panel**.\n\n1. Le taux de chômage des États-Unis, enregistré mensuellement de janvier 2000 à décembre 2023.\n2. Le revenu annuel, le niveau d'éducation et l'âge de 5{,}000 ménages différents interrogés une seule fois en 2023.\n3. Le PIB, le taux d'inflation et le taux de chômage de 30 pays de l'OCDE, observés chaque année de 1990 à 2020.\n\nJustifiez chaque réponse en une courte phrase.",
+    "data_table": null,
+    "solution": {
+      "text": "1. **Série temporelle** : une seule entité (les États-Unis) est observée de façon répétée dans le temps (mensuellement, 2000-2023). La variation pertinente est dans le temps. 2. **Coupe transversale** : de nombreuses unités distinctes (5{,}000 ménages) sont chacune observées une seule fois à un moment donné (2023). La variation est entre les unités. 3. **Données de panel (longitudinales)** : le même ensemble d'unités (30 pays de l'OCDE) est observé de façon répétée dans le temps (annuellement, 1990-2020). L'ensemble de données possède à la fois une dimension d'unité et une dimension temporelle.",
+      "key_formula": null,
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Posez-vous deux questions pour chaque ensemble de données — combien d'unités distinctes sont observées, et combien de périodes temporelles sont observées ?",
+      "Indice 2 : Une coupe transversale comporte plusieurs unités à un seul moment. Une série temporelle comporte une (ou un petit nombre d') unité(s) sur plusieurs périodes. Un panel comporte plusieurs unités ET plusieurs périodes."
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_002"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_002",
+    "twin_id": "S1_EN_CONCEPT_002",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "correlation_vs_causation"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.2",
+    "question_text": "Un journal rapporte : *« Les villes ayant plus de pompiers ont tendance à connaître des incendies plus importants (mesurés en dommages matériels). Par conséquent, envoyer des pompiers sur un incendie aggrave celui-ci. »*\n\nExpliquez en 3 ou 4 phrases pourquoi cet argument est erroné. Dans votre réponse, distinguez clairement la **corrélation** de la **causalité**, et proposez une explication alternative plausible pour la corrélation positive observée.",
+    "data_table": null,
+    "solution": {
+      "text": "L'argument confond corrélation et causalité. Les données montrent uniquement que le nombre de pompiers et la taille des incendies évoluent ensemble (corrélation), et non que l'un cause l'autre. Une explication alternative plausible est que les deux variables sont déterminées par un troisième facteur : la taille ou la gravité de l'incendie. Les grands incendies nécessitent plus de pompiers ET causent plus de dommages ; les petits incendies nécessitent peu de pompiers ET causent peu de dommages. La troisième variable (la taille de l'incendie) crée la corrélation positive, même si l'envoi de davantage de pompiers *réduit* probablement les dommages à taille d'incendie constante.",
+      "key_formula": null,
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Deux variables peuvent évoluer ensemble pour des raisons autres que l'une causant l'autre. Qu'est-ce qui pourrait expliquer le motif observé ?",
+      "Indice 2 : Pensez à ce qui détermine À LA FOIS le nombre de pompiers dépêchés ET la taille de l'incendie. Existe-t-il un facteur commun ?"
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_001"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_003",
+    "twin_id": "S1_EN_CONCEPT_003",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "SLR_model",
+      "error_term"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.3",
+    "question_text": "Considérez le modèle de population de régression linéaire simple :\n\n$$y = \\beta_0 + \\beta_1 x + u.$$\n\nPour chacun des éléments suivants, indiquez en une phrase ce qu'il représente :\n\n(a) $y$\n(b) $x$\n(c) $\\beta_0$\n(d) $\\beta_1$\n(e) $u$\n\nEnsuite, expliquez en 1 ou 2 phrases pourquoi $u$ est nécessaire dans le modèle — c'est-à-dire ce qui serait perdu si l'on écrivait $y = \\beta_0 + \\beta_1 x$ exactement.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) $y$ est la **variable dépendante** (ou résultat / régressande) — la variable dont on veut expliquer la variation. (b) $x$ est la **variable explicative** (ou régresseur / variable indépendante) — la variable utilisée pour expliquer $y$. (c) $\\beta_0$ est l'**ordonnée à l'origine** : la valeur attendue de $y$ lorsque $x = 0$. (d) $\\beta_1$ est la **pente** : le changement attendu de $y$ associé à une augmentation d'une unité de $x$. (e) $u$ est le **terme d'erreur** (ou perturbation) : tout ce qui affecte $y$ mais qui n'est pas capté par $x$.\n\nLe terme d'erreur $u$ est nécessaire car, dans le monde réel, deux unités ayant le même $x$ n'ont jamais exactement le même $y$. $u$ regroupe les facteurs non observés, les variables omises, l'erreur de mesure et le caractère intrinsèquement aléatoire de la relation — sans lui, le modèle serait une droite déterministe qu'aucun ensemble de données réel ne satisferait exactement.",
+      "key_formula": "$y = \\beta_0 + \\beta_1 x + u$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Chaque lettre grecque et chaque variable du modèle de régression linéaire simple a un rôle spécifique : résultat, régresseur, ordonnée à l'origine, pente ou facteurs non observés.",
+      "Indice 2 : Pensez à ce que le modèle prédirait si vous fixiez $x = 0$. Cela vous indique ce que signifie $\\beta_0$. Réfléchissez ensuite à la façon dont $y$ change lorsque $x$ change d'une unité — cela vous donne $\\beta_1$."
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_004",
+      "S1_FR_CONCEPT_007"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_004",
+    "twin_id": "S1_EN_CONCEPT_004",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "beta_interpretation",
+      "SLR_model"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.4",
+    "question_text": "Un économiste estime la régression linéaire simple suivante sur une coupe transversale de 1{,}200 travailleurs :\n\n$$\\widehat{\\text{salaire}} = 4{,}50 + 0{,}62 \\, \\text{educ},$$\n\noù $\\text{salaire}$ est le salaire horaire en dollars américains et $\\text{educ}$ est le nombre d'années d'éducation complétées.\n\n(a) Interprétez la pente estimée $\\hat\\beta_1 = 0{,}62$ en une phrase en utilisant le modèle d'interprétation standard.\n\n(b) Interprétez l'ordonnée à l'origine estimée $\\hat\\beta_0 = 4{,}50$. Cette interprétation est-elle économiquement pertinente dans cet ensemble de données ? Expliquez brièvement.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Lorsque le nombre d'années d'éducation augmente de 1 année, le salaire horaire a tendance à être plus élevé de \\$0{,}62, en moyenne, toutes choses égales par ailleurs.\n\n(b) Mécaniquement, $\\hat\\beta_0 = 4{,}50$ est le salaire horaire prédit pour un travailleur ayant $\\text{educ} = 0$ année de scolarité. Dans cet ensemble de données, cette interprétation **n'est pas économiquement pertinente** : les travailleurs ayant littéralement zéro année d'éducation sont extrêmement rares (ou absents) dans un échantillon typique du marché du travail, donc $\\text{educ} = 0$ se situe en dehors de la plage des données. L'ordonnée à l'origine est plutôt à voir comme une constante d'ajustement qui ancre la droite de régression, et non comme une prédiction fiable.",
+      "key_formula": "$\\widehat{y} = \\hat\\beta_0 + \\hat\\beta_1 x$",
+      "numerical_answer": null,
+      "common_mistakes": [
+        "Dire « si l'éducation augmente de 1, le salaire augmente de 0,62 » sans les mots « en moyenne » ou « a tendance à » — cela exagère le contenu déterministe de la régression.",
+        "Interpréter $\\hat\\beta_0 = 4{,}50$ comme une prédiction pertinente sans vérifier si $x = 0$ se trouve dans la plage des données."
+      ]
+    },
+    "hints": [
+      "Indice 1 : La pente répond à : « si $x$ augmente d'une unité, qu'arrive-t-il à $y$ en moyenne ? » L'ordonnée à l'origine répond à : « quel est le $y$ prédit lorsque $x = 0$ ? »",
+      "Indice 2 : Pour l'ordonnée à l'origine, demandez-vous si $\\text{educ} = 0$ est une valeur plausible dans l'échantillon. Si ce n'est pas le cas, l'interprétation littérale de l'ordonnée à l'origine est une extrapolation."
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_003",
+      "S1_FR_CONCEPT_005"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_005",
+    "twin_id": "S1_EN_CONCEPT_005",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "OLS_intuition",
+      "SLR_model"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.5",
+    "question_text": "Un étudiant affirme : *« Les MCO choisissent la droite qui minimise la somme des distances verticales entre les points de données et la droite ajustée, $\\sum_{i=1}^n (y_i - \\hat y_i)$. »*\n\nCet énoncé est incorrect.\n\n(a) Expliquez pourquoi minimiser $\\sum_{i=1}^n (y_i - \\hat y_i)$ **n'est pas** un critère utile pour ajuster une droite.\n\n(b) Énoncez le critère que les MCO minimisent réellement, et expliquez en 1 ou 2 phrases pourquoi élever au carré (plutôt que, par exemple, prendre les valeurs absolues) est le choix standard en économétrie d'introduction.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) La somme $\\sum_i (y_i - \\hat y_i)$ permet aux résidus positifs et négatifs de s'annuler. Une droite qui passe largement au-dessus de certains points et largement en dessous d'autres peut produire une somme petite (ou nulle) même lorsque l'ajustement est mauvais. En fait, pour toute droite passant par $(\\bar x, \\bar y)$, les résidus ont déjà une somme nulle — le critère n'a aucun pouvoir pour distinguer un bon ajustement d'un mauvais.\n\n(b) Les MCO minimisent la **somme des résidus au carré** :\n$$\\min_{\\hat\\beta_0, \\hat\\beta_1} \\sum_{i=1}^n \\bigl(y_i - \\hat\\beta_0 - \\hat\\beta_1 x_i\\bigr)^2.$$\nÉlever au carré (i) traite les résidus positifs et négatifs de manière symétrique de sorte qu'ils ne peuvent s'annuler, (ii) pénalise les grands résidus plus fortement que les petits, et (iii) donne un objectif lisse et différentiable avec des solutions de forme fermée pour $\\hat\\beta_0$ et $\\hat\\beta_1$.",
+      "key_formula": "$\\min \\sum_i (y_i - \\hat\\beta_0 - \\hat\\beta_1 x_i)^2$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Que se passe-t-il si les erreurs positives et négatives s'annulent ? Une droite manifestement mauvaise pourrait-elle obtenir une somme nulle ?",
+      "Indice 2 : Pensez à deux transformations du résidu qui empêchent l'annulation : la valeur absolue et l'élévation au carré. Laquelle donne un objectif lisse avec une solution de forme fermée nette ?"
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_004",
+      "S1_FR_CONCEPT_006"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_006",
+    "twin_id": "S1_EN_CONCEPT_006",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "SLR_model",
+      "SLR.1",
+      "SLR.2",
+      "SLR.3",
+      "SLR.4"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.6",
+    "question_text": "Associez chaque hypothèse (SLR.1-SLR.4) du modèle de régression linéaire simple à l'énoncé verbal correct.\n\n**Hypothèses :** SLR.1, SLR.2, SLR.3, SLR.4.\n\n**Énoncés (dans un ordre aléatoire) :**\n\nA. Les valeurs du régresseur $x_i$ ne sont pas toutes identiques dans l'échantillon (variation de $x$ dans l'échantillon).\nB. La relation de population est $y = \\beta_0 + \\beta_1 x + u$ — c'est-à-dire que $y$ est linéaire en les paramètres $\\beta_0$ et $\\beta_1$.\nC. Le terme d'erreur a une moyenne conditionnelle nulle : $E(u \\mid x) = 0$.\nD. Les données $\\{(x_i, y_i)\\}_{i=1}^n$ constituent un échantillon aléatoire de la population.\n\nFournissez l'association sous forme de liste (par exemple, « SLR.1 ↔ X »). Ensuite, en une phrase, expliquez pourquoi SLR.4 (moyenne conditionnelle nulle) est l'hypothèse la plus facilement violée dans les données observationnelles.",
+    "data_table": null,
+    "solution": {
+      "text": "Association :\n- SLR.1 ↔ B (linéarité dans les paramètres)\n- SLR.2 ↔ D (échantillonnage aléatoire)\n- SLR.3 ↔ A (variation de $x$ dans l'échantillon)\n- SLR.4 ↔ C (moyenne conditionnelle nulle : $E(u \\mid x) = 0$)\n\nSLR.4 est l'hypothèse la plus facilement violée dans les données observationnelles car $u$ contient toutes les variables qui affectent $y$ mais qui ne sont pas dans la régression. Si l'un de ces facteurs non observés est corrélé avec $x$, alors $E(u \\mid x) \\neq 0$ et la pente des MCO ne récupère plus le vrai $\\beta_1$ — c'est la préoccupation standard derrière « la corrélation n'est pas la causalité » dans les contextes non expérimentaux.",
+      "key_formula": "$E(u \\mid x) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Une hypothèse porte sur la *forme* du modèle, une sur *la façon dont les données sont collectées*, une sur *l'étalement de $x$*, et une sur le *terme d'erreur*.",
+      "Indice 2 : SLR.4 est parfois appelée « exogénéité de $x$ ». Elle dit que $x$ ne porte aucune information sur la valeur moyenne des facteurs non observés."
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_007",
+      "S1_FR_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_007",
+    "twin_id": "S1_EN_CONCEPT_007",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "error_term",
+      "SLR.4",
+      "correlation_vs_causation"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.7",
+    "question_text": "Un chercheur effectue la régression linéaire simple\n\n$$\\text{note}_i = \\beta_0 + \\beta_1 \\, \\text{heures\\_etude}_i + u_i,$$\n\noù $\\text{note}$ est la note d'examen d'un étudiant (sur 100) et $\\text{heures\\_etude}$ est le nombre d'heures étudiées par semaine.\n\n(a) Donnez deux exemples concrets de variables qui seraient absorbées dans le terme d'erreur $u_i$ dans cette régression.\n\n(b) Pour chaque variable que vous avez nommée, déterminez si elle est plausiblement corrélée avec $\\text{heures\\_etude}$ dans un échantillon typique d'étudiants.\n\n(c) Énoncez l'hypothèse qui échoue lorsqu'une de ces variables non observées est corrélée avec $\\text{heures\\_etude}$, et expliquez en une phrase pourquoi cela importe pour l'interprétation de $\\hat\\beta_1$.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) De nombreuses réponses sont possibles. Deux exemples naturels : (i) la capacité ou la motivation sous-jacente de l'étudiant, et (ii) la qualité de l'école secondaire fréquentée par l'étudiant.\n\n(b) Les deux exemples sont plausiblement corrélés avec $\\text{heures\\_etude}$. Les étudiants plus motivés ont tendance à étudier plus d'heures ; les étudiants provenant d'écoles secondaires plus fortes peuvent avoir acquis de meilleures habitudes d'étude et donc étudier plus efficacement et possiblement plus fréquemment. La corrélation n'a pas besoin d'être énorme — ce qui importe, c'est qu'elle ne soit pas nulle.\n\n(c) L'hypothèse **SLR.4** ($E(u \\mid x) = 0$) échoue. Lorsque des facteurs non observés dans $u$ sont corrélés avec $\\text{heures\\_etude}$, l'estimation des MCO $\\hat\\beta_1$ mélange le véritable effet des heures d'étude avec l'effet de ces facteurs omis, donc $\\hat\\beta_1$ ne mesure plus l'impact causal d'une heure d'étude supplémentaire.",
+      "key_formula": "$E(u \\mid x) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Le terme d'erreur contient tous les déterminants du résultat que vous n'avez pas placés du côté droit de la régression. Qu'est-ce qui, en plus des heures étudiées, détermine une note d'examen ?",
+      "Indice 2 : Pour chaque variable dans $u$, demandez : « Les étudiants qui étudient davantage tendent-ils également à être différents sur cette dimension ? » Si oui, $x$ et $u$ sont corrélés."
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_002",
+      "S1_FR_CONCEPT_006"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_008",
+    "twin_id": "S1_EN_CONCEPT_008",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "R-squared",
+      "SST",
+      "SSE",
+      "SSR"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.8",
+    "question_text": "Considérez la décomposition standard de la somme totale des carrés dans une régression linéaire simple :\n\n$$\\underbrace{\\sum_{i=1}^n (y_i - \\bar y)^2}_{\\text{SST}} = \\underbrace{\\sum_{i=1}^n (\\hat y_i - \\bar y)^2}_{\\text{SSE}} + \\underbrace{\\sum_{i=1}^n \\hat u_i^2}_{\\text{SSR}},$$\n\noù SST est la somme totale des carrés, SSE est la somme expliquée des carrés et SSR est la somme des carrés des résidus.\n\n(a) Définissez $R^2$ en termes de SST, SSE et SSR (donnez deux formes équivalentes).\n\n(b) Un analyste rapporte $R^2 = 0{,}18$ pour une régression de l'épargne des ménages sur le revenu des ménages. Son collègue affirme : *« Un $R^2$ aussi faible signifie que la régression est inutile et que la pente ne nous dit rien de réel. »* Donnez deux raisons pour lesquelles cette conclusion est trop forte.\n\n(c) Sans faire aucun calcul, à combien serait égal $R^2$ dans le cas extrême où la droite des MCO passe exactement par chaque point de données ? Et dans le cas où $\\hat\\beta_1 = 0$ ? Justifiez brièvement chaque cas.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) $R^2$ est la part de variation totale de $y$ expliquée par la régression :\n$$R^2 = \\frac{\\text{SSE}}{\\text{SST}} = 1 - \\frac{\\text{SSR}}{\\text{SST}}.$$\n\n(b) La conclusion est trop forte pour au moins deux raisons. (i) $R^2$ mesure la **qualité prédictive**, et non si la pente $\\hat\\beta_1$ capte une relation réelle. Un $R^2$ faible signifie simplement que $x$ seul laisse beaucoup de variation de $y$ inexpliquée, ce qui est normal dans des données transversales sur les ménages où de nombreux autres facteurs (taille de la famille, anticipations, région, etc.) déterminent l'épargne. (ii) Un $R^2$ faible ne signifie pas que $\\hat\\beta_1$ est nul ou sans importance. La pente peut être un nombre pertinent et économiquement significatif même lorsque la majeure partie de la variation de l'épargne est laissée au terme d'erreur.\n\n(c) Si la droite ajuste exactement chaque point, alors $\\hat u_i = 0$ pour tout $i$, donc SSR = 0 et $R^2 = 1$. Si $\\hat\\beta_1 = 0$, alors $\\hat y_i = \\hat\\beta_0 = \\bar y$ pour tout $i$, donc SSE = 0 et $R^2 = 0$ — la régression n'explique aucune variation de $y$.",
+      "key_formula": "$R^2 = \\frac{\\text{SSE}}{\\text{SST}} = 1 - \\frac{\\text{SSR}}{\\text{SST}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : $R^2$ varie entre 0 et 1. Réfléchissez à laquelle de SSE, SSR, SST vous mettez au numérateur pour obtenir la part *expliquée*.",
+      "Indice 2 : Distinguez deux questions différentes : (i) $x$ prédit-il bien $y$ ? (ii) la pente $\\hat\\beta_1$ est-elle pertinente ? Une régression peut avoir un $R^2$ faible et tout de même répondre utilement à (ii)."
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_009",
+    "twin_id": "S1_EN_CONCEPT_009",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "covariance",
+      "correlation",
+      "OLS_intuition",
+      "beta_interpretation"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.9",
+    "question_text": "L'estimateur de la pente des MCO en régression linéaire simple peut s'écrire\n\n$$\\hat\\beta_1 = \\frac{\\widehat{\\operatorname{Cov}}(x, y)}{\\widehat{\\operatorname{Var}}(x)}.$$\n\nQuatre affirmations distinctes sont faites par quatre étudiants. Pour chaque affirmation, indiquez si elle est **vraie** ou **fausse**, et justifiez votre réponse en une phrase.\n\n**Affirmation A.** « Si la corrélation d'échantillon entre $x$ et $y$ est nulle, alors $\\hat\\beta_1 = 0$. »\n\n**Affirmation B.** « $\\hat\\beta_1$ et la corrélation d'échantillon $\\hat\\rho_{xy}$ ont toujours le même signe. »\n\n**Affirmation C.** « Si nous redimensionnons $x$ en multipliant chaque $x_i$ par 100 (par exemple, en passant des mètres aux centimètres), $\\hat\\beta_1$ est également multiplié par 100. »\n\n**Affirmation D.** « Si nous redimensionnons $x$ comme en C, la corrélation d'échantillon $\\hat\\rho_{xy}$ est elle aussi multipliée par 100. »",
+    "data_table": null,
+    "solution": {
+      "text": "**A. Vraie.** Le numérateur de $\\hat\\beta_1$ est $\\widehat{\\operatorname{Cov}}(x,y)$, qui est nul si et seulement si la corrélation d'échantillon est nulle (les écarts types sont positifs lorsque $x$ varie, SLR.3). Donc une corrélation nulle implique $\\hat\\beta_1 = 0$.\n\n**B. Vraie.** $\\hat\\beta_1 = \\widehat{\\operatorname{Cov}}(x,y) / \\widehat{\\operatorname{Var}}(x)$, et $\\widehat{\\operatorname{Var}}(x) > 0$. La corrélation d'échantillon a le même signe que $\\widehat{\\operatorname{Cov}}(x,y)$, donc le même signe que $\\hat\\beta_1$.\n\n**C. Fausse.** Si $x$ est multiplié par 100, alors $\\widehat{\\operatorname{Cov}}(x,y)$ est multipliée par 100 et $\\widehat{\\operatorname{Var}}(x)$ est multipliée par $100^2$, donc $\\hat\\beta_1$ est divisé par 100, et non multiplié. Intuition : un changement d'un centimètre de $x$ est un changement beaucoup plus petit qu'un changement d'un mètre, donc la pente par unité de $x$ rétrécit.\n\n**D. Fausse.** La corrélation est sans unité. Multiplier $x$ par une constante positive ne change pas du tout $\\hat\\rho_{xy}$. (Multiplier par une constante négative inverserait le signe mais pas la magnitude.)",
+      "key_formula": "$\\hat\\beta_1 = \\widehat{\\operatorname{Cov}}(x,y) / \\widehat{\\operatorname{Var}}(x)$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Utilisez la formule $\\hat\\beta_1 = \\widehat{\\operatorname{Cov}}(x,y)/\\widehat{\\operatorname{Var}}(x)$ et demandez-vous, pour chaque redimensionnement, ce qu'il advient du numérateur et du dénominateur séparément.",
+      "Indice 2 : La corrélation est sans unité, mais la pente a des unités de $y$ par unité de $x$. Cela suffit à vous indiquer laquelle des affirmations C et D peut éventuellement être vraie."
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_005",
+      "S1_FR_CONCEPT_008"
+    ]
+  },
+  {
+    "id": "S1_FR_CONCEPT_010",
+    "twin_id": "S1_EN_CONCEPT_010",
+    "session": "S1",
+    "session_title_en": "Introduction & Simple Linear Regression",
+    "session_title_fr": "Introduction et régression linéaire simple",
+    "language": "fr",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "SLR.3",
+      "OLS_intuition",
+      "SLR_model"
+    ],
+    "prerequisites": [],
+    "lecture_ref": "S1.10",
+    "question_text": "L'hypothèse **SLR.3** exige que le régresseur $x$ présente une variation dans l'échantillon : tous les $x_i$ ne sont pas égaux.\n\n(a) Supposez qu'un chercheur tente d'estimer\n\n$$y_i = \\beta_0 + \\beta_1 x_i + u_i$$\n\nsur un échantillon où chaque observation a $x_i = 5$. En utilisant la formule\n\n$$\\hat\\beta_1 = \\frac{\\sum_i (x_i - \\bar x)(y_i - \\bar y)}{\\sum_i (x_i - \\bar x)^2},$$\n\nexpliquez ce qui ne va pas, à la fois algébriquement et intuitivement.\n\n(b) Supposez maintenant que l'échantillon présente *presque* aucune variation de $x$ — par exemple, 99% des observations ont $x_i = 5$ et seulement 1% ont $x_i = 6$. L'estimateur des MCO est techniquement défini, mais il est largement considéré comme « peu fiable » dans ce cas. Expliquez en 2 ou 3 phrases pourquoi, en vous concentrant sur le rôle que joue la variation de $x$ dans l'identification de $\\beta_1$.\n\n(c) Reliez votre réponse au slogan : *« Les MCO utilisent la variation de $x$ pour apprendre comment $y$ réagit à $x$. »*",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Si chaque $x_i = 5$, alors $\\bar x = 5$ et $x_i - \\bar x = 0$ pour tout $i$. Le dénominateur $\\sum_i (x_i - \\bar x)^2 = 0$ et le numérateur est également nul, donc $\\hat\\beta_1$ vaut $0/0$ — indéfini. Intuitivement, lorsque $x$ ne varie pas du tout, les données ne contiennent aucune information sur la façon dont $y$ change lorsque $x$ change, donc aucune pente ne peut être identifiée. SLR.3 exclut ce cas dégénéré.\n\n(b) Le dénominateur $\\sum_i (x_i - \\bar x)^2$ est positif mais très petit. Une infime parcelle de variation de $x$ doit faire tout le travail pour fixer $\\hat\\beta_1$, donc l'estimateur devient extrêmement sensible à quelques observations et au bruit dans les valeurs de $y$ correspondantes. Deux échantillons qui paraissent presque identiques peuvent produire des estimations de pente très différentes — c'est-à-dire que $\\hat\\beta_1$ est imprécis.\n\n(c) Les MCO apprennent $\\beta_1$ en comparant des unités ayant différentes valeurs de $x$ et en demandant comment leurs valeurs de $y$ diffèrent. Sans variation, aucune comparaison de ce genre n'est possible (cas a). Avec peu de variation, seule une comparaison étroite est disponible (cas b), donc l'estimation est fragile. La variation de $x$ est la matière première à partir de laquelle la pente est construite.",
+      "key_formula": "$\\hat\\beta_1 = \\frac{\\sum_i (x_i - \\bar x)(y_i - \\bar y)}{\\sum_i (x_i - \\bar x)^2}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Indice 1 : Substituez $x_i = 5$ pour tout $i$ directement dans la formule. Que devient $x_i - \\bar x$ ? Quel effet cela a-t-il sur le dénominateur ?",
+      "Indice 2 : Pour la partie (b), pensez à la pente comme « montée sur course ». Si la course (variation de $x$) est minuscule, même un petit bruit dans la montée (variation de $y$) se traduit par une pente radicalement différente."
+    ],
+    "related_exercises": [
+      "S1_FR_CONCEPT_006",
+      "S1_FR_CONCEPT_009"
+    ]
+  }
+]

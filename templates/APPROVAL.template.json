@@ -1,0 +1,11 @@
+{
+  "phase": "setup",
+  "status": "pending",
+  "approved_by": "",
+  "approved_at": "",
+  "approved_artifacts": [],
+  "manifest_sha256": {},
+  "blocking_issues": [],
+  "approved_next_actions": [],
+  "notes": ""
+}

@@ -1,0 +1,38 @@
+.DS_Store
+__pycache__/
+*.pyc
+.pytest_cache/
+*.log
+.cache/
+.claude/*
+!.claude/
+!.claude/commands/
+!.claude/commands/*.md
+node_modules/
+.netlify/
+dist/
+build/
+coverage/
+.env
+.env.*
+!.env.example
+
+# Private course material and local generated outputs
+courses/
+work/
+private_sources/
+local_sources/
+example-dump-and-phase1/
+**/raw/
+
+# Private phase inbox material
+phase2-quizbank/quiz-llm-bank/inbox/Slides/*
+phase2-quizbank/quiz-llm-bank/inbox/Exercises/*
+phase2-quizbank/quiz-llm-bank/inbox/Syllabus/*
+!phase2-quizbank/quiz-llm-bank/inbox/Slides/.gitkeep
+!phase2-quizbank/quiz-llm-bank/inbox/Exercises/.gitkeep
+!phase2-quizbank/quiz-llm-bank/inbox/Syllabus/.gitkeep
+
+# Generated pipeline artifacts copied into phase repos
+phase2-quizbank/quiz-llm-bank/output/
+phase3-ta-llm-system/data/*.json

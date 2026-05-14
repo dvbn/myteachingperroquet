@@ -1,0 +1,17 @@
+{
+  "palette": {
+    "brand_navy": "#0b1f3a",
+    "brand_blue": "#2563eb",
+    "brand_teal": "#0f766e",
+    "brand_light_blue": "#e0f2fe",
+    "brand_white": "#ffffff",
+    "brand_gray": "#64748b"
+  },
+  "typography": {
+    "heading": "academic_serif_or_user_brand",
+    "body": "clean_sans_or_user_brand"
+  },
+  "logo_path": null,
+  "footer_text": "Created with MyTeachingPerroquet.",
+  "notes": "Use instructor-provided branding when available. Do not invent logos."
+}

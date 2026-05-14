@@ -1,0 +1,7 @@
+jsonschema>=4.0
+sympy>=1.12
+scipy>=1.10
+antlr4-python3-runtime>=4.11
+
+# Test dependencies (install via: pip install -r requirements.txt pytest)
+# pytest>=8.0

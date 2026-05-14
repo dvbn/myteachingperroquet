@@ -1,0 +1,362 @@
+[
+  {
+    "id": "S2_EN_CONCEPT_001",
+    "twin_id": "S2_FR_CONCEPT_001",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.1",
+    "question_text": "Consider the simple linear regression model $y = \\beta_0 + \\beta_1 x + u$. Match each Gauss-Markov assumption (SLR.1 through SLR.4) to its correct description.\n\n(a) The population model is linear in the parameters $\\beta_0$ and $\\beta_1$.\n(b) The sample $(x_i, y_i)$ for $i = 1, \\ldots, n$ is drawn at random from the population.\n(c) There is sample variation in the explanatory variable $x$, i.e., not all $x_i$ take the same value.\n(d) The error term $u$ has zero mean conditional on $x$, i.e., $E(u \\mid x) = 0$.\n\nWhich label (SLR.1, SLR.2, SLR.3, SLR.4) corresponds to each statement?",
+    "data_table": null,
+    "solution": {
+      "text": "The four classical SLR assumptions map as follows:\n- (a) → SLR.1 (Linearity in parameters): the model is linear in $\\beta_0$ and $\\beta_1$.\n- (b) → SLR.2 (Random sampling): $(x_i, y_i)$ is an i.i.d. random sample from the population.\n- (c) → SLR.3 (Sample variation in $x$): the $x_i$'s are not all equal, so the OLS slope is well defined (denominator nonzero).\n- (d) → SLR.4 (Zero conditional mean): $E(u \\mid x) = 0$, which delivers unbiasedness of OLS.\n\nNote that SLR.4 is strictly stronger than $E(u) = 0$ and $\\operatorname{Cov}(x, u) = 0$; it requires that no function of $x$ is correlated with $u$.",
+      "key_formula": "$E(u \\mid x) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Recall that the four SLR assumptions cover, in order, the form of the model, how the data are obtained, a property of the regressor, and a property of the error term.",
+      "Hint 2: SLR.1 is about the equation. SLR.2 is about how observations were selected. SLR.3 is about whether $x$ varies. SLR.4 is about $E(u \\mid x)$.",
+      "Hint 3: The assumption that delivers unbiasedness of $\\hat{\\beta}_1$ is the zero conditional mean assumption."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_002",
+      "S2_EN_CONCEPT_004"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_002",
+    "twin_id": "S2_FR_CONCEPT_002",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "residuals_vs_errors"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.2",
+    "question_text": "In the simple linear regression model $y_i = \\beta_0 + \\beta_1 x_i + u_i$, the **error** $u_i$ and the **residual** $\\hat{u}_i$ are often confused, but they are conceptually different objects.\n\nFor each statement below, indicate whether it refers to the error $u_i$, to the residual $\\hat{u}_i$, or to both.\n\n(a) It is unobservable: it depends on the unknown population parameters $\\beta_0, \\beta_1$.\n(b) It is computed from the data as $y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i$.\n(c) Its sample average is mechanically equal to zero whenever an intercept is included.\n(d) Under SLR.4, its conditional mean given $x_i$ is zero.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Error $u_i$ — it is defined relative to the population parameters $\\beta_0, \\beta_1$, which are unknown, so $u_i$ is unobservable.\n(b) Residual $\\hat{u}_i$ — by definition, $\\hat{u}_i = y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i$, computed from estimated coefficients.\n(c) Residual $\\hat{u}_i$ — the OLS first-order condition for the intercept gives $\\sum_i \\hat{u}_i = 0$, so $\\bar{\\hat{u}} = 0$ is a mechanical property of OLS.\n(d) Error $u_i$ — SLR.4 is the population-level assumption $E(u_i \\mid x_i) = 0$. It is an assumption on the unobservable error, not a property of residuals.\n\nKey takeaway: residuals are sample-based estimates of errors. Properties (c) and (d) look superficially similar but are very different — (c) is mechanical, (d) is an assumption.",
+      "key_formula": "$\\hat{u}_i = y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: One is a population object defined relative to true parameters; the other is a sample object defined relative to estimated parameters.",
+      "Hint 2: 'Mechanical' identities (always true by construction of OLS) describe residuals, while 'assumptions' describe errors.",
+      "Hint 3: Be careful with (c) vs (d): both look like 'mean equals zero', but only one is an assumption."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_001",
+      "S2_EN_CONCEPT_006"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_003",
+    "twin_id": "S2_FR_CONCEPT_003",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "EASY",
+    "topics": [
+      "R_squared"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.3",
+    "question_text": "An analyst regresses monthly household electricity consumption $y$ (in kWh) on the average outdoor temperature $x$ (in °C) using OLS and reports an $R^2$ of $0.18$.\n\nWhich of the following is the correct interpretation?\n\nA. About 18% of households' consumption is explained by temperature.\nB. About 18% of the sample variation in monthly consumption is explained by the regression on temperature.\nC. The correlation between consumption and temperature is exactly $0.18$.\nD. The OLS slope $\\hat{\\beta}_1$ is statistically equal to $0.18$.\n\nChoose the correct option and briefly explain why each of the others is wrong.",
+    "data_table": null,
+    "solution": {
+      "text": "Correct answer: **B**.\n\n$R^2 = \\mathrm{SSE}/\\mathrm{SST} = 1 - \\mathrm{SSR}/\\mathrm{SST}$ measures the share of the **sample variation** in the dependent variable $y$ that is explained by the OLS fit; it is bounded between 0 and 1.\n\n- A is wrong: $R^2$ refers to variation across observations, not the share of consumption itself. It is not the case that 18% of each household's consumption is 'due to' temperature.\n- C is wrong: in SLR, $R^2 = r_{xy}^2$, so a correlation of $0.18$ would give $R^2 \\approx 0.0324$. To get $R^2 = 0.18$, $|r_{xy}| \\approx 0.424$.\n- D is wrong: $R^2$ is a unit-free goodness-of-fit measure; it has no direct relationship to the magnitude of the slope coefficient.",
+      "key_formula": "$R^2 = \\dfrac{\\text{SSE}}{\\text{SST}} = 1 - \\dfrac{\\text{SSR}}{\\text{SST}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: $R^2$ is about variation across observations, not about levels.",
+      "Hint 2: In SLR, recall the link $R^2 = r_{xy}^2$ between $R^2$ and the correlation.",
+      "Hint 3: Eliminate options that confuse $R^2$ with the correlation or with a coefficient."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_006",
+      "S2_EN_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_004",
+    "twin_id": "S2_FR_CONCEPT_004",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "unbiasedness",
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.1",
+    "question_text": "A researcher claims: *\"Under SLR.1–SLR.4, the OLS slope $\\hat{\\beta}_1$ is unbiased for $\\beta_1$, meaning that for any given sample, $\\hat{\\beta}_1$ equals $\\beta_1$.\"*\n\nThis claim contains a conceptual error.\n\n(a) Identify the error.\n(b) State the correct interpretation of unbiasedness in one or two sentences.\n(c) Among SLR.1–SLR.4, which assumption is the **key** one for unbiasedness?",
+    "data_table": null,
+    "solution": {
+      "text": "(a) The error is identifying unbiasedness with sample-by-sample equality. In any given sample, $\\hat{\\beta}_1$ will generally differ from $\\beta_1$ — it is a random variable depending on the sample.\n\n(b) Unbiasedness is a property of the **sampling distribution** of the estimator: $E(\\hat{\\beta}_1) = \\beta_1$. Across hypothetical repeated samples, the average of the estimates equals the true parameter. Any single estimate is just one draw from this distribution.\n\n(c) The key assumption is **SLR.4**, the zero conditional mean assumption $E(u \\mid x) = 0$. SLR.1 fixes the model form, SLR.2 ensures random sampling, SLR.3 ensures the OLS estimator is well defined, but SLR.4 is what eliminates systematic bias. If $E(u \\mid x) \\ne 0$ (e.g., omitted variable bias), $\\hat{\\beta}_1$ is biased even with infinite data.",
+      "key_formula": "$E(\\hat{\\beta}_1) = \\beta_1$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Unbiasedness is a statement about an expectation, not about a single realization.",
+      "Hint 2: Think of $\\hat{\\beta}_1$ as a random variable: imagine drawing many samples and looking at the distribution of estimates.",
+      "Hint 3: Among SLR.1–SLR.4, which assumption controls the *mean of the error term* given $x$?"
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_001",
+      "S2_EN_CONCEPT_005"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_005",
+    "twin_id": "S2_FR_CONCEPT_005",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "confounding",
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.4",
+    "question_text": "A researcher regresses individual annual earnings $y$ (in dollars) on years of education $x$ using a random sample of working adults. The estimated slope is $\\hat{\\beta}_1 = 4{,}200$. The researcher concludes: *\"An additional year of education **causes** annual earnings to rise by about \\$4,200, on average.\"*\n\n(a) Why might SLR.4 fail in this regression?\n(b) Give a concrete example of an unobserved factor that would plausibly cause SLR.4 to fail here.\n(c) Does the slope $\\hat{\\beta}_1 = 4{,}200$ still have a useful interpretation, even if SLR.4 fails? If yes, what is it?",
+    "data_table": null,
+    "solution": {
+      "text": "(a) SLR.4 requires $E(u \\mid x) = 0$: conditional on years of education, the mean of all unobserved determinants of earnings must be zero. In an earnings equation, this is implausible because many unobserved characteristics that affect earnings are also correlated with education choices.\n\n(b) Examples: innate ability/cognitive skill, family background, motivation, or local labor-market conditions. People with higher ability tend to acquire more education **and** to earn more independently of schooling, so $\\operatorname{Cov}(x, u) \\ne 0$.\n\n(c) Yes. Even if SLR.4 fails, $\\hat{\\beta}_1$ is still a consistent estimator of the **best linear predictor** slope, i.e., a measure of how much earnings differ **on average** between people who differ by one year of education in this sample. It is a descriptive/associational interpretation, not a causal one. The qualifier 'all else equal' from the causal interpretation is not warranted, because unobservables are not held fixed.",
+      "key_formula": "$E(u \\mid x) = 0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Ask yourself whether people with different levels of education are otherwise comparable on factors that affect earnings.",
+      "Hint 2: SLR.4 fails when something unobserved is correlated with $x$ and also affects $y$.",
+      "Hint 3: A biased slope can still be a valid descriptive summary of the conditional mean of $y$ given $x$."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_004",
+      "S2_EN_CONCEPT_010"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_006",
+    "twin_id": "S2_FR_CONCEPT_006",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "R_squared"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.3",
+    "question_text": "Consider the decomposition $\\mathrm{SST} = \\mathrm{SSE} + \\mathrm{SSR}$ in simple linear regression, with $\\mathrm{SST} = \\sum_i (y_i - \\bar{y})^2$, $\\mathrm{SSE} = \\sum_i (\\hat{y}_i - \\bar{y})^2$, and $\\mathrm{SSR} = \\sum_i \\hat{u}_i^2$.\n\nFor each statement, decide whether it is **TRUE** or **FALSE** and justify in one short sentence.\n\n(a) $R^2 = 0$ implies that $\\hat{\\beta}_1 = 0$ (in a regression with an intercept).\n(b) Adding more sample variation in $x$ (e.g., observing more diverse $x$ values) mechanically increases $R^2$.\n(c) A high $R^2$ implies that the regression model is unbiased.\n(d) $R^2 = 1$ implies that all data points lie exactly on the OLS line.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) **TRUE.** With an intercept, $R^2 = 0$ iff $\\mathrm{SSE} = 0$ iff $\\hat{y}_i = \\bar{y}$ for all $i$, which happens iff $\\hat{\\beta}_1 = 0$ (then $\\hat{\\beta}_0 = \\bar{y}$).\n\n(b) **FALSE.** $R^2$ depends on the *fit* relative to total variation, not just on $\\operatorname{Var}(x)$. Adding more variation in $x$ may raise or lower $R^2$ depending on whether the new $x$ values better track $y$.\n\n(c) **FALSE.** $R^2$ measures fit, not unbiasedness. A regression can have a very high $R^2$ and still be biased (e.g., when SLR.4 fails because of confounding); conversely, a correctly specified regression can have a low $R^2$ if the error variance is large.\n\n(d) **TRUE.** $R^2 = 1$ iff $\\mathrm{SSR} = 0$, i.e., $\\hat{u}_i = 0$ for all $i$, so every $(x_i, y_i)$ lies exactly on the fitted line.",
+      "key_formula": "$R^2 = 1 - \\dfrac{\\mathrm{SSR}}{\\mathrm{SST}}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Translate each $R^2$ statement into a statement about SSE and SSR.",
+      "Hint 2: $R^2$ is about goodness of fit; unbiasedness is about the expected value of the estimator.",
+      "Hint 3: A perfect fit means residuals are exactly zero for every observation."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_003",
+      "S2_EN_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_007",
+    "twin_id": "S2_FR_CONCEPT_007",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "MED",
+    "topics": [
+      "BLUE",
+      "Gauss_Markov"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.5",
+    "question_text": "The Gauss-Markov theorem states that, under SLR.1–SLR.5, OLS is BLUE.\n\nDecompose the acronym **BLUE** and explain precisely what each letter means in the context of estimating $\\beta_1$. In particular:\n\n(a) What does the **B** (\"Best\") mean? Best in what sense, and within which class of estimators?\n(b) What does **L** (\"Linear\") mean? Linear in what?\n(c) Why is **U** (\"Unbiased\") part of the statement, given that we already have unbiasedness from SLR.1–SLR.4?\n(d) Which assumption (beyond SLR.1–SLR.4) is needed to obtain BLUE, and what does it require?",
+    "data_table": null,
+    "solution": {
+      "text": "**B — Best.** Among the class defined by L and U, OLS has the **smallest sampling variance** for $\\hat{\\beta}_1$. So 'best' means *minimum-variance*.\n\n**L — Linear.** The estimator is **linear in $y$** (not necessarily in $x$): $\\hat{\\beta}_1 = \\sum_i w_i\\, y_i$ for weights $w_i$ that depend only on the $x_i$'s. Gauss-Markov compares OLS only to other estimators of this form.\n\n**U — Unbiased.** The comparison is restricted to estimators that are unbiased for $\\beta_1$. Among biased estimators, one can sometimes find lower variance, but they are excluded from the BLUE comparison.\n\n**E — Estimator.** OLS itself is an estimator of $\\beta_1$.\n\n(d) The added assumption is **SLR.5 — homoskedasticity**: $\\operatorname{Var}(u \\mid x) = \\sigma^2$, i.e., the conditional variance of the error does not depend on $x$. Under SLR.1–SLR.5, no other linear unbiased estimator has a smaller variance than OLS.",
+      "key_formula": "$\\operatorname{Var}(u \\mid x) = \\sigma^2$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: 'Best' is always 'best' relative to some criterion and some class — identify both.",
+      "Hint 2: 'Linear' refers to how the estimator depends on the dependent variable, not on $x$.",
+      "Hint 3: Gauss-Markov needs one more assumption than unbiasedness — about the variance of $u$."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_001",
+      "S2_EN_CONCEPT_008"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_008",
+    "twin_id": "S2_FR_CONCEPT_008",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "prediction_errors",
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.6",
+    "question_text": "Suppose we have estimated the SLR model $\\hat{y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 x$ on a random sample, and we want to use it to predict the outcome at a new $x$-value $x_0$ that lies **inside** the range of the sample $x_i$'s.\n\nA student writes: *\"My predicted value is $\\hat{y}_0 = \\hat{\\beta}_0 + \\hat{\\beta}_1 x_0$, and the only source of error in this prediction is sampling error in $\\hat{\\beta}_0$ and $\\hat{\\beta}_1$.\"*\n\n(a) Identify the **two** distinct sources of prediction error when predicting an individual outcome $y_0$ at $x_0$. The student missed one of them — which?\n(b) Briefly describe the **intuition** for why the prediction interval for an individual $y_0$ is wider than the confidence interval for the conditional mean $E(y \\mid x = x_0)$.\n(c) What additional concern arises if $x_0$ lies **outside** the range of the sampled $x_i$'s?",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Two sources of prediction error for an individual outcome $y_0 = \\beta_0 + \\beta_1 x_0 + u_0$:\n  1. **Estimation error** in the coefficients $\\hat{\\beta}_0, \\hat{\\beta}_1$, which makes the fitted line uncertain.\n  2. **Idiosyncratic error** $u_0$ at the new observation, which is genuinely unpredictable from $x_0$ alone (it has variance $\\sigma^2$ even if the coefficients were known exactly).\n\nThe student missed source 2.\n\n(b) The confidence interval for $E(y \\mid x_0)$ accounts only for source 1: uncertainty about where the **true regression line** is at $x_0$. A prediction interval for an individual $y_0$ also has to account for source 2, the unpredictable scatter around that line, so it is strictly wider.\n\n(c) **Extrapolation.** Outside the support of the sampled $x_i$'s, we have no data to inform the relationship; the linearity assumption SLR.1 may also fail there. Predictions become much more uncertain and may be misleading even if the within-sample fit looks good.",
+      "key_formula": "$y_0 - \\hat{y}_0 = (\\beta_0 - \\hat{\\beta}_0) + (\\beta_1 - \\hat{\\beta}_1)\\, x_0 + u_0$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Distinguish between predicting the *mean* outcome at $x_0$ and predicting an *individual* outcome at $x_0$.",
+      "Hint 2: Even if you knew the true $\\beta_0$ and $\\beta_1$, would $y_0$ be perfectly predictable from $x_0$? What about the error term?",
+      "Hint 3: For (c), think about what the data can and cannot tell you about the regression function outside the observed range of $x$."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_007",
+      "S2_EN_CONCEPT_009"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_009",
+    "twin_id": "S2_FR_CONCEPT_009",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "R_squared",
+      "unbiasedness"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.3",
+    "question_text": "Two SLR studies have the same population model $y = \\beta_0 + \\beta_1 x + u$ with $\\beta_1 = 2$.\n\n- **Study A**: error variance $\\sigma_A^2 = 1$, sample variance of $x$ equal to $1$. The reported $R^2$ is $0.80$.\n- **Study B**: error variance $\\sigma_B^2 = 16$, sample variance of $x$ equal to $1$. The reported $R^2$ is $0.20$.\n\n(a) Which study, if either, has a more *unbiased* estimator of $\\beta_1$? Justify.\n(b) Explain why Study A has a much higher $R^2$ than Study B even though the slope is identical.\n(c) A colleague concludes: *\"Therefore Study A is more credible than Study B.\"* Comment critically on this claim using the concepts from this session.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Neither is 'more unbiased' than the other. Unbiasedness is a binary property — under SLR.1–SLR.4, OLS is unbiased regardless of $\\sigma^2$. Both studies estimate $\\beta_1 = 2$ on average; the magnitude of $\\sigma^2$ does not affect the *expectation* of $\\hat{\\beta}_1$, only its variance.\n\n(b) Using $R^2 = \\dfrac{\\beta_1^2 \\operatorname{Var}(x)}{\\beta_1^2 \\operatorname{Var}(x) + \\sigma^2}$ (population analogue): Study A has $R^2 \\approx 4/(4+1) = 0.80$, and Study B has $R^2 \\approx 4/(4+16) = 0.20$. Same slope, same variation in $x$ — only the noise level $\\sigma^2$ differs. A larger error variance makes the residual scatter dominate, lowering $R^2$.\n\n(c) The conclusion is unwarranted. $R^2$ measures *fit*, not credibility. Both studies provide unbiased estimates of $\\beta_1$. Study A simply has a less noisy outcome variable. Credibility depends on whether SLR.1–SLR.4 hold (e.g., is there confounding/omitted variable bias?), not on $R^2$. A study with low $R^2$ but valid identifying assumptions can be far more credible than a high-$R^2$ study tainted by confounding.",
+      "key_formula": "$R^2 = \\dfrac{\\beta_1^2\\operatorname{Var}(x)}{\\beta_1^2\\operatorname{Var}(x) + \\sigma^2}$",
+      "numerical_answer": null,
+      "common_mistakes": []
+    },
+    "hints": [
+      "Hint 1: Recall that unbiasedness depends on which of SLR.1–SLR.4? Does any of them mention $\\sigma^2$?",
+      "Hint 2: Decompose total variation in $y$ into variation explained by $x$ versus variation due to $u$.",
+      "Hint 3: Distinguish 'how tightly the fitted line tracks $y$' from 'whether the slope captures the true causal/structural relationship'."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_003",
+      "S2_EN_CONCEPT_006"
+    ]
+  },
+  {
+    "id": "S2_EN_CONCEPT_010",
+    "twin_id": "S2_FR_CONCEPT_010",
+    "session": "S2",
+    "session_title_en": "SLR: Assumptions, Properties & Prediction",
+    "session_title_fr": "Régression linéaire simple : hypothèses, propriétés et prédiction",
+    "language": "en",
+    "question_type": "CONCEPT",
+    "difficulty": "HARD",
+    "topics": [
+      "confounding",
+      "unbiasedness",
+      "SLR_assumptions"
+    ],
+    "prerequisites": [
+      "S1_SLR_model",
+      "S1_OLS_intuition"
+    ],
+    "lecture_ref": "S2.4",
+    "question_text": "Suppose the true population data-generating process for the wage of worker $i$ is\n$$\\text{wage}_i = \\gamma_0 + \\gamma_1\\, \\text{educ}_i + \\gamma_2\\, \\text{ability}_i + v_i,\\qquad E(v \\mid \\text{educ}, \\text{ability}) = 0,$$\nwith $\\gamma_1 > 0$ and $\\gamma_2 > 0$. Ability is unobserved by the analyst, who therefore runs a simple linear regression of wage on education only:\n$$\\text{wage}_i = \\beta_0 + \\beta_1\\, \\text{educ}_i + u_i.$$\n\nIn the sample, $\\operatorname{Cov}(\\text{educ}, \\text{ability}) > 0$ (more educated workers tend to have higher unobserved ability).\n\n(a) Express the SLR error $u_i$ in terms of the underlying objects from the true DGP.\n(b) Show, using the structure of $u_i$, in which direction $\\hat{\\beta}_1$ is biased as an estimate of the *true* education effect $\\gamma_1$.\n(c) Connect your answer to which Gauss-Markov assumption fails and to the concept of **omitted variable bias**.",
+    "data_table": null,
+    "solution": {
+      "text": "(a) Identifying terms across the two equations gives\n$$u_i = \\gamma_2\\, \\text{ability}_i + v_i.$$\nSo the SLR error contains the unobserved ability term, weighted by its true effect on wages.\n\n(b) Sign of bias. With $E(v \\mid \\text{educ}) = 0$ but $\\operatorname{Cov}(\\text{educ}, \\text{ability}) > 0$ and $\\gamma_2 > 0$, the SLR error $u_i = \\gamma_2 \\text{ability}_i + v_i$ is positively correlated with educ. The OLS slope satisfies (in the population)\n$$\\beta_1 = \\gamma_1 + \\gamma_2\\,\\frac{\\operatorname{Cov}(\\text{educ}, \\text{ability})}{\\operatorname{Var}(\\text{educ})} > \\gamma_1.$$\nSo $\\hat{\\beta}_1$ is **biased upward** for $\\gamma_1$: it overstates the causal effect of education.\n\n(c) The failed assumption is **SLR.4**: $E(u \\mid \\text{educ}) \\ne 0$, because $u$ contains ability and ability is correlated with educ. This is the classic case of **omitted variable bias**: omitting a variable that (i) belongs in the model and (ii) is correlated with the included regressor produces a biased OLS estimate, with sign equal to $\\operatorname{sign}(\\gamma_2) \\cdot \\operatorname{sign}(\\operatorname{Cov}(\\text{educ}, \\text{ability}))$.",
+      "key_formula": "$\\beta_1 = \\gamma_1 + \\gamma_2\\,\\dfrac{\\operatorname{Cov}(\\text{educ}, \\text{ability})}{\\operatorname{Var}(\\text{educ})}$",
+      "numerical_answer": null,
+      "common_mistakes": [
+        "Concluding the bias is downward by ignoring that $\\gamma_2 > 0$ and $\\operatorname{Cov}(\\text{educ}, \\text{ability}) > 0$ both contribute positively.",
+        "Claiming the bias goes away as $n \\to \\infty$ — it is a bias in expectation, so larger samples do not fix it."
+      ]
+    },
+    "hints": [
+      "Hint 1: Compare the true equation and the regression you actually run. What is left in $u_i$?",
+      "Hint 2: The sign of the bias is determined by the sign of $\\gamma_2$ and the sign of $\\operatorname{Cov}(\\text{educ}, \\text{ability})$.",
+      "Hint 3: Tie the failure to SLR.4 — when the omitted variable is correlated with $x$, $E(u \\mid x) \\ne 0$."
+    ],
+    "related_exercises": [
+      "S2_EN_CONCEPT_005",
+      "S2_EN_CONCEPT_004"
+    ]
+  }
+]
